@@ -5,10 +5,8 @@ int main() {
     for( int i=0; i<7; i++) {
         check =0;
         for(int j =0; j<7; j++) {
-            if(arr[i]==arr[j] ) {
+            if(arr[i]==arr[j] && j != i ) {
                 check =1;
-                printf("Hello World");
-                
             }
         }
         if(check ==0) {
