@@ -6,7 +6,7 @@ int num [n];
 int sum =0;
 cout<<"Enter the number: "<<endl;
 cin>>n;
-cout<<"Enter The array elements ( With Spaces after each input): "<<endl;
+cout<<"Enter The array elements ( Press Enter after each input): "<<endl;
 for(int j=0; n>j;j++)
 {
     cin>>num[j];
