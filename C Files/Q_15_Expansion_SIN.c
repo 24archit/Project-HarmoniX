@@ -1,22 +1,21 @@
-#include<stdio.h>
+#include <stdio.h>
 int main() {
     float x;
-    printf("Enter the value of x: ");
+    printf("Enter the value of x (in radians): ");
     scanf("%f", &x);
-    float ex = x, dummy=x;
-    int i, j;
-    int a;
+    int n;
     printf("Enter the number of terms: ");
-    scanf("%d", &a);
-    for( i=1, j=1; i<a; j=j+2, i++){
-        if(i%2 != 0) {
-             dummy = (-1)*(dummy*x*x)/((j+1)*(j+2));
+    scanf("%d", &n);
+    float sinx = 0.0;
+    float term = x;
+    for (int i = 1, j = 2; i <= n; i++, j += 2) {
+        if (i % 2 == 0) {
+            sinx = sinx -term;
+        } else {
+            sinx = sinx + term;
         }
-        else{
-            dummy = (dummy*x*x)/((j+1)*(j+2));
-        }
-        ex =ex+ dummy;
+        term = term *(x * x) / (j * (j + 1));
     }
-    printf("%f", ex);
+    printf("Approximate value of sin(x): %f\n", sinx);
     return 0;
 }
