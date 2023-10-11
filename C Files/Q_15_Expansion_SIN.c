@@ -19,3 +19,4 @@ int main() {
     printf("Approximate value of sin(x): %f\n", sinx);
     return 0;
 }
+

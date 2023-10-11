@@ -16,7 +16,7 @@ int main() {
         }
         term = term *(x * x) / (j * (j + 1));
     }
-    printf("Approximate value of sin(x): %f\n", cosx);
+    printf("Approximate value of cos(x): %f\n", cosx);
     return 0;
 }
 
