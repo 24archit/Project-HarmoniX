@@ -5,7 +5,7 @@ int main() {
     cout <<"Enter the number of elements in the array: "<< endl;
     cin>>n;
     int arr[n];
-    cout<<"Enter the elements of the array: "<<endl;
+    cout<<"Enter the elements of the array (no element should be repeated): "<<endl;
     for(int i=0; i<n ; i++) {
         cin>>arr[i];
     }
