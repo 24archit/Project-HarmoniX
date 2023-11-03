@@ -31,13 +31,5 @@ int main() {
     int arr1[5][2] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}; // It will take the input row wise 
     int arr2[5][2] = {{1,2}, {2,3}, {3,4}, {4,5},{5,6}}; // It will take the input rowsise correspoding to the number of bracket
     
-
-
-
-
-
-
-
-
     return 0;
 }
