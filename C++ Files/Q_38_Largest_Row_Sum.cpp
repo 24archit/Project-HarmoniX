@@ -20,9 +20,11 @@ int main() {
         }
         if(sum>=t) {
             k=row;
-            }
-        t= sum; 
+            t=sum;
+            } 
     }
     cout<<"Required Row is: "<<k+1<<endl;
+    cout<<"And the sum is : "<<t<<endl;
+
     return 0;
 }
