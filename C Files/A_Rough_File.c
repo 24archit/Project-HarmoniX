@@ -1,8 +1,11 @@
-// C program to print the pascal's triangle pattern 
-#include <stdio.h> 
+#include <stdio.h>
 
-int main() 
-{ 
-	printf("%3f", 999.909090 + 1.898989);
-	return 0; 
+int main() {
+    // String represented as a character array
+    char myString[20] = "Hello World!";
+
+    // Printing the string
+    printf("%s\n", myString);
+
+    return 0;
 }
