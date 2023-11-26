@@ -2,11 +2,9 @@
 #include<algorithm>
 using namespace std;
 void reverse(char string[],char string1[], int n){
-    
         for(int i=0; i>n;i++) {
             string1[i]=string[n-1-i];
         }
-    
 }
 int main() {
     int n;
