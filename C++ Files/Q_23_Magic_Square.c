@@ -72,6 +72,5 @@ int sum3=0;
  else{
     printf("Not a Magic Square");
  }
-
     return 0;
 }
