@@ -1,3 +1,4 @@
+// Code to find the total bill by reading the file created.
 #include<stdio.h>
 int main() {
 FILE *fptr = NULL;

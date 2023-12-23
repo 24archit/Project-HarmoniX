@@ -1,3 +1,5 @@
+// Code to make file containing list of items with details like id, 
+// name, rate, quantity by takin user input
 #include<stdio.h>
 struct object {
     int id;
