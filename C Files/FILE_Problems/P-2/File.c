@@ -12,5 +12,7 @@ int main() {
             fprintf(afptr,"%c", ch);
         }
     }
+    fclose(fptr);
+    fclose(afptr);
     return 0;
 }
