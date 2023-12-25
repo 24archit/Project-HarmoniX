@@ -12,7 +12,7 @@ int main() {
     int l=0;
     for(int i=0; i<(c-d+1); i++){
         int k=i;
-        for(int j=0; j<d; j++){
+        for(int j=0; j<d; j++) {
             copy[j]=str[k];
             k++;
         }
