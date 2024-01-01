@@ -6,7 +6,7 @@ int main() {
     sourceFile = fopen("Text.txt", "r");
     destinationFile = fopen("destination.txt", "w");
     while (  (ch = fgetc(sourceFile)) != EOF) {
-       ;
+       
         fputc(ch, destinationFile);
     }
     fclose(sourceFile);

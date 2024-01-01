@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 struct student {
     char name[30];
     int id;
@@ -10,6 +11,7 @@ int main() {
     printf("Enter the number of students: ");
     scanf("%d", &n);
     struct student s[n];
+    struct student copy;
     printf("Enter the students details....");
     for(int i=0; i<n; i++) {
 
@@ -26,20 +28,35 @@ int main() {
 
         s[i].total=s[i].marks[0]+s[i].marks[1]+s[i].marks[2]+s[i].marks[3]+s[i].marks[4];
     }
-    int max = s[0].total;
-    for(int i=0; i<n; i++) {
-        if(max<=s[i].total){
-            max=s[i].total;
-            a=i;
+    for(int i=0; i<n; i++){
+        for(int j=i; j<n; j++){
+            if(s[i].total<s[j].total){
+                strcpy(copy.name, s[j].name);
+                strcpy(s[j].name, s[i].name);
+                strcpy(s[i].name, copy.name);
+                copy.id=s[j].id;
+                s[j].id=s[i].id;
+                s[i].id=copy.id;
+                copy.marks[0]=s[j].marks[0];
+                copy.marks[1]=s[j].marks[1];
+                copy.marks[2]=s[j].marks[2];
+                copy.marks[3]=s[j].marks[3];
+                copy.marks[4]=s[j].marks[4];
+                copy.total=s[j].total;
+                s[j].total=s[i].total;
+                s[i].total=copy.total;
+            }
         }
     }
-    printf("Topper Details are :");
-    printf("\nName : %s", s[a].name);
-    printf("\nID : %d", s[a].id);
-    printf("\nTotal Marks: %d", s[a].total);
-    printf("\nMarks in each subject is as follows..");
-    for(int i=0; i<5; i++){
-        printf("%d ", s[a].marks[i]);
+    printf("\nRank List is as follows...\n");
+    for(int i=0; i<n; i++){
+        printf("%-20s", s[i].name);
+        printf("%-3d", s[i].id);
+        for(int j=0; j<5; j++){
+            printf("%-3d", s[i].marks[j]);
+        }
+        printf("%-3d\n", s[i].total);
+        
     }
     return 0;
 }

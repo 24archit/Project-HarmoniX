@@ -9,7 +9,7 @@ int main() {
     int i = 0;
     while (n != 0) {
         digit = n % 10;
-        ans = (int)(pow(2, i) * digit) + ans;
+        ans = (pow(2, i) * digit) + ans;
         n = n / 10;
         i++;
     }
