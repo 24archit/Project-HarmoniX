@@ -7,7 +7,7 @@ struct node
 };
 struct node *createNode(int k)
 {
-    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    struct node *newNode = (struct node*)malloc(sizeof(struct node));
     newNode->info = k;
     newNode->next = NULL;
     return newNode;
