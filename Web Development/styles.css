@@ -1,0 +1,111 @@
+/* General Default properties is applied */
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+}
+/* Handling Background */
+#video-background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1000;
+    background-size: cover;
+}
+#content {
+    position: relative;
+    z-index: 1000;
+    display: flex;
+    color: #fff; 
+    padding: 11px;
+    height:fit-content;
+    width: fit-content;
+}
+/* Top Header Bar */
+.nav-bar{
+    justify-content: space-evenly;
+    display:flex;
+    align-items: center;
+}
+/* Website Logo and Symbol */
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo-name{
+    margin-left: 0.4rem;
+    align-items: center;
+    justify-content: center;
+}
+#logo-symbol{
+    font-size: 48px;
+    color:rgb(26, 135, 46);
+}
+#logo-name{
+    font-family : Lucida Console;
+    text-align: center; 
+    justify-content: center;  
+    letter-spacing: 0.08rem;
+}
+#slogan{
+    font-family: Courier New;
+    text-align: center;
+    color:rgb(239, 177, 61);
+    font-weight: 500; /* Changed font-weight value */
+    justify-content: center; 
+    letter-spacing: 0.03rem;
+}
+.nav-search-bar{
+    margin-left: 1.8rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    height:1.7rem;
+    border: 0.01rem solid rgb(124, 124, 204);
+    border-radius: 1rem;
+    opacity: 0.6;   
+}
+.nav-search-bar:hover{
+    opacity: 1;
+}
+.nav-search-bar:focus{
+    opacity: 1;
+}
+#nav-select-category{
+    border: none;
+    height: 100%;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    width: 20%;
+    text-align: center;
+    background-color: rgb(121, 121, 195);
+    color: white;
+    padding:0.3rem;
+    outline: none;
+}
+#nav-input-bar{
+    border: none;
+    width: 100%;
+    height: 1.1rem;
+    text-align: left; 
+    background-color: rgb(216, 216, 236);  
+    padding:0.3rem;
+    outline: none;
+}
+#nav-search-button{
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
+    height: 100%;
+    border: none;
+    width:12%;
+    justify-content: center;
+    align-items: center;
+    padding:0.3rem;
+    outline: none;
+    font-size: 0.8rem;
+}
