@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ambient Light Effect</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #111;
-    }
-    h1{
-        color:rgb(26, 135, 46);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hover Button</title>
+<style>
+  .custom-button {
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-button span {
+    border-radius: 8px;
+  }
+
+  .custom-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  .custom-button:hover span {
+    background-color: #f0f0f0;
+  }
+</style>
 </head>
 <body>
-    <h1 > &#119073;</h1>
+
+<button class="custom-button">
+  <span>Hover me</span>
+</button>
+
 </body>
 </html>
