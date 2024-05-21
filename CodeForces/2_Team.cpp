@@ -2,22 +2,25 @@
 #include<string>
 #include<vector>
 using namespace std;
+
+class Student{
+private:
+    int id;
+    int age;
+public:
+    // Public constructor
+    Student(int studentId, int studentAge) {
+        cout << "Parameterised Constructor called" << endl;
+        id = studentId;
+        age = studentAge;
+    }
+    Student(){
+        cout<<"Default Constructor called"<<endl;
+    }
+};
+
 int main(){
-    int n;
-    cin>>n;
-    vector<string>arr(n);
-    for(int i=0; i<n; i++){
-        cin>>arr[i];
-    }
-    int ans=0;
-    for(int i=0; i<n; i++){
-        if(arr[i]=="++X" || arr[i]=="X++"){
-            ans++;
-        }
-        else{
-            ans--;
-        }
-    }
-    cout<<ans;
+    // Creating a Student object
+    Student s1(123, 20);
     return 0;
 }
