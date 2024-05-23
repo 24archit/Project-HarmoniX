@@ -4,6 +4,7 @@
     border: none;
     font-family: 'Courier New', Courier, monospace, "kallisto", sans-serif, ;
     margin: 0; 
+    box-sizing: border-box;
 }
 /* Handling Background */
 #video-background {
@@ -33,6 +34,7 @@
     justify-content: space-evenly;
     display:flex;
     align-items: center;
+    position: fixed;
 }
 /* Website Logo and Symbol */
 .logo{
@@ -72,6 +74,7 @@
     display: flex;
     align-items: center;
     height:1.7rem;
+    width: 100%;
     border: 0.01rem solid rgb(99, 99, 227);
     border-radius: 1rem;
     opacity: 0.6;
@@ -91,16 +94,17 @@
     height: 100%;
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
-    width: 20%;
+    width: auto;
     background-color: rgb(121, 121, 195);
     color: white;
     padding:0.3rem;
     outline: none;
+    text-align: center;
 }
 #nav-input-bar{
     border: none;
-    width: 100%;
-    height: 1.1rem;
+    width: 27rem;
+    height: 100%;
     text-align: left; 
     background-color: white;  
     padding:0.3rem;
@@ -130,8 +134,12 @@
     background-color: rgb(25, 25, 83);
     color: white;
 } 
+.nav-left-btns{
+    display: flex;
+    flex-direction: row;
+}
 #login-btn{
-    margin-left: 4rem;
+    margin-left: 6rem;
     height: 2.1rem;
     background-color:rgba(135, 135, 210, 0.565) ;
     border-radius: 0.4rem;
@@ -158,7 +166,7 @@
     color: white;
 }
 #forum-btn{
-    margin-left: 18rem;
+    margin-left:6rem;
     height: 2.1rem;
     background-color:rgba(135, 135, 210, 0.565) ;
     border-radius: 0.4rem;
@@ -191,24 +199,30 @@
     flex-direction: column;
     background-color:rgba(61, 11, 149, 0.584);
     margin: 0.7rem;
-    margin-top: 0rem;
+    margin-top: 4rem;
     border-radius: 0.35rem;
     align-items: center;
+    
 }
 .sidebar-btn{
     height: 2rem;
+    width:10rem;
     background-color: transparent;
     color: white;
     padding: 0.5rem;
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.78rem;
+    font-size: 0.88rem;
 }
 .sidebar-btn:hover{
     background-color: rgba(18, 189, 143, 0.589);
     border-radius: 2rem;
     box-shadow: 0.255rem 0.255rem 0.9rem  rgba(207, 219, 71, 0.465);
     font-weight: bold;
-    transition: background-color 0.2s ease-out;
+    transition: background-color 0.08s ease-out;
+}
+.sidebar-btn:active{
+    background-color: rgba(25, 25, 83, 0.796);
+    color: rgb(182, 210, 25);
 }
