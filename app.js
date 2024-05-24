@@ -1,5 +1,5 @@
 const CLIENT_ID = '40cb55a60a0c4760a461254c90b672b3'; // Replace with your Spotify Client ID
-const REDIRECT_URI = 'http://127.0.0.1:5500/SwarSanket/Index.html'; // Replace with your Redirect URI
+const REDIRECT_URI = 'http://127.0.0.1:5500/Project-HarmoniX/Index.html'; // Replace with your Redirect URI
 const SCOPES = 'user-read-private user-read-email';
 
 document.getElementById("login-btn").addEventListener("click", function() {
