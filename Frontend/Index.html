@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HarmoniX - Music To Your Mood</title>
+    <link rel="icon" href="/Project-HarmoniX/media/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>  
+
+
+<video autoplay loop muted class="video-background">
+    <source src="/Project-HarmoniX/media/Background.mp4" type="video/mp4"> 
+    Your browser does not support the video tag.
+</video>
+
+
+
+<div id="login-bg">
+    <div id="login-dialog">
+        <div class="full-logo">
+            <span class="logo-symbol-dialog">
+                <h1 id="logo-symbol-dialog"> &#119073;</h1>
+            </span>
+            <span class="logo-name-dialog">
+                <h1 id="logo-name-dialog">HarmoniX</h1>
+                <p id="slogan-dialog">Music To Your Mood</p>
+            </span>
+        </div>   
+        <div class="welcome-dialog">
+            <p >Welcome to <b >HarmoniX,</b></p>
+            <p>where "every beat finds its harmony".</p>
+        </div>
+        <p id="login-to-spotify">**Login to your "Spotify Account" to enjoy services**</p>
+        <button id="spotify-login-btn">Login with Spotify</button>
+        
+    </div> 
+</div>
+
+
+<header class="nav-bar">
+    <a href="www.swarsanket.com" class="logo">
+            <div class="logo-symbol">
+                <h1 id="logo-symbol"> &#119073;</h1`>
+            </div>
+            <div class="logo-name">
+                <h1 id="logo-name">HarmoniX</h1>
+                <p id="slogan">Music To Your Mood</p>
+            </div>    
+    </a>
+    <div class="nav-search-bar" >
+        <select id="nav-select-category" name="category">
+            <option value="All" selected>All Categories</option>
+            <option value="track">Songs</option>
+            <option value="artist">Artists</option>
+            <option value="album">Albums</option>
+            <option value="playlist">Playlists</option>
+            <option value="show">Shows</option>
+            <option value="episode">Episodes</option>
+        </select>
+        <input 
+        id="nav-input-bar"
+        type="text" 
+        placeholder="Search to match your mood..." 
+        size="37"
+        maxlength="90"
+        minlength="1" 
+        spellcheck="false">
+        <button id="nav-search-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>    
+    </div>
+    <div class="nav-left-btns">
+        <button id ="logout-btn" class="log-in-out-btns"><i class="fa-solid fa-right-from-bracket" id="logout-icon"></i>&nbsp;Logout</button>
+    </div>
+</header>
+
+
+<nav class="sidebar">
+    <button class="sidebar-btn"><i class="fa-solid fa-house" id="home-icon"></i>&nbsp;Home</button>
+    <button class="sidebar-btn">Create using AI&nbsp;<i class="fa-solid fa-wand-magic-sparkles" id="AI-icon"></i></button>
+    <button class="sidebar-btn">Artist's Feed</button>
+    <button class="sidebar-btn">For You</button>    
+    <button class="sidebar-btn">Virtual Concerts</button>
+    <button class="sidebar-btn">About</button>
+</nav>
+
+
+<div class="content">
+    
+    <section class= "section">
+        <div class="section-name">
+                <li><i class="fa-solid fa-arrow-trend-up" id="trend-icon-1"></i> Top Tracks: Live from India </li>
+            <button class ="more-btn-home">&gt;</button>
+        </div>
+        <div class="material" draggable="true">
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true" class="top-tracks-india" >
+                <p class="card-name top-india-track-name">Name</p> 
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true"  class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card">
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-india-card">
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true" class="top-tracks-india" > 
+                <p class="card-name top-india-track-name">Name</p>
+            </div>
+        </div> 
+    </section>
+    <section class= "section">
+        <div class="section-name">
+                <li><i class="fa-solid fa-arrow-trend-up" id="trend-icon-2"></i> Sync: Global Top Tracks</li>
+            <button class ="more-btn-home">&gt;</button>
+        </div>
+        <div class="material" draggable="true">
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true" class="top-tracks-global" >
+                <p class="card-name top-global-track-name">Name</p> 
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true"  class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card" >
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card">
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+            <div class="card top-tracks-global-card">
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true" class="top-tracks-global" > 
+                <p class="card-name top-global-track-name">Name</p>
+            </div>
+        </div> 
+    </section>
+    <section class= "section">
+        <div class="section-name"> 
+                <li><i class="fa-brands fa-artstation" id="artstation-icon"></i> Spotlight on Your Top Artists</li>
+            <button class ="more-btn-home">&gt;</button>
+        </div>
+        <div class="material" draggable="true">
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image1.jpg" alt="img1" draggable="true">  
+                <p class="card-name">Arijit Singh</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true">  
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true">
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true"> 
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true">
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                 
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true"> 
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true">  
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true">  
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true">
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true"> 
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true">
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+            <div class="card">
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true"> 
+                <p class="card-name">Name</p>
+                <p class="stat-num">Trend-Score : 100</p>
+                
+            </div>
+        </div> 
+    </section>
+    <section class= "section">
+        <div class="section-name">
+                <li><i class="fa-solid fa-champagne-glasses" id="party-icon"></i> Bollywood : Dance Music </li>
+            <button class ="more-btn-home">&gt;</button>
+        </div>
+        <div class="material" draggable="true">
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true" class="top-dance-bolly" >
+                <p class="card-name top-dance-bolly-name">Name</p> 
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true"  class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image1.png" alt="img1" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image2.png" alt="img2" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image3.png" alt="img3" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music" >
+                <img src="/Project-HarmoniX/media/home-imgs/image4.png" alt="img4" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music">
+                <img src="/Project-HarmoniX/media/home-imgs/image5.png" alt="img5" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+            <div class="card top-dance-bolly-music">
+                <img src="/Project-HarmoniX/media/home-imgs/image6.png" alt="img6" draggable="true" class="top-dance-bolly" > 
+                <p class="card-name top-dance-bolly-name">Name</p>
+            </div>
+        </div> 
+    </section>
+</div>
+        
+        
+
+
+<span class="player">
+    <audio id="player" controls>
+        <source src="/Project-HarmoniX/media/Titanic.mp3" type="audio/mpeg">
+    </audio>
+</span>
+
+<script src="app.js" defer></script>
+</body>
+</html>
