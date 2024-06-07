@@ -163,7 +163,7 @@ html{
     background-size: cover;
     background-color: black; 
     filter: blur(2px);
-
+    background-image: url("/Project-HarmoniX/media/login-backdrop.png");
 }   
 /* #Overlay_Video{
     filter: blur(10px);

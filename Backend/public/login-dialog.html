@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HarmoniX - Music To Your Mood</title>
+    <link rel="icon" href='public-media/favicon.ico' type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="css/login-dialog.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>  
+<video autoplay loop muted class="video-background">
+    <source src="public-media/Background.mp4" type="video/mp4"> 
+    Your browser does not support the video tag.
+</video>
+<div id="login-bg">
+    <div id="login-dialog">
+        <div class="full-logo">
+            <span class="logo-symbol-dialog">
+                <h1 id="logo-symbol-dialog"> &#119073;</h1>
+            </span>
+            <span class="logo-name-dialog">
+                <h1 id="logo-name-dialog">HarmoniX</h1>
+                <p id="slogan-dialog">Music To Your Mood</p>
+            </span>
+        </div>   
+        <div class="welcome-dialog">
+            <p >Welcome to <b >HarmoniX,</b></p>
+            <p>where "every beat finds its harmony".</p>
+        </div>
+        <p id="login-to-spotify">**Login to your "Spotify Account" to enjoy services**</p>
+        <button id="spotify-login-btn">Login with Spotify</button>
+        
+    </div> 
+</div>
+<script src="js/login-dialog.js" defer></script>
+</body>
+</html>
