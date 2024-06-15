@@ -21,6 +21,7 @@ function getAccessTokenFromUrl(){
     const accessToken = urlParams.get('access_token');
     return accessToken;
 }
+
 function logOut(){
     if(confirm("Are you sure you want to log out?")){
         accessToken='';
@@ -101,12 +102,6 @@ async function getUserTopArtists(number){
     console.log(data);
     
 }
-
-
-
-
-
-
 async function getTopTracksIndia() {
     
         const response = await fetch('https://api.spotify.com/v1/playlists/37i9dQZEVXbLZ52XmnySJg', {
@@ -196,8 +191,6 @@ async function getTopDanceBolly() {
         });
     } 
 
-
-
 let loginWithSpotify = document.getElementById("spotify-login-btn");
 loginWithSpotify.addEventListener("click", redirectToAuthorizePage);
 accessToken = getAccessTokenFromUrl();
@@ -239,4 +232,3 @@ let topDanceBollyLinks =[];
 getTopTracksIndia();
 getTopTracksGlobal();
 getTopDanceBolly();
-   
