@@ -10,8 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "mysql2": "^3.10.1",
     "node-fetch": "^3.3.2",
     "request": "^2.88.2",
     "uuid": "^9.0.1"

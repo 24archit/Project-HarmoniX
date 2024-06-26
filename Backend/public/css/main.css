@@ -335,3 +335,15 @@ main{
     transform: translate(17rem, 5rem);  
     padding-bottom: 4rem; 
 }
+.artstation-icon{
+    color: #0fd7c395;  
+}
+#AI-icon{
+    color: rgb(0, 6, 11);
+}
+#home-icon{
+    color:rgb(0, 6, 11);
+}
+#logout-icon{
+    color: rgb(0, 6, 11);
+}

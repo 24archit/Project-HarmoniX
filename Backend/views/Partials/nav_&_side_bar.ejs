@@ -1,4 +1,4 @@
-<video autoplay loop muted class="video-background">
+<video autoplay loop muted class="video-background" id="background-vid">
     <source src="public-media/Background.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
@@ -12,22 +12,20 @@
             <p id="slogan">Music To Your Mood</p>
         </div>
     </a>
-    <div class="nav-search-bar">
-        <select id="nav-select-category" name="category">
-            <option value="All" selected>All Categories</option>
-            <option value="track">Songs</option>
-            <option value="artist">Artists</option>
-            <option value="album">Albums</option>
-            <option value="playlist">Playlists</option>
-            <option value="show">Shows</option>
-            <option value="episode">Episodes</option>
+    <form class="nav-search-bar" id="search-form" action= "http://localhost:2424/search">
+        <select id="nav-select-category" name="type">
+            <option class="type" value="track,artist,album,playlist,show,episode" selected>All Categories</option>
+            <option class="type" value="track">Songs</option>
+            <option class="type" value="artist">Artists</option>
+            <option class="type" value="album">Albums</option>
+            <option class="type" value="playlist">Playlists</option>
         </select>
         <input id="nav-input-bar" type="text" placeholder="Search to match your mood..." size="37" maxlength="90"
-            minlength="1" spellcheck="false">
+            minlength="1" spellcheck="false" required name="q">
         <button id="nav-search-button">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-    </div>
+    </form>
     <div class="nav-left-btns">
         <button id="profile-btn">
             <img src="../public-media/profile-pic.png" alt="DP" id="profile-img">

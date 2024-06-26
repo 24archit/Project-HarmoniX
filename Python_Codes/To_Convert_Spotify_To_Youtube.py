@@ -33,6 +33,6 @@ def spotify_to_youtube(spotify_link):
     return youtube_link
 
 # Example usage
-spotify_link = 'https://open.spotify.com/track/7i6q8EWCrbYj7D9I5K0vQB?si=f5efa11494844034'
+spotify_link = 'https://open.spotify.com/album/6j4QpObdnZpxNU52o2egBZ'
 youtube_link = spotify_to_youtube(spotify_link)
 print("YouTube link:", youtube_link)
