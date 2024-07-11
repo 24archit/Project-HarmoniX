@@ -1,0 +1,13 @@
+#artist-name{
+    color: rgb(207, 237, 242);
+    font-size: 5rem;
+    text-wrap: wrap;
+    overflow: auto;
+}   
+.mainInfo{
+    display: flex;
+}
+.name-stat{
+    width: 55rem;
+    overflow: hidden;
+}

@@ -1,0 +1,57 @@
+.track-line-card{
+    display: flex;
+    align-items: center;
+    padding: 0.4rem;
+    border-radius: 1.9rem;
+    align-content: center;
+    justify-content: space-evenly;
+}
+.track-line-card:hover{
+    background-color: rgba(164, 197, 223, 0.199);
+}
+.track-line-card img{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.4rem;
+
+}
+.track-line-card p{
+   color: rgb(134, 185, 229);
+   text-align: center;
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   margin-left: 2rem;   
+}
+.Track-name{
+    width: 18rem;
+}
+.Track-artists-name{
+    width: 29rem;
+}
+.Duration{
+    width: 12rem;
+}
+.track-play{
+    width: 2rem;
+    height: 2rem;
+    color: rgb(1, 255, 238);
+    text-align: center;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.track-play:hover{
+    background: linear-gradient(rgba(89, 18, 196, 0.888), rgba(16, 16, 134, 0.61));
+    color: #a4a8c6;
+    font-weight: bold;
+    transition: background-color 0.08s ease-out;
+}
+.album-name{
+    width: 15rem;
+}
+.track-rank{
+    width: 2rem;
+}
+.track-rank p{
+    margin-left: 0rem;
+}

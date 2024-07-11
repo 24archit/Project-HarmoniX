@@ -1,0 +1,8 @@
+#artist-pic{
+    border: 0.12rem solid rgb(0, 242, 255);
+    border-radius: 50%;
+    height: 15rem;
+    width: 15rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}

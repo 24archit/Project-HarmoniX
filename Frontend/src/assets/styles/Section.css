@@ -1,0 +1,36 @@
+.section{
+    padding-top: 0.6rem;
+}
+.material{
+    display: flex;
+    margin-top: 0.4rem;
+    padding-top: 0.9rem;
+    padding-bottom: 1.3rem;
+    margin-bottom: 0.6rem;
+    gap: 1rem;
+    overflow: auto;
+    background: linear-gradient(#0389f777,rgba(15, 1, 35, 0.522), #01294a1c);
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    padding-left: 0.7rem;
+    padding-right:0.7rem;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+}
+
+
+.material::-webkit-scrollbar {
+  height: 0.7rem; 
+}
+.material::-webkit-scrollbar-track {
+    background: transparent; 
+}
+.material::-webkit-scrollbar-thumb {
+    background: linear-gradient(#232ca96d, rgba(219, 210, 210, 0.405), #232ca96d) ;
+    border-radius: 6rem;
+    
+}
+.material::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(#232ca9, rgb(219, 210, 210), #232ca9) ;
+}

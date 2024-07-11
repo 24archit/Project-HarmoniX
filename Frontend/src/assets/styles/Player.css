@@ -1,0 +1,59 @@
+#player{
+    margin: 10px auto;
+    justify-self: center;
+    align-self: center;
+}
+.player {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333; /* Dark background color */
+    text-align: center;
+}
+
+#player {
+    width: 100%; /* Set the width of the audio player */
+    margin: 0;
+    display: block;
+    border-radius: 0px !important;
+    border: none;
+    padding: none;
+}
+
+/* Style the progress bar */
+#player::-webkit-media-controls-panel {
+    background: linear-gradient(rgb(2, 7, 25), rgba(1, 0, 2, 0.89))
+}
+
+#player::-webkit-media-controls-timeline {
+    background-color:transparent;/* Semi-transparent white */
+    border-radius: 0px;
+}
+
+#player::-webkit-media-controls-current-time-display,
+#player::-webkit-media-controls-time-remaining-display {
+    color: #fff; /* White text color */
+}
+#player::-webkit-media-controls-enclosure {
+    border-radius: 0;
+}
+/* Style the play/pause button */
+#player::-webkit-media-controls-play-button {
+    background-color: #1db954; /* Spotify green */
+    border-radius: 50%; /* Circular button */
+    outline: none;
+}
+
+#player::-webkit-media-controls-play-button:hover {
+    background-color: #169743; /* Darker shade on hover */
+}
+
+/* Style the volume slider */
+#player::-webkit-media-controls-volume-slider-container {
+    display: none; /* Hide the volume slider */
+}
+
+/* Hide the default volume icon */
+#player::-webkit-media-controls-mute-button {
+    display: none;
+}

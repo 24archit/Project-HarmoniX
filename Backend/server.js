@@ -5,9 +5,8 @@ const request = require("request");
 const path = require("path");
 const mysql = require("mysql2");
 const cookieParser = require("cookie-parser");
+
 import("node-fetch");
-
-
 // Set the connection with SQL Database
 const connection = mysql.createConnection({
   host: "localhost",
@@ -19,19 +18,20 @@ const connection = mysql.createConnection({
 // Defined Useful Information for API Requests
 const app = express();
 const port = 2424;
+const host = "localhost";
 const client_id = "40cb55a60a0c4760a461254c90b672b3";
 const client_secret = "98ef58b72c9445f2b5830b932c13cb60";
 const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read";
-const iconClasses = [
-  "fa-solid fa-right-from-bracket",
-  "fa-solid fa-house",
-  "fa-solid fa-wand-magic-sparkles",
-  "fa-solid fa-arrow-trend-up",
-  "fa-brands fa-artstation",
-  "fa-solid fa-play",
-  "fa-solid fa-link",
-];
+// const iconClasses = [
+//   "fa-solid fa-right-from-bracket",
+//   "fa-solid fa-house",
+//   "fa-solid fa-wand-magic-sparkles",
+//   "fa-solid fa-arrow-trend-up",
+//   "fa-brands fa-artstation",
+//   "fa-solid fa-play",
+//   "fa-solid fa-link",
+// ];
 
 //Function Generate random string
 function generateRandomString(length) {
@@ -76,18 +76,14 @@ async function updateData(req, res, accessToken) {
   });
 
   let q = `UPDATE userdetails SET accesstoken = ? WHERE userspotifyid = ?`;
-  connection.query(
-    q,
-    [accessToken, userdetails.userId],
-    (err, result) => {
-      if (err) {
-        console.error("Error updating user details:", err);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-      console.log("User details updated successfully:", result);
+  connection.query(q, [accessToken, userdetails.userId], (err, result) => {
+    if (err) {
+      console.error("Error updating user details:", err);
+      res.status(500).send("Internal Server Error");
+      return;
     }
-  );
+    console.log("User details updated successfully:", result);
+  });
 }
 async function getToken(req, tokenType) {
   const userDetails = req.cookies["userDetails"]
@@ -122,22 +118,22 @@ async function getToken(req, tokenType) {
 
 async function getFreshTokens(req) {
   const refreshToken = await getToken(req, "refreshToken");
-  const encodedCredentials = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+  const encodedCredentials = Buffer.from(
+    `${client_id}:${client_secret}`
+  ).toString("base64");
 
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": `Basic ${encodedCredentials}`
+      Authorization: `Basic ${encodedCredentials}`,
     },
     body: new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
-    })
+    }),
   });
-
   if (!response.ok) {
-    
     throw new Error("Network response was not ok");
   }
 
@@ -254,50 +250,247 @@ async function getTopDanceBolly(req) {
   const data = await response.json();
   return JSON.stringify(data);
 }
+async function getArtistData(req) {
+  const accessToken = await getToken(req, "accessToken");
+  const id = req.query.id;
+  const response = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  const data = await response.json();
+  return JSON.stringify(data);
+}
+async function getArtistTopTracks(req) {
+  const accessToken = await getToken(req, "accessToken");
+  const id = req.query.id;
+  const response = await fetch(
+    `https://api.spotify.com/v1/artists/${id}/top-tracks?market=IN`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  const data = await response.json();
+  return JSON.stringify(data);
+}
+async function getArtistAlbums(req) {
+  const accessToken = await getToken(req, "accessToken");
+  const id = req.query.id;
+  const response = await fetch(
+    `https://api.spotify.com/v1/artists/${id}/albums?include_groups=single%2Calbum%2Cappears_on%2Ccompilation&market=IN&limit=10&offset=0`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  const data = await response.json();
+  return JSON.stringify(data);
+}
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-
-app.listen(port, () => {
-  console.log(`Server Started, Listening on Port : ${port}`);
-});
-app.get("/", async function (req, res) {
+app.use("/user", async function (req, res, next) {
   const expiryStatus = checkExpiry(req);
-  if (expiryStatus == 0 ){
-    res.sendFile(path.join(__dirname, "public", "login-dialog.html"));
-  } 
-  else if (expiryStatus == 1) {
+
+  if (expiryStatus === 0) {
+    res.redirect("/login");
+    return;
+  }
+
+  if (expiryStatus === 1) {
     try {
       const tokens = await getFreshTokens(req);
       await updateData(req, res, tokens.access_token);
-      res.redirect("/User-Home");
+      next();
     } catch (error) {
       res.redirect("/login?error=database_error");
       return;
     }
+  } else if (expiryStatus === 2) {
+    next();
   }
-  else {
-    res.redirect("/User-Home");
+});
+app.use("/login", async function (req, res, next) {
+  const expiryStatus = checkExpiry(req);
+
+  if (expiryStatus === 0) {
+    next();
+    return;
+  }
+  if (expiryStatus === 1) {
+    try {
+      const tokens = await getFreshTokens(req);
+      await updateData(req, res, tokens.access_token);
+      res.redirect("/user/home");
+      return;
+    } catch (error) {
+      res.send("<a href='http://localhost:2424/login'>Login</a>");
+      return;
+    }
+  }
+  res.redirect("/user/home");
+});
+// Apply authenticateRequest middleware to your API routes
+app.use("/api", function (req, res, next) {
+  const API_Access_Header = req.headers["local-api-access-token"];
+  if (
+    API_Access_Header ===
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  ) {
+    next();
+  } else {
+    res.status(403).send("Not Authorized");
+  }
+});
+app.use("/api", async function (req, res, next) {
+  const expiryStatus = checkExpiry(req);
+
+  if (expiryStatus === 0) {
+    res.redirect("/login");
+    return;
+  }
+
+  if (expiryStatus === 1) {
+    try {
+      const tokens = await getFreshTokens(req);
+      await updateData(req, res, tokens.access_token);
+      next();
+    } catch (error) {
+      res.redirect("/login?error=database_error");
+      return;
+    }
+  } else if (expiryStatus === 2) {
+    next();
+  }
+});
+app.get("/getExpiryStatus", function (req, res) {
+  const data = checkExpiry(req);
+  console.log(data);
+  res.json(data);
+});
+
+app.get("/", async function (req, res) {
+  const expiryStatus = checkExpiry(req);
+  console.log(expiryStatus);
+  if (expiryStatus == 0) {
+    res.redirect("/login");
+  } else {
+    res.redirect("/user/home");
   }
 });
 app.get("/login", function (req, res) {
   const error = req.query.error || null;
   if (error === "access_denied") {
-    res.send(
-      "<h1>Authorization Failed..</h1> <p>You have give authorization of your spotify account to enjoy services. Please try again..</p><a href='http://localhost:2424/'>Login</a>"
-    );
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Authorization Failed</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
+            color: #ffffff;
+          }
+          h1 { color: #ff4081; }
+          p { margin: 20px 0; }
+          a {
+            color: #64ffda;
+            text-decoration: none;
+            border: 2px solid #64ffda;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+          }
+          a:hover {
+            background: #64ffda;
+            color: #0d0d0d;
+          }
+          footer {
+            margin-top: 40px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Authorization Failed</h1>
+        <p>You need to authorize your Spotify account to enjoy our services. Please try again.</p>
+        <a href="http://localhost:2424/login">Login</a>
+        <footer>
+          <p>&copy; Team Harmonix</p>
+        </footer>
+      </body>
+      </html>
+    `);
   } else if (!error) {
-    res.sendFile(path.join(__dirname, "public", "login-dialog.html"));
+    res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
   } else {
-    res.send(
-      "<h1>Unable to Connect with Spotify..</h1> <p>Please try again later..</p><a href='http://localhost:2424/'>Login</a>"
-    );
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Connection Error</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
+            color: #ffffff;
+          }
+          h1 { color: #ff4081; }
+          p { margin: 20px 0; }
+          a {
+            color: #64ffda;
+            text-decoration: none;
+            border: 2px solid #64ffda;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+          }
+          a:hover {
+            background: #64ffda;
+            color: #0d0d0d;
+          }
+          footer {
+            margin-top: 40px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Unable to Connect with Spotify</h1>
+        <p>We encountered an issue connecting to Spotify. Please try again later.</p>
+        <a href="http://localhost:2424/login">Login</a>
+        <footer>
+          <p>&copy; Team Harmonix</p>
+        </footer>
+      </body>
+      </html>
+    `);
   }
 });
+
+
 app.get("/login-spotify", function (req, res) {
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -379,11 +572,11 @@ app.get("/callback", function (req, res) {
               expiry: Date.now() + 3300000,
             };
             res.cookie("userDetails", JSON.stringify(userDetails), {
-              maxAge: 15* 24 * 60 * 60 * 1000,
+              maxAge: 15 * 24 * 60 * 60 * 1000,
               httpOnly: true,
               secure: false,
             });
-            res.redirect("/User-Home");
+            res.redirect("/user/home");
           }
         );
       }
@@ -391,173 +584,156 @@ app.get("/callback", function (req, res) {
   });
 });
 
-app.get("/User-Home", async function (req, res) {
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch (error) {
-      res.redirect("/login?error=database_error");
-      return;
-    }
-  }
-
-  try {
-    res.render("home", { iconClasses: iconClasses });
-  } catch (error) {
-    res.redirect("/");
-  }
+app.get("/user/home", async function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
+});
+app.get("/user/artist/:id", async function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
+});
+app.get("/user/search", async function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
 });
 app.get("/api/getTopTracksIndia", async (req, res) => {
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch (error) {
-      res.status(401).send({ error: "Unauthorized" });
-      return;
-    }
-  }
   try {
     const topTracks = await getTopTracksIndia(req);
     res.json(topTracks);
   } catch (error) {
-    res.status(500).send({ error: "Internal Server Error" });
+    res.redirect(`/login/?error=${error}`);
   }
 });
 app.get("/api/getTopTracksGlobal", async (req, res) => {
-  const expiryStatus = checkExpiry(req);
-
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch (error) {
-      res.status(401).send({ error: "Unauthorized" });
-      return;
-    }
-  }
-
   try {
     const topTracks = await getTopTracksGlobal(req);
     res.json(topTracks);
   } catch (error) {
-    res.status(500).send({ error: "Internal Server Error" });
+    res.redirect(`/login/?error=${error}`);
   }
 });
 app.get("/api/getTopDanceBolly", async (req, res) => {
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch (error) {
-      res.status(401).send({ error: "Unauthorized" });
-      return;
-    }
-  }
   try {
     const topDanceBolly = await getTopDanceBolly(req);
     res.json(topDanceBolly);
   } catch (error) {
-    res.status(500).send({ error: "Internal Server Error" });
+    res.redirect(`/login/?error=${error}`);
   }
 });
 app.get("/api/getUserTopArtists", async (req, res) => {
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-  if (expiryStatus == 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch (error) {
-      res.status(401).send({ error: "Unauthorized" });
-      return;
-    }
-  }
   try {
     const topArtists = await getUserTopArtists(req, req.query.number);
     res.json(topArtists);
   } catch (error) {
-    res.status(500).send({ error: "Internal Server Error" });
+    res.redirect(`/login/?error=${error}`);
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-
-  if (expiryStatus == 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch {
-      res.redirect("/");
-      return;
-    }
-  }
   try {
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
   } catch {
-    res.status(500).send({ error: "Internal Server Error" });
+    res.redirect(`/login/?error=${error}`);
   }
 });
-app.get("/logout", async function(req, res){
-  res.clearCookie('userDetails');
-  res.redirect("/");
-});
-app.get("/search", function(req, res){
-  let type = req.query.type;
-  res.render("search", {iconClasses:iconClasses, type: type});
-});
-app.get("/api/search", async function(req, res){
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus === 0) {
-    res.redirect("/");
-    return;
-  }
-  if (expiryStatus == 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-    } catch (error) {
-      res.status(401).send({ error: "Unauthorized" });
-      return;
-    }
-  }
+app.get("/api/search", async function (req, res) {
   try {
     const type = req.query.type;
     const q = req.query.q;
     let result = await search(q, type, req);
     res.json(result);
   } catch (error) {
-    console.error('Error during search:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.redirect(`/login/?error=${error}`);
   }
+});
+app.get("/api/getArtistData", async function (req, res) {
+  try {
+    let result = await getArtistData(req);
+    res.json(result);
+  } catch (error) {
+    res.redirect(`/login/?error=${error}`);
+  }
+});
+app.get("/api/getArtistTopTracks", async function (req, res) {
+  try {
+    let result = await getArtistTopTracks(req);
+    res.json(result);
+  } catch (error) {
+    res.redirect(`/login/?error=${error}`);
+  }
+});
+app.get("/api/getArtistAlbums", async function (req, res) {
+  try {
+    let result = await getArtistAlbums(req);
+    res.json(result);
+  } catch (error) {
+    res.redirect(`/login/?error=${error}`);
+  }
+});
+app.use(express.static(path.join(__dirname, "public", "dist")));
+app.use((req, res, next) => {
+  res.status(404).send(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.5em;
+      color: #ff4081;
+    }
+    p {
+      margin-top:7px;
+    }
+    a {
+      color: #64ffda;
+      text-decoration: none;
+      border: 2px solid #64ffda;
+      padding: 5px 20px;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+      margin-top:9px;
+    }
+    a:hover {
+      background: #64ffda;
+      color: #0d0d0d;
+    }
+    .footer {
+      margin-top: 2em;
+      font-size: 0.9em;
+      color: #b0bec5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>404 - Page Not Found</h1>
+    <p>The page you are looking for does not exist.</p>
+    <p>Please use the link below to navigate to the login page.</p>
+    <a href="http://localhost:2424/login">Go to Authenticate Page</a>
+    <div class="footer">
+      <p>&copy;Team Harmonix</p>
+    </div>
+  </div>
+</body>
+</html>
+
+  `);
+});
+
+app.listen(port, host, () => {
+  console.log(`Server Started, Listening on  : http://${host}:${port}`);
 });
