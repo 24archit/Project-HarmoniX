@@ -97,7 +97,7 @@ export async function getUserInfo() {
 export async function getExpiryStatus() {
   try {
     return await fetchData(
-      "http://localhost:2424/getExpiryStatus","GET",
+      "http://localhost:2424/api/getExpiryStatus","GET",
       "Failed to fetch expiry status"
     );
   } catch (error) {

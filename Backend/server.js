@@ -354,9 +354,64 @@ app.use("/api", function (req, res, next) {
   ) {
     next();
   } else {
-    res.status(403).send("Not Authorized");
+    res.status(403).send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>403 - Access Denied</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+          }
+          .container {
+            text-align: center;
+          }
+          h1 {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+          }
+          p {
+            margin: 0.5em 0;
+          }
+          a {
+            color: #007bff;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: underline;
+          }
+          .footer {
+            margin-top: 2em;
+            font-size: 0.9em;
+            color: #6c757d;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>403 - Access Denied</h1>
+          <p>You do not have the necessary permissions to access this resource.</p>
+          <p>Please contact your administrator if you believe this is an error.</p>
+          <div class="footer">
+            <p>This message is from Team Harmonix.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
   }
 });
+
+
 app.use("/api", async function (req, res, next) {
   const expiryStatus = checkExpiry(req);
 
@@ -378,7 +433,7 @@ app.use("/api", async function (req, res, next) {
     next();
   }
 });
-app.get("/getExpiryStatus", function (req, res) {
+app.get("/api/getExpiryStatus", function (req, res) {
   const data = checkExpiry(req);
   res.json(data);
 });
