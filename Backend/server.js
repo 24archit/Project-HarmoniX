@@ -439,7 +439,6 @@ app.get("/api/getExpiryStatus", function (req, res) {
 
 app.get("/", async function (req, res) {
   const expiryStatus = checkExpiry(req);
-  console.log(expiryStatus);
   if (expiryStatus == 0) {
     res.redirect("/login");
   } else {
