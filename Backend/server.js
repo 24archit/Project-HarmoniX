@@ -411,7 +411,6 @@ app.use("/api", function (req, res, next) {
   }
 });
 
-
 app.use("/api", async function (req, res, next) {
   const expiryStatus = checkExpiry(req);
 
@@ -543,7 +542,6 @@ app.get("/login", function (req, res) {
     `);
   }
 });
-
 
 app.get("/login-spotify", function (req, res) {
   res.redirect(
