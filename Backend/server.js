@@ -380,7 +380,6 @@ app.use("/api", async function (req, res, next) {
 });
 app.get("/getExpiryStatus", function (req, res) {
   const data = checkExpiry(req);
-  console.log(data);
   res.json(data);
 });
 
