@@ -19,7 +19,7 @@ export default function HomePage() {
         }, 1000);
       } catch (error) {
         console.error('Error fetching top tracks from India:', error);
-        alert("We're experiencing some issues with fetching data. Please log in again.");
+        alert("We're experiencing some issues with fetching data. Check your Internet Connection and please log in again.");
         window.location.href = "/login";
       }
     };

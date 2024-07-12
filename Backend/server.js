@@ -680,7 +680,7 @@ app.get("/api/getUserInfo", async (req, res) => {
   try {
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
-  } catch {
+  } catch(error) {
     res.redirect(`/login/?error=${error}`);
   }
 });
