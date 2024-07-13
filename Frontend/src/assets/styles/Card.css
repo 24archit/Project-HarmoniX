@@ -68,7 +68,7 @@
     height: 0.7rem;
     width: 100%;
     background-color: transparent;
-    color: rgb(1, 255, 238);
+    color: #0fd7c395;
     padding: 1rem;
     margin-top: 0.2rem;
     border-bottom-left-radius: 2rem;
@@ -138,8 +138,27 @@
         "YTLC" 500;
     color: rgba(218, 207, 207, 0.806);
     font-size: 0.9rem;
-    margin-top: 0.4rem;
     margin-bottom: 0.2rem;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-bottom: 0.1rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+}
+.card-stat-3 {
+    font-family: "Nunito Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100,
+        "YTLC" 500;
+    color: rgba(218, 207, 207, 0.806);
+    font-size: 0.9rem;
+    margin-top: 0.45rem;
+    margin-bottom: 0.4rem;
     text-align: center;
     width: 100%;
     overflow: hidden;

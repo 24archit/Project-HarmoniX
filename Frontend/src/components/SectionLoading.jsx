@@ -17,9 +17,6 @@ export default function Section(props) {
                     <SectionCardLoad/>
                     <SectionCardLoad/>
                     <SectionCardLoad/>
-                    <SectionCardLoad/>
-                    <SectionCardLoad/>
-                    <SectionCardLoad/>
             </div>
         </section>
     );

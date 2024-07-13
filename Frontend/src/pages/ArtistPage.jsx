@@ -83,11 +83,11 @@ export default function ArtistPage() {
         <div className="artist-page-bg" draggable="true">
             {ArtistData ? (
                 <>
-                    <ArtistMainInfo 
-                        artistName={ArtistData.name} 
-                        followers={ArtistData.followers.total} 
-                        trendScore={ArtistData.popularity} 
-                        img={ArtistData.images.length > 0 ? ArtistData.images[0].url : defaultProfilePic} 
+                    <ArtistMainInfo
+                        artistName={ArtistData.name}
+                        followers={ArtistData.followers.total}
+                        trendScore={ArtistData.popularity}
+                        img={ArtistData.images.length > 0 ? ArtistData.images[0].url : defaultProfilePic}
                     />
                     <div className="buttons-container">
                         <button
@@ -130,7 +130,7 @@ export default function ArtistPage() {
                                         <React.Fragment>
                                             {item.artists.map((artist, idx) => (
                                                 <span key={artist.id}>
-                                                    <Link to={`/artist/${artist.id}`} className={"card-stat-links"}>{artist.name}</Link>
+                                                    <Link to={`/user/artist/${artist.id}`} className={"card-stat-links"}>{artist.name}</Link>
                                                     {idx < item.artists.length - 1 ? ', ' : ''}
                                                 </span>
                                             ))}

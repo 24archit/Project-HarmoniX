@@ -2,6 +2,7 @@ import React from 'react';
 import '../assets/styles/Card.css';
 import TrackLogo from '../assets/media/Track-Logo.png';
 import { Skeleton } from '@mui/material';
+import { format } from "indian-number-format";
 
 export function SectionCard({
     imgSrc = TrackLogo,
@@ -9,19 +10,27 @@ export function SectionCard({
     cardStat = 'Please Wait..',
     iconClass = "fa-solid fa-link",
     iconId = "link-btn",
-    albumType = ""
+    albumType = "",
+    followers = "",
+    cardType = ""
 }) {
     return (
         <div className="card">
             <div className='card-details'>
-            <img src={imgSrc} alt="img1" draggable="true" />
-            <p className="card-name">{cardName}</p>
-            {albumType && (
-                <span className="card-stat-2">
-                    <p>{albumType === "album" ? "Album" : "Single"}</p>
-                </span>
-            )}
-            <p className="card-stat">{cardStat}</p>
+                {/* Correcting image tag */}
+                <img src={imgSrc} alt="img1" draggable="true" style={cardType === "artist" ? { borderRadius: '50%' } : {}} />
+                <p className="card-name">{cardName}</p>
+                {albumType && (
+                    <span className="card-stat-3">
+                        <p>{albumType === "album" ? "Album" : "Single"}</p>
+                    </span>
+                )}
+                {followers && (
+                    <span className="card-stat-3">
+                        <p>{`${format(followers)} Followers`}</p>
+                    </span>
+                )}
+                <p className="card-stat">{cardStat}</p>
             </div>
             <button className="play-btn india-track-play-btn">
                 <i className={iconClass} id={iconId}></i>

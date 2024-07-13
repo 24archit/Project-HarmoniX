@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PlaylistTrackSection from '../components/PlaylistTrackSection.jsx';
+import HomePagePlaylistTrackSection from '../components/HomePagePlaylistTrackSection.jsx';
 import SectionLoading from '../components/SectionLoading.jsx';
 import { getTopTracksIndia, getTopTracksGlobal, getUserTopArtists } from '../apis/apiFunctions.js';
 
@@ -59,32 +59,32 @@ export default function HomePage() {
   return (
     <>
       {topIndiaTracks ? (
-        <PlaylistTrackSection
+        <HomePagePlaylistTrackSection
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Top Tracks: Live from India"
+          name=" Top Tracks: Live from India"
           data={topIndiaTracks}
         />
       ) : (
         <SectionLoading
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Top Tracks: Live from India"
+          name=" Top Tracks: Live from India"
         />
       )}
 
       {topGlobalTracks ? (
-        <PlaylistTrackSection
+        <HomePagePlaylistTrackSection
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Sync: Global Top Tracks"
+          name=" Sync: Global Top Tracks"
           data={topGlobalTracks}
         />
       ) : (
         <SectionLoading
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Sync: Global Top Tracks"
+          name=" Sync: Global Top Tracks"
         />
       )}
     </>
