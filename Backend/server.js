@@ -23,6 +23,7 @@ const client_id = "40cb55a60a0c4760a461254c90b672b3";
 const client_secret = "98ef58b72c9445f2b5830b932c13cb60";
 const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read";
+const scriptPath = path.join(__dirname, 'scripts', 'get_audio_link.py');
 // const iconClasses = [
 //   "fa-solid fa-right-from-bracket",
 //   "fa-solid fa-house",
@@ -301,7 +302,6 @@ async function getArtistAlbums(req) {
   const data = await response.json();
   return JSON.stringify(data);
 }
-
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/user", async function (req, res, next) {
@@ -345,7 +345,7 @@ app.use("/login", async function (req, res, next) {
   }
   res.redirect("/user/home");
 });
-// Apply authenticateRequest middleware to your API routes
+//Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
   if (
@@ -718,6 +718,16 @@ app.get("/api/getArtistAlbums", async function (req, res) {
     res.redirect(`/login/?error=${error}`);
   }
 });
+app.get("/api/getAudioLink", async function (req, res){
+  const id = req.query.id;
+  const response = await fetch(`https://api.song.link/v1-alpha.1/links?url=open.spotify.com%2Ftrack%2F${id}`);
+  if (!response.ok) {
+    res.status(500).send("Network response was not ok");
+  }
+  const data = await response.json();
+  const link = data.linksByPlatform.youtubeMusic.url;
+  res.json(link);
+})
 app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use((req, res, next) => {
   res.status(404).send(`
