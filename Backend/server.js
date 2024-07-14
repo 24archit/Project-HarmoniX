@@ -346,92 +346,92 @@ app.use("/login", async function (req, res, next) {
   res.redirect("/user/home");
 });
 //Apply authenticateRequest middleware to your API routes
-app.use("/api", function (req, res, next) {
-  const API_Access_Header = req.headers["local-api-access-token"];
-  if (
-    API_Access_Header ===
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-  ) {
-    next();
-  } else {
-    res.status(403).send(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>403 - Access Denied</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-          }
-          .container {
-            text-align: center;
-          }
-          h1 {
-            font-size: 3em;
-            margin-bottom: 0.5em;
-          }
-          p {
-            margin: 0.5em 0;
-          }
-          a {
-            color: #007bff;
-            text-decoration: none;
-          }
-          a:hover {
-            text-decoration: underline;
-          }
-          .footer {
-            margin-top: 2em;
-            font-size: 0.9em;
-            color: #6c757d;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>403 - Access Denied</h1>
-          <p>You do not have the necessary permissions to access this resource.</p>
-          <p>Please contact your administrator if you believe this is an error.</p>
-          <div class="footer">
-            <p>This message is from Team Harmonix.</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `);
-  }
-});
+// app.use("/api", function (req, res, next) {
+//   const API_Access_Header = req.headers["local-api-access-token"];
+//   if (
+//     API_Access_Header ===
+//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+//   ) {
+//     next();
+//   } else {
+//     res.status(403).send(`
+//       <!DOCTYPE html>
+//       <html lang="en">
+//       <head>
+//         <meta charset="UTF-8">
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         <title>403 - Access Denied</title>
+//         <style>
+//           body {
+//             font-family: Arial, sans-serif;
+//             background-color: #f8f9fa;
+//             color: #343a40;
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             height: 100vh;
+//             margin: 0;
+//           }
+//           .container {
+//             text-align: center;
+//           }
+//           h1 {
+//             font-size: 3em;
+//             margin-bottom: 0.5em;
+//           }
+//           p {
+//             margin: 0.5em 0;
+//           }
+//           a {
+//             color: #007bff;
+//             text-decoration: none;
+//           }
+//           a:hover {
+//             text-decoration: underline;
+//           }
+//           .footer {
+//             margin-top: 2em;
+//             font-size: 0.9em;
+//             color: #6c757d;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <div class="container">
+//           <h1>403 - Access Denied</h1>
+//           <p>You do not have the necessary permissions to access this resource.</p>
+//           <p>Please contact your administrator if you believe this is an error.</p>
+//           <div class="footer">
+//             <p>This message is from Team Harmonix.</p>
+//           </div>
+//         </div>
+//       </body>
+//       </html>
+//     `);
+//   }
+// });
 
-app.use("/api", async function (req, res, next) {
-  const expiryStatus = checkExpiry(req);
+// app.use("/api", async function (req, res, next) {
+//   const expiryStatus = checkExpiry(req);
 
-  if (expiryStatus === 0) {
-    res.redirect("/login");
-    return;
-  }
+//   if (expiryStatus === 0) {
+//     res.redirect("/login");
+//     return;
+//   }
 
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
-      next();
-    } catch (error) {
-      res.redirect("/login?error=database_error");
-      return;
-    }
-  } else if (expiryStatus === 2) {
-    next();
-  }
-});
+//   if (expiryStatus === 1) {
+//     try {
+//       const tokens = await getFreshTokens(req);
+//       await updateData(req, res, tokens.access_token);
+//       next();
+//     } catch (error) {
+//       res.redirect("/login?error=database_error");
+//       return;
+//     }
+//   } else if (expiryStatus === 2) {
+//     next();
+//   }
+// });
 app.get("/api/getExpiryStatus", function (req, res) {
   const data = checkExpiry(req);
   res.json(data);
@@ -718,6 +718,7 @@ app.get("/api/getArtistAlbums", async function (req, res) {
     res.redirect(`/login/?error=${error}`);
   }
 });
+
 app.get("/api/getAudioLink", async function (req, res){
   const id = req.query.id;
   const response = await fetch(`https://api.song.link/v1-alpha.1/links?url=open.spotify.com%2Ftrack%2F${id}`);
@@ -726,8 +727,9 @@ app.get("/api/getAudioLink", async function (req, res){
   }
   const data = await response.json();
   const link = data.linksByPlatform.youtubeMusic.url;
-  res.json(link);
+  res.send(link);
 })
+
 app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use((req, res, next) => {
   res.status(404).send(`
