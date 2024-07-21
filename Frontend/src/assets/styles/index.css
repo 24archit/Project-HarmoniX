@@ -25,9 +25,9 @@ html{
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(#09fff38f,rgba(73, 156, 215, 0.627)); 
-  border-radius: 0.375rem; /* Radius of the scrollbar thumb */
+  border-radius: 0.375rem; 
 }
-/* Handling Background */
+
 .video-background {
   position: fixed;
   right: 0;
@@ -42,11 +42,7 @@ html{
   filter: blur(2px);
   background-image: url("../media/login-backdrop.jpg");
 }   
-/* #Overlay_Video{
-  filter: blur(10px);
-  opacity: 0.4    ;
-} */
-/* Top Header Bar */
+
 .nav-bar{
   justify-content:left;
   display:flex;
@@ -274,71 +270,11 @@ html{
   background-color: rgba(25, 25, 83, 0.796);
   color: rgb(182, 210, 25);
 }
-#player{
-  margin: 10px auto;
-  justify-self: center;
-  align-self: center;
-}
-.player {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #333; /* Dark background color */
-  text-align: center;
-}
-
-#player {
-  width: 100%; /* Set the width of the audio player */
-  margin: 0;
-  display: block;
-  border-radius: 0px !important;
-  border: none;
-  padding: none;
-}
-
-/* Style the progress bar */
-#player::-webkit-media-controls-panel {
-  background: linear-gradient(rgb(2, 7, 25), rgba(1, 0, 2, 0.89))
-}
-
-#player::-webkit-media-controls-timeline {
-  background-color:transparent;/* Semi-transparent white */
-  border-radius: 0px;
-}
-
-#player::-webkit-media-controls-current-time-display,
-#player::-webkit-media-controls-time-remaining-display {
-  color: #fff; /* White text color */
-}
-#player::-webkit-media-controls-enclosure {
-  border-radius: 0;
-}
-/* Style the play/pause button */
-#player::-webkit-media-controls-play-button {
-  background-color: #1db954; /* Spotify green */
-  border-radius: 50%; /* Circular button */
-  outline: none;
-}
-
-#player::-webkit-media-controls-play-button:hover {
-  background-color: #169743; /* Darker shade on hover */
-}
-
-/* Style the volume slider */
-#player::-webkit-media-controls-volume-slider-container {
-  display: none; /* Hide the volume slider */
-}
-
-/* Hide the default volume icon */
-#player::-webkit-media-controls-mute-button {
-  display: none;
-}
 main {
   height: fit-content;
-  width: 79rem;
-  transform: translate(17rem, 5rem) scale(0.9); /* Add scale transformation */
+  width: 90rem;
+  transform: translate(17rem, 5rem) scale(0.8); /* Add scale transformation */
   transform-origin: top left; /* Set origin to top left to control where scaling happens from */
-  padding-bottom: 4rem;
 }
 
 #artstation-icon{

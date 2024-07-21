@@ -20,7 +20,10 @@ export  function ArtistTopTrackPart(props) {
                         </span>
                     ))}
                 </React.Fragment>}
+                cardId ={item.id}
+                setNewUrl={props.setNewUrl}
                 />
+                
             ))}
         </div>
     );

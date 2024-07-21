@@ -6,8 +6,10 @@ import SearchPageTrackSection from "../components/SearchPageTrackSection";
 import SearchPageArtistSection from "../components/SearchPageArtistSection";
 import SearchPageAlbumSection from "../components/SearchPageAlbumSection";
 import SearchPagePlaylistSection from "../components/SearchPagePlaylistSection";
+import { SectionNameLoad } from '../components/SectionName';
+import { SectionCardLoad } from '../components/SectionCard';
 
-export default function SearchPage() {
+export default function SearchPage({ setNewUrl }) {
     const [query, setQuery] = useState('');
     const [type, setType] = useState('');
     const [searchResult, setSearchResult] = useState(null);
@@ -79,7 +81,12 @@ export default function SearchPage() {
     if (loading) {
         return (
             <>
-                <SectionLoading />
+                <section className="section">
+                    <SectionNameLoad />
+                    <div className="material" draggable="true">
+                        <SectionCardLoad />
+                    </div>
+                </section>
                 <SectionLoading />
                 <SectionLoading />
             </>
@@ -94,6 +101,7 @@ export default function SearchPage() {
                     iconId="trend-icon"
                     name=" Top Search Result"
                     data={data.topResult}
+                    setNewUrl={setNewUrl}
                 />
             )}
             {data.otherResult.length > 0 && (
@@ -102,6 +110,7 @@ export default function SearchPage() {
                     iconId="artstation-icon"
                     name=" Other Related Results"
                     data={data.otherResult}
+                    setNewUrl={setNewUrl}
                 />
             )}
         </>
@@ -125,6 +134,7 @@ export default function SearchPage() {
                             iconId="trend-icon"
                             name=" Top Search Result"
                             data={searchResult.topResult}
+                            setNewUrl={setNewUrl}
                         />
                     )}
                     {searchResult && searchResult.otherResult && searchResult.otherResult.length > 0 && (
@@ -133,6 +143,7 @@ export default function SearchPage() {
                             iconId="artstation-icon"
                             name=" Other Related Results"
                             data={searchResult.otherResult}
+                            setNewUrl={setNewUrl}
                         />
                     )}
                     {searchResult && searchResult.artistResult && searchResult.artistResult.length > 0 && (

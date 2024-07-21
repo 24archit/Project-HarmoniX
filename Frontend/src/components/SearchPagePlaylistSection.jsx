@@ -37,6 +37,8 @@ export default function SearchPagePlaylistSection({
                                 </span>
                             )
                         }
+                        cardType='playlist'
+                        cardId={item.id}
                     />
                 ))}
             </div>

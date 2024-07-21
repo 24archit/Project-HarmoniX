@@ -132,3 +132,15 @@ export async function getSearchResult(query, type) {
     throw new Error(`Error fetching search results: ${error.message}`);
   }
 }
+export async function getAudioLink(id) {
+  try {
+    return await fetchData(
+      `http://localhost:2424/getAudioLink?id=${id}`,
+      "GET",
+      "Failed to play the track"
+    );
+  } catch (error) {
+    throw new Error(`Failed to play the track: ${error.message}`);
+  }
+}
+

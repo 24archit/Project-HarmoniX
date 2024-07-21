@@ -3,88 +3,86 @@ import HomePagePlaylistTrackSection from '../components/HomePagePlaylistTrackSec
 import SectionLoading from '../components/SectionLoading.jsx';
 import { getTopTracksIndia, getTopTracksGlobal, getUserTopArtists } from '../apis/apiFunctions.js';
 
-export default function HomePage() {
-  const [topIndiaTracks, setTopIndiaTracks] = useState(null);
-  const [topGlobalTracks, setTopGlobalTracks] = useState(null);
-  const [userTopArtists, setuserTopArtists] = useState(null);
+export default function HomePage({ setNewUrl }) {
+  const [topIndiaTracks, setTopIndiaTracks] = useState([]);
+  const [topGlobalTracks, setTopGlobalTracks] = useState([]);
+  const [userTopArtists, setUserTopArtists] = useState([]);
+
+  const fetchTracks = async (fetchFunction, setTracks) => {
+    try {
+      const data = await fetchFunction();
+      console.log(data);
+      const newArr = data.tracks.items;
+      setTracks(newArr);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert("We're experiencing some issues with fetching data. Check your Internet Connection and please log in again.");
+      window.location.href = "/login";
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getTopTracksIndia();
-        console.log(data);
-        const newArr = data.tracks.items.slice(0, 12);
-        setTimeout(() => {
-          setTopIndiaTracks(newArr);
-        }, 1000);
-      } catch (error) {
-        console.error('Error fetching top tracks from India:', error);
-        alert("We're experiencing some issues with fetching data. Check your Internet Connection and please log in again.");
-        window.location.href = "/login";
-      }
-    };
-    fetchData();
+    fetchTracks(getTopTracksIndia, setTopIndiaTracks);
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getTopTracksGlobal();
-        console.log(data);
-        const newArr = data.tracks.items.slice(0, 12);
-        setTimeout(() => {
-          setTopGlobalTracks(newArr);
-        }, 1000);
-      } catch (error) {
-        console.error('Error fetching global top tracks:', error);
-      }
-    };
-    fetchData();
+    fetchTracks(getTopTracksGlobal, setTopGlobalTracks);
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserTopArtists = async () => {
       try {
         const data = await getUserTopArtists(12);
         console.log(data);
-        // const newArr = data.tracks.items.slice(0, 12);
-        // setTopGlobalTracks(newArr);
+        setUserTopArtists(data.items);
       } catch (error) {
         console.error('Error fetching user top artists:', error);
       }
     };
-    fetchData();
+    fetchUserTopArtists();
   }, []);
+
+  const handleMoreClick = (setTracks, tracks, visibleCount) => {
+    setTracks(tracks.slice(0, visibleCount + 12));
+  };
 
   return (
     <>
-      {topIndiaTracks ? (
+      {topIndiaTracks.length ? (
         <HomePagePlaylistTrackSection
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name=" Top Tracks: Live from India"
-          data={topIndiaTracks}
+          name="Top Tracks: Live from India"
+          data={topIndiaTracks.slice(0, 12)}
+          setNewUrl={setNewUrl}
+          showMore={topIndiaTracks.length > 12}
+          onMoreClick={() => handleMoreClick(setTopIndiaTracks, topIndiaTracks, 12)}
         />
       ) : (
         <SectionLoading
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name=" Top Tracks: Live from India"
+          name="Top Tracks: Live from India"
+          setNewUrl={setNewUrl}
         />
       )}
 
-      {topGlobalTracks ? (
+      {topGlobalTracks.length ? (
         <HomePagePlaylistTrackSection
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name=" Sync: Global Top Tracks"
-          data={topGlobalTracks}
+          name="Sync: Global Top Tracks"
+          data={topGlobalTracks.slice(0, 12)}
+          setNewUrl={setNewUrl}
+          showMore={topGlobalTracks.length > 12}
+          onMoreClick={() => handleMoreClick(setTopGlobalTracks, topGlobalTracks, 12)}
         />
       ) : (
         <SectionLoading
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name=" Sync: Global Top Tracks"
+          name="Sync: Global Top Tracks"
+          setNewUrl={setNewUrl}
         />
       )}
     </>

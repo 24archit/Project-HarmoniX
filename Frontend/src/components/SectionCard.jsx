@@ -3,7 +3,9 @@ import '../assets/styles/Card.css';
 import TrackLogo from '../assets/media/Track-Logo.png';
 import { Skeleton } from '@mui/material';
 import { format } from "indian-number-format";
-
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Snackbar, Alert, AlertTitle} from '@mui/material';
 export function SectionCard({
     imgSrc = TrackLogo,
     cardName = 'Loading..',
@@ -12,12 +14,34 @@ export function SectionCard({
     iconId = "link-btn",
     albumType = "",
     followers = "",
-    cardType = ""
+    cardType = "",
+    cardId = "",
+    setNewUrl
 }) {
+    const [alertVisibility, setAlertVisibility] = useState(false);
+    const navigate = useNavigate();
+    const handelOnClick = async () => {
+        if (cardType === "track") {
+            try {
+                console.log(cardId);
+                const link = await fetch(`http://localhost:2424/getAudioLink?id=${cardId}`);
+                const data = await link.json();
+                console.log(data);
+                setNewUrl(data);
+                console.log("Hi");
+            }
+            catch {
+                setNewUrl('');
+                setAlertVisibility(true);
+                console.error("Cannot SetUrl To Player");
+            }
+        } else {
+            navigate(`/user/${cardType}/${cardId}`);
+        }
+    }
     return (
         <div className="card">
             <div className='card-details'>
-                {/* Correcting image tag */}
                 <img src={imgSrc} alt="img1" draggable="true" style={cardType === "artist" ? { borderRadius: '50%' } : {}} />
                 <p className="card-name">{cardName}</p>
                 {albumType && (
@@ -32,9 +56,24 @@ export function SectionCard({
                 )}
                 <p className="card-stat">{cardStat}</p>
             </div>
-            <button className="play-btn india-track-play-btn">
+            <button className="play-btn india-track-play-btn" onClick={handelOnClick}>
                 <i className={iconClass} id={iconId}></i>
             </button>
+            {alertVisibility && (
+                <Snackbar
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Adjusted anchorOrigin to top center
+                    autoHideDuration={6000}
+                    open={alertVisibility}
+                    onClose={() => setAlertVisibility(false)}
+                    disableEscapeKeyDown={true}
+                    disableBackdropClick={true}
+                >
+                    <Alert variant="filled" severity="error">
+                        <AlertTitle>Track Unavailable</AlertTitle>
+                        Sorry, this track is currently unavailable.
+                    </Alert>
+                </Snackbar>
+            )}
         </div>
     );
 }

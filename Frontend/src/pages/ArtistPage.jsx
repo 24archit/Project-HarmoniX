@@ -9,8 +9,10 @@ import defaultProfilePic from '../assets/media/profile-pic.png';
 import { SectionCard, SectionCardLoad } from "../components/SectionCard.jsx"
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AlertTitle from '@mui/material/AlertTitle';
+import Alert from '@mui/material/Alert';
 
-export default function ArtistPage() {
+export default function ArtistPage({setNewUrl}) {
     const { id } = useParams();
     const [ArtistData, setArtistData] = useState(null);
     const [selectedBtn, setSelectedBtn] = useState("topTracks");
@@ -116,7 +118,7 @@ export default function ArtistPage() {
                 </>
             )}
             {selectedBtn === "topTracks" ? (
-                ArtistTopTracks ? <ArtistTopTrackPart data={ArtistTopTracks} /> : <ArtistTopTrackPartLoad />
+                ArtistTopTracks ? <ArtistTopTrackPart data={ArtistTopTracks} setNewUrl={setNewUrl} /> : <ArtistTopTrackPartLoad />
             ) : (
                 <>
                     <div className="material">
@@ -137,6 +139,9 @@ export default function ArtistPage() {
                                         </React.Fragment>
                                     }
                                     albumType={item.album_type}
+                                    cardId={item.id}
+                                    setNewUrl={setNewUrl}
+                                    cardType="album"
                                 />
                             ))
                         ) : (

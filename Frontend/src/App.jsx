@@ -12,15 +12,16 @@ import SearchPage from './pages/SearchPage';
 
 function App() {
   const [expiryCode, setExpiryCode] = useState(0);
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
     const fetchExpiryStatus = async () => {
       try {
         const expiryStatus = await getExpiryStatus();
+        console.log(expiryStatus);
         setExpiryCode(expiryStatus);
       } catch (error) {
         console.error('Error fetching expiry status:', error);
-        // Handle error, perhaps set a default expiryCode or show an error message
       }
     };
 
@@ -44,12 +45,13 @@ function App() {
           <Sidebar />
           <div className="content">
             <Routes>
-              <Route exact path="/user/home" element={<main><HomePage /></main>} />
-              <Route exact path="/user/search" element={<main><SearchPage /></main>} />
-              <Route exact path="/user/artist/:id" element={<main><ArtistPage /></main>} />
+              <Route exact path="/user/home" element={<main><HomePage setNewUrl={setUrl} /></main>} />
+              <Route exact path="/user/search" element={<main><SearchPage setNewUrl={setUrl} /></main>} />
+              <Route exact path="/user/artist/:id" element={<main><ArtistPage setNewUrl={setUrl} /></main>} />
+              <Route exact path="/user/playlist/:id" element={<main></main>}/>
             </Routes>
           </div>
-          <Player />
+          <Player url={url} setNewUrl={setUrl}/>
         </div>
       </Router>
     );

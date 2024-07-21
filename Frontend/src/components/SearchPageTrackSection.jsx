@@ -27,6 +27,9 @@ export default function SearchPageTrackSection(props) {
                                 ))}
                             </React.Fragment>
                         }
+                        cardType="track"
+                        cardId={item.id}
+                        setNewUrl={props.setNewUrl}
                     />
                 ))}
             </div>

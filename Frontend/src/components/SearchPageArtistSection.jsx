@@ -13,8 +13,6 @@ export default function SearchPageArtistSection(props) {
                     <SectionCard
                         key={item.id}
                         imgSrc={item.images && item.images.length > 0 ? item.images[0].url : ProfilePic}
-                        iconClass="fa-solid fa-link"
-                        iconId="link-icon"
                         cardName={item.name}
                         cardStat={
                             <span>
@@ -23,6 +21,7 @@ export default function SearchPageArtistSection(props) {
                         }
                         followers={item.followers ? item.followers.total : 0}  
                         cardType ="artist"
+                        cardId={item.id}
                     />
                 ))}
             </div>

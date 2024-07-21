@@ -12,11 +12,14 @@ export default function HomePagePlaylistTrackSection(props) {
             <div className="material" draggable="true">
                 {props.data.map((item, index) => (
                     <SectionCard
-                        key={index}
+                        key={item.track.id}
                         imgSrc={item.track.album.images.length>0 ? item.track.album.images[0].url : TrackLogo}
                         iconClass={"fa-solid fa-play"}
                         iconId={"play-btn"}
                         cardName={item.track.album.name}
+                        cardId={item.track.id}
+                        cardType="track"
+                        setNewUrl ={props.setNewUrl}
                         cardStat={
                             <React.Fragment>
                                 {item.track.artists.map((artist, idx) => (

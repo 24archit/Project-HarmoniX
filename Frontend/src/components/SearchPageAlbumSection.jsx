@@ -28,6 +28,8 @@ export default function SearchPageAlbumSection(props) {
                             </React.Fragment>
                         }
                         albumType={item.album_type}
+                        cardType='album'
+                        cardId={item.id}
                     />
                 ))}
             </div>
