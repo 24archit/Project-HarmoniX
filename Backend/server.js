@@ -338,6 +338,7 @@ app.use("/login", async function (req, res, next) {
       res.redirect("/user/home");
       return;
     } catch (error) {
+      console.log(error);
       res.send("<a href='http://localhost:2424/login'>Login</a>");
       return;
     }

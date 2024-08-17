@@ -9,6 +9,8 @@ import ArtistPage from './pages/ArtistPage';
 import { getExpiryStatus } from './apis/apiFunctions';
 import React, { useEffect, useState } from 'react';
 import SearchPage from './pages/SearchPage';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   const [expiryCode, setExpiryCode] = useState(0);

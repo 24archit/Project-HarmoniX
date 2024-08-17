@@ -242,7 +242,7 @@ html{
   background:linear-gradient(#6223a96d, rgba(16, 108, 221, 0.405), #232ca96d, #6223a96d) ;
   border-radius: 0.35rem;
   align-items: center;
-  width:fit-content; 
+  width: fit-content; 
 }
 .sidebar-btn{
   height: 2rem;
@@ -272,7 +272,7 @@ html{
 }
 main {
   height: fit-content;
-  width: 90rem;
+  width: 100vw;
   transform: translate(17rem, 5rem) scale(0.8); /* Add scale transformation */
   transform-origin: top left; /* Set origin to top left to control where scaling happens from */
 }
