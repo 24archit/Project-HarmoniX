@@ -598,7 +598,7 @@ app.get("/callback", async function (req, res) {
       },
       async function (error, response, body) {
         if (error || response.statusCode !== 200) {
-          res.redirect(`/login?error=invalid_token`);
+          res.redirect(`/login?error=invalid_token1`);
           return;
         }
 
