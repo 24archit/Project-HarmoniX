@@ -548,7 +548,7 @@ app.get("/login-spotify", function (req, res) {
         response_type: "code",
         client_id: client_id,
         scope: scope,
-        redirect_uri:"http://localhost:2424/callback",
+        redirect_uri:"https://harmonix-stream.vercel.app/callback",
         state: originalState,
       })
   );
