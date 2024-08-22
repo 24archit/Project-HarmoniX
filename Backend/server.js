@@ -821,6 +821,7 @@ app.use((req, res, next) => {
 </html>
   `);
 });
+module.exports = app;
 // app.listen(2424, () => {
 //   console.log(`Server Started, Listening on  : ${protocol}://${host}${port}`);
 // });
