@@ -7,15 +7,15 @@ const cookieParser = require("cookie-parser");
 import('node-fetch');
 
 const app = express();
-// //verify
-// const cors = require('cors');
-// const corsOptions = {
-//   origin: 'https://harmonix-stream.vercel.app', // Adjust this to the URL of your frontend app
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   credentials: true,
-//   allowedHeaders: ['local-api-access-token'],
-// };
-// app.use(cors(corsOptions));
+//verify
+const cors = require('cors');
+const corsOptions = {
+  origin: 'https://harmonix-stream.vercel.app', // Adjust this to the URL of your frontend app
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  allowedHeaders: ['local-api-access-token'],
+};
+app.use(cors(corsOptions));
 
 // Set the connection with SQL Database
 const { createClient } = require('@supabase/supabase-js');
