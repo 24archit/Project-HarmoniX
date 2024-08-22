@@ -438,14 +438,14 @@ app.get("/getExpiryStatus", function (req, res) {
   res.json(data);
 });
 
-app.get("/", async function (req, res) {
-  const expiryStatus = checkExpiry(req);
-  if (expiryStatus == 0) {
-    res.redirect("/login");
-  } else {
-    res.redirect("https://harmonix-stream.vercel.app/user/home");
-  }
-});
+// app.get("/", async function (req, res) {
+//   const expiryStatus = checkExpiry(req);
+//   if (expiryStatus == 0) {
+//     res.redirect("/login");
+//   } else {
+//     res.redirect("https://harmonix-stream.vercel.app/user/home");
+//   }
+// });
 app.get("/login", function (req, res) {
   const error = req.query.error || null;
   if (error === "access_denied") {
