@@ -10,7 +10,7 @@ const app = express();
 //verify
 const cors = require('cors');
 const corsOptions = {
-  origin: 'https://harmonix-stream.vercel.app', // Adjust this to the URL of your frontend app
+  origin: 'https://harmonix-play.vercel.app', // Adjust this to the URL of your frontend app
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: ['local-api-access-token'],
@@ -336,7 +336,7 @@ app.use("/login", async function (req, res, next) {
     try {
       const tokens = await getFreshTokens(req);
       await updateData(req, res, tokens.access_token);
-      res.redirect("https://harmonix-stream.vercel.app/user/home");
+      res.redirect("https://harmonix-play.vercel.app/user/home");
       return;
     } catch (error) {
       console.log(error);
@@ -344,7 +344,7 @@ app.use("/login", async function (req, res, next) {
       return;
     }
   }
-  res.redirect("https://harmonix-stream.vercel.app/user/home");
+  res.redirect("https://harmonix-play.vercel.app/user/home");
 });
 // Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
@@ -632,7 +632,7 @@ app.get("/callback", async function (req, res) {
             secure: true, // Set to true if using HTTPS
         });
 
-          res.redirect("https://harmonix-stream.vercel.app/user/home");
+          res.redirect("https://harmonix-play.vercel.app/user/home");
         } catch (err) {
           console.error("Error handling the callback:", err);
           res.redirect("/login?error=server_error");

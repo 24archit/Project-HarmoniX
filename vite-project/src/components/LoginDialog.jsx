@@ -12,7 +12,7 @@ export default function LoginDialog() {
                 <>
                     <h1>Authorization Failed..</h1>
                     <p>You have to give authorization of your Spotify account to enjoy services. Please try again..</p>
-                    <a href='https://harmonix-stream.vercel.app/login'>Login</a>
+                    <a href='https://harmonix-play.vercel.app/login'>Login</a>
                 </>
             ) : (
                 <div id="login-bg">
