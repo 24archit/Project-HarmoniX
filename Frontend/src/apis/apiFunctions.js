@@ -1,7 +1,11 @@
+const port= "";
+const protocol = "https";
+const host ="harmonix-stream.vercel.app"
 async function fetchData(url, method, errorMessage) {
   try {
     const response = await fetch(url, {
       method: method,
+      credentials: 'include',
       headers: {
         "local-api-access-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
@@ -21,7 +25,7 @@ async function fetchData(url, method, errorMessage) {
 export async function getTopTracksIndia() {
   try {
     return await fetchData(
-      "http://localhost:2424/api/getTopTracksIndia",
+      `${protocol}://${host}${port}/api/getTopTracksIndia`,
       "GET",
       "Failed to fetch top tracks for India"
     );
@@ -33,7 +37,7 @@ export async function getTopTracksIndia() {
 export async function getTopTracksGlobal() {
   try {
     return await fetchData(
-      "http://localhost:2424/api/getTopTracksGlobal",
+      `${protocol}://${host}${port}/api/getTopTracksGlobal`,
       "GET",
       "Failed to fetch top global tracks"
     );
@@ -45,7 +49,7 @@ export async function getTopTracksGlobal() {
 export async function getArtistData(id) {
   try {
     return await fetchData(
-      `http://localhost:2424/api/getArtistData?id=${id}`,
+      `${protocol}://${host}${port}/api/getArtistData?id=${id}`,
       "GET",
       `Failed to fetch artist data for id ${id}`
     );
@@ -59,7 +63,7 @@ export async function getArtistData(id) {
 export async function getArtistAlbums(id) {
   try {
     return await fetchData(
-      `http://localhost:2424/api/getArtistAlbums?id=${id}`,
+      `${protocol}://${host}${port}/api/getArtistAlbums?id=${id}`,
       "GET",
       `Failed to fetch albums for artist id ${id}`
     );
@@ -73,7 +77,7 @@ export async function getArtistAlbums(id) {
 export async function getArtistTopTracks(id) {
   try {
     return await fetchData(
-      `http://localhost:2424/api/getArtistTopTracks?id=${id}`,
+      `${protocol}://${host}${port}/api/getArtistTopTracks?id=${id}`,
       "GET",
       `Failed to fetch top tracks for artist id ${id}`
     );
@@ -87,7 +91,7 @@ export async function getArtistTopTracks(id) {
 export async function getUserTopArtists(number) {
   try {
     return await fetchData(
-      `http://localhost:2424/api/getUserTopArtists?number=${number}`,
+      `${protocol}://${host}${port}/api/getUserTopArtists?number=${number}`,
       "GET",
       `Failed to fetch top artists for user with number ${number}`
     );
@@ -101,7 +105,7 @@ export async function getUserTopArtists(number) {
 export async function getUserInfo() {
   try {
     return await fetchData(
-      "http://localhost:2424/api/getUserInfo",
+      `${protocol}://${host}${port}/api/getUserInfo`,
       "GET",
       "Failed to fetch user info"
     );
@@ -113,7 +117,7 @@ export async function getUserInfo() {
 export async function getExpiryStatus() {
   try {
     return await fetchData(
-      "http://localhost:2424/api/getExpiryStatus",
+      `${protocol}://${host}${port}/getExpiryStatus`,
       "GET",
       "Failed to fetch expiry status"
     );
@@ -124,7 +128,7 @@ export async function getExpiryStatus() {
 export async function getSearchResult(query, type) {
   try {
     return await fetchData(
-      `http://localhost:2424/api/search?q=${query}&type=${type}`,
+      `${protocol}://${host}${port}/api/search?q=${query}&type=${type}`,
       "GET",
       "Failed to fetch search results"
     );
@@ -135,7 +139,7 @@ export async function getSearchResult(query, type) {
 export async function getAudioLink(id) {
   try {
     return await fetchData(
-      `http://localhost:2424/getAudioLink?id=${id}`,
+      `${protocol}://${host}${port}/getAudioLink?id=${id}`,
       "GET",
       "Failed to play the track"
     );
@@ -143,4 +147,3 @@ export async function getAudioLink(id) {
     throw new Error(`Failed to play the track: ${error.message}`);
   }
 }
-

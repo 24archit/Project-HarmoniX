@@ -64,10 +64,11 @@ export default function AlertDialog() {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:2424/logout', {
-        method: 'POST'
-      });
-      window.location.href = 'http://localhost:2424/login';
+      const clearCookie = async (name) => {
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      };
+      await clearCookie('userdetails');
+      window.location.href = 'https://harmonix-stream.vercel.app/login';
     } catch (error) {
       console.error(error);
     }

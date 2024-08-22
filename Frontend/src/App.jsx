@@ -36,6 +36,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginDialog />} />
+          <Route path="/" element={<LoginDialog/>}/>
+          <Route path="*" element={<LoginDialog/>}/>
         </Routes>
       </Router>
     );
@@ -47,6 +49,7 @@ function App() {
           <Sidebar />
           <div className="content">
             <Routes>
+              <Route exact path="/" element={<main><HomePage setNewUrl={setUrl} /></main>} />
               <Route exact path="/user/home" element={<main><HomePage setNewUrl={setUrl} /></main>} />
               <Route exact path="/user/search" element={<main><SearchPage setNewUrl={setUrl} /></main>} />
               <Route exact path="/user/artist/:id" element={<main><ArtistPage setNewUrl={setUrl} /></main>} />

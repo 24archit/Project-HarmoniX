@@ -24,7 +24,7 @@ export function SectionCard({
         if (cardType === "track") {
             try {
                 console.log(cardId);
-                const link = await fetch(`http://localhost:2424/getAudioLink?id=${cardId}`);
+                const link = await fetch(`https://harmonix-stream.vercel.app/getAudioLink?id=${cardId}`);
                 const data = await link.json();
                 console.log(data);
                 setNewUrl(data);

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 export default function LoginDialog() {
     const { error } = useParams();
     const handelClick =()=>{
-        const url = 'http://localhost:2424/login-spotify'
+        const url = 'https://harmonix-stream.vercel.app/login-spotify'
         window.location.href = url;
     };
     return (
@@ -12,7 +12,7 @@ export default function LoginDialog() {
                 <>
                     <h1>Authorization Failed..</h1>
                     <p>You have to give authorization of your Spotify account to enjoy services. Please try again..</p>
-                    <a href='http://localhost:2424/login'>Login</a>
+                    <a href='https://harmonix-stream.vercel.app/login'>Login</a>
                 </>
             ) : (
                 <div id="login-bg">
