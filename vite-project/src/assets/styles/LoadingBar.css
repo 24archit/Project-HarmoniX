@@ -1,0 +1,14 @@
+.loading-bar-container {
+    width: 100%;
+    height: 2px; /* Adjust height as needed */  
+    position: fixed;
+    top: 60px; /* Adjust top position based on your header height */
+    left: 0;
+    z-index: 9999; /* Ensure it's above other content */
+  }
+  
+  .loading-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  

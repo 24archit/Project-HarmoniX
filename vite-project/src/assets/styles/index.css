@@ -1,0 +1,297 @@
+*{
+  padding: 0;
+  border: none;
+  font-family: 'Courier New', Courier, monospace, "kallisto", sans-serif, ;
+  margin: 0; 
+  box-sizing: border-box;
+
+}
+#jo{
+  color: #169743;
+}
+html{
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0.5rem; 
+  border: none;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(4, 4, 49); 
+  border: none; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#09fff38f,rgba(73, 156, 215, 0.627)); 
+  border-radius: 0.375rem; 
+}
+
+.video-background {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1000;
+  background-size: cover;
+  background-color: black; 
+  filter: blur(2px);
+  background-image: url("../media/login-backdrop.jpg");
+}   
+
+.nav-bar{
+  justify-content:left;
+  display:flex;
+  align-items: center;
+  position: fixed;
+  top: 0rem;
+  left: 0rem;
+  background: linear-gradient(#00091f, #000000,#00091f);
+  width: 100%;
+  z-index: 1000;
+  padding-left: 0.7rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.2rem;
+  
+}
+
+/* Website Logo and Symbol */
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.logo-name{
+  margin-left: 0.4rem;
+  align-items: center;
+  justify-content: center;
+}
+#logo-symbol{
+  font-size:3.150rem ;
+  color:rgb(26, 135, 46);
+}
+#logo-name{
+  font-family : Lucida Console;
+  text-align: center; 
+  justify-content: center;  
+  letter-spacing: 0.18rem;
+  color: white;
+}
+#slogan{
+  font-family: Courier New;
+  text-align: center;
+  color:rgb(239, 177, 61);
+  font-weight: 549; 
+  justify-content: center; 
+  letter-spacing: 0.03rem;
+}
+
+/* Adding styles to search bar */
+.nav-search-bar{
+  margin-left: 7rem;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height:1.7rem;
+  border: 0.01rem solid rgb(99, 99, 227);
+  border-radius: 1rem;
+  opacity: 0.6;
+  transition: opacity 0.4s ease-out; 
+}
+.nav-search-bar:hover{
+  opacity: 1;
+  box-shadow: 0.25rem 0.25rem 0.9rem  rgba(71, 180, 219, 0.487);
+}
+.nav-search-bar:focus-within{   
+  opacity: 1;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0.6));
+  box-shadow: 0 0 2.2rem 0.17rem rgba(52, 176, 221, 0.417);
+}
+#nav-select-category{
+  border: none;
+  height: 100%;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  width: auto;
+  background-color: rgb(121, 121, 195);
+  color: white;
+  padding:0.3rem;
+  outline: none;
+  text-align: center;
+}
+#nav-input-bar{
+  border: none;
+  width: 32rem;
+  height: 100%;
+  text-align: left; 
+  background-color: white;  
+  padding:0.3rem;
+  outline: none;
+  text-decoration: none;
+  caret-color: rgb(52, 169, 236);
+}
+#nav-search-button{
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  height: 100%;
+  border: none;
+  width:12%;
+  padding:0.3rem;
+  outline: none;
+  font-size: 0.8rem;
+  transition: background-color 0.4s ease-out;
+  color: white;
+  background-color: rgb(171, 171, 210);
+}
+#nav-search-button:hover{
+  opacity: 1;
+  background-color:rgb(52, 169, 236) ;
+  cursor: pointer;
+}
+#nav-search-button:active{
+  background-color: rgb(25, 25, 83);
+  color: white;
+} 
+.nav-left-btns{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.log-in-out-btns{
+  margin-left: 2rem;
+  height: 2.1rem;
+  background:linear-gradient( rgb(16, 108, 221), #6223a975) ;
+  border-radius: 0.4rem;
+  color: white;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.13rem;
+  transition: box-shadow 0.3s ease;
+}
+#logout-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.log-in-out-btns:hover{
+  background-color:rgba(135, 203, 243, 0.682) ;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+  opacity: 1;
+}
+.log-in-out-btns:active{
+  background-color: rgb(25, 25, 83);
+  color: white;
+}
+#profile-img {
+  border-radius: 50%;
+  object-fit: cover;
+  height: 3rem;
+  width: 3rem;
+}
+
+#profile-btn {
+  background-color: transparent;
+  height: 3rem;
+  width: 11rem;
+  margin-left: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: start; 
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  overflow: hidden;
+}
+#profile-btn:hover{
+  border-radius: 0.4rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+  opacity: 1;
+  
+}
+
+#username {
+  color: white;
+  background: black;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  font-family: 'Courier New', Courier, monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar{
+  position:fixed;
+  top: 5.9rem;
+  left:0.7rem;
+  padding: 0.5rem;
+  display: flex;  
+  flex-direction: column;
+  background:linear-gradient(#6223a96d, rgba(16, 108, 221, 0.405), #232ca96d, #6223a96d) ;
+  border-radius: 0.35rem;
+  align-items: center;
+  width: fit-content; 
+}
+.sidebar-btn{
+  height: 2rem;
+  width: 14rem;
+  background-color: transparent;
+  color: white;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar-btn:hover{
+  background-color: rgba(18, 189, 143, 0.589);
+  border-radius: 2rem;
+  box-shadow: 0.255rem 0.255rem 0.9rem  rgba(207, 219, 71, 0.465);
+  font-weight: bold;
+  transition: background-color 0.08s ease-out;
+ 
+}
+.sidebar-btn:active{
+  background-color: rgba(25, 25, 83, 0.796);
+  color: rgb(182, 210, 25);
+}
+main {
+  height: fit-content;
+  width: 100vw;
+  transform: translate(17rem, 5rem) scale(0.8); /* Add scale transformation */
+  transform-origin: top left; /* Set origin to top left to control where scaling happens from */
+}
+
+#artstation-icon{
+  color: #0fd7c395;  
+} 
+#AI-icon{
+  color: rgb(0, 6, 11);
+}
+#home-icon{
+  color:rgb(0, 6, 11);
+}
+#logout-icon{
+  color: rgb(0, 6, 11);
+}
+#trend-icon{
+  color: rgba(255, 0, 174, 0.737);
+}
+#link-icon{
+  color: #0fd7c395;  
+}

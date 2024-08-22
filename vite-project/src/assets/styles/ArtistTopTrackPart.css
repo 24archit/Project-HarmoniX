@@ -1,0 +1,9 @@
+.artist-top-track-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    background: linear-gradient(#26046b77, rgba(15, 1, 35, 0.522), #01294a1c);
+    border-radius: 2rem;
+    padding: 1rem;
+}
