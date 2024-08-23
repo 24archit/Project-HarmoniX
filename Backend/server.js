@@ -74,8 +74,6 @@ res.cookie("userdetails", JSON.stringify(userdetails), {
   maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
   httpOnly: false,
   secure: true, // Must be true since you're using HTTPS
-  domain: ".vercel.app", // Set the cookie to be available for this domain
-  path: "/"
 });
   const { data, error } = await supabase
   .from('userdetails')
@@ -631,8 +629,6 @@ app.get("/callback", async function (req, res) {
             maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
             httpOnly: false,
             secure: true, // Must be true since you're using HTTPS
-            domain: ".vercel.app", // Set the cookie to be available for this domain
-            path: '/'
         });
         
         
