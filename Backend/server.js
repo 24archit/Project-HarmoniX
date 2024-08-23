@@ -76,6 +76,7 @@ res.cookie("userdetails", JSON.stringify(userdetails), {
   secure: true, // Must be true since you're using HTTPS
   sameSite: "None", // Required for cross-domain cookies
   domain: "harmonix-play.vercel.app", // Set the cookie to be available for this domain
+  path: "/"
 });
 
 
@@ -636,6 +637,7 @@ app.get("/callback", async function (req, res) {
             secure: true, // Must be true since you're using HTTPS
             sameSite: "None", // Required for cross-domain cookies
             domain: "harmonix-play.vercel.app", // Set the cookie to be available for this domain
+            path: '/'
         });
         
         
