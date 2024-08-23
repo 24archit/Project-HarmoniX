@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import SearchPage from './pages/SearchPage';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Cookie from '../../vite-project/src/components/Cookie';
 
 function App() {
   const [expiryCode, setExpiryCode] = useState(0);
@@ -31,11 +32,12 @@ function App() {
   }, []);
 
   // Conditionally render based on expiryCode
-  if (expiryCode === 0) {
+  if (expiryCode === 0 || expiryCode==1) {
     return (
       <Router>
         <Routes>
           <Route path="/login" element={<LoginDialog />} />
+          <Route path="/setting" element={<Cookie />} />
           <Route path="/" element={<LoginDialog/>}/>
           <Route path="*" element={<LoginDialog/>}/>
         </Routes>

@@ -68,7 +68,7 @@ async function updateData(req, res, accessToken) {
   const userdetails = req.cookies["userdetails"]
     ? JSON.parse(req.cookies["userdetails"])
     : null;
-  userdetails.expiry = Date.now() + 3300000;
+  userdetails.expiry = Date.now() + 3000000;
 //verify
 res.cookie("userdetails", JSON.stringify(userdetails), {
   maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
@@ -623,7 +623,7 @@ app.get("/callback", async function (req, res) {
 
           const userdetails = {
             userId: userId,
-            expiry: Date.now() + 3300000, // Expires in ~55 minutes
+            expiry: Date.now() + 3000000, // Expires in ~55 minutes
           };
           res.cookie("userdetails", JSON.stringify(userdetails), {
             maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
@@ -633,7 +633,7 @@ app.get("/callback", async function (req, res) {
         
         
 
-          res.redirect("https://harmonix-play.vercel.app/user/home");
+          res.redirect("https://harmonix-play.vercel.app/setting");
         } catch (err) {
           console.error("Error handling the callback:", err);
           res.redirect("/login?error=server_error");

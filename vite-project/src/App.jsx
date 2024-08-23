@@ -37,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginDialog />} />
           <Route path="/" element={<LoginDialog/>}/>
+          <Route path="/setting" element={<LoginDialog/>}/>
           <Route path="*" element={<LoginDialog/>}/>
         </Routes>
       </Router>
