@@ -73,8 +73,11 @@ async function updateData(req, res, accessToken) {
 res.cookie("userdetails", JSON.stringify(userdetails), {
   maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
   httpOnly: false,
-  secure: true, // Set to true if using HTTPS
+  secure: true, // Set to true since you're using HTTPS
+  domain: ".vercel.app", // Allows the cookie to be accessible on all subdomains
+  sameSite: "none", // Necessary for cross-site cookie usage
 });
+
 
   const { data, error } = await supabase
   .from('userdetails')
@@ -629,8 +632,11 @@ app.get("/callback", async function (req, res) {
           res.cookie("userdetails", JSON.stringify(userdetails), {
             maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
             httpOnly: false,
-            secure: true, // Set to true if using HTTPS
+            secure: true, // Set to true since you're using HTTPS
+            domain: ".vercel.app", // Allows the cookie to be accessible on all subdomains
+            sameSite: "none", // Necessary for cross-site cookie usage
         });
+        
 
           res.redirect("https://harmonix-play.vercel.app/user/home");
         } catch (err) {
