@@ -75,12 +75,9 @@ res.cookie("userdetails", JSON.stringify(userdetails), {
   httpOnly: false,
   secure: true, // Must be true since you're using HTTPS
   sameSite: "None", // Required for cross-domain cookies
-  domain: "harmonix-play.vercel.app", // Set the cookie to be available for this domain
+  domain: ".vercel.app", // Set the cookie to be available for this domain
   path: "/"
 });
-
-
-
   const { data, error } = await supabase
   .from('userdetails')
   .update({ accesstoken: accessToken })
@@ -636,7 +633,7 @@ app.get("/callback", async function (req, res) {
             httpOnly: false,
             secure: true, // Must be true since you're using HTTPS
             sameSite: "None", // Required for cross-domain cookies
-            domain: "harmonix-play.vercel.app", // Set the cookie to be available for this domain
+            domain: ".vercel.app", // Set the cookie to be available for this domain
             path: '/'
         });
         
