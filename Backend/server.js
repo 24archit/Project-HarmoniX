@@ -574,7 +574,7 @@ app.get("/callback", async function (req, res) {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: authCode,
-      redirect_uri: "https://harmonix-play.vercel.app/callback",//${host}${port}/callback`,
+      redirect_uri: "https://harmonix-play.vercel.ap/callback",//${host}${port}/callback`,
       grant_type: "authorization_code",
     },
     headers: {
