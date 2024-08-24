@@ -12,7 +12,9 @@ export default function Cookie() {
 
       const updatedUrl = secondUrl + queryParams;
 
-      const response = await fetch(updatedUrl);
+      const response = await fetch(updatedUrl, {
+        credentials: 'include'
+      });
       if (!response.ok) {
         const data = await response.json();
         window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
