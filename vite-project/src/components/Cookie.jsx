@@ -41,7 +41,10 @@ export default function Cookie() {
         // Parse user details and set the cookie
         const userdetails = await response.json();
         const userdetailsStr = JSON.stringify(userdetails);
-        document.cookie = `userdetails=${encodeURIComponent(userdetailsStr)}; max-age=${15 * 24 * 60 * 60}; secure;`;
+        document.cookie = `userdetails=${encodeURIComponent(userdetailsStr)}; 
+                   max-age=${15 * 24 * 60 * 60}; 
+                   secure; 
+                   samesite=None`;
 
         // Redirect to user home after setting the cookie
         window.location.href = "https://harmonix-play.vercel.app/user/home";
