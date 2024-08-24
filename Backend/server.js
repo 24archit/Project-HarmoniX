@@ -433,6 +433,7 @@ app.use("/api", async function (req, res, next) {
   }
 });
 app.get("/getExpiryStatus", function (req, res) {
+  console.log(req);
   const data = checkExpiry(req);
   res.json(data);
 });
