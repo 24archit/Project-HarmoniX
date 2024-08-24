@@ -73,8 +73,6 @@ async function updateData(req, res, accessToken) {
     maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
     httpOnly: false, // true if you don’t need client-side access
     secure: true, // For HTTPS
-    domain: "harmonix-play.vercel.app", // The domain you want the cookie to be valid for
-    sameSite: "None", // Required for cross-site cookies
   });
 
   const { data, error } = await supabase
@@ -635,8 +633,6 @@ app.get("/callback", async function (req, res) {
             maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
             httpOnly: false, // true if you don’t need client-side access
             secure: true, // For HTTPS
-            domain: "harmonix-play.vercel.app", // The domain you want the cookie to be valid for
-            sameSite: "None", // Required for cross-site cookies
           });
           console.log("End");
           res.status(200).json(userdetails);

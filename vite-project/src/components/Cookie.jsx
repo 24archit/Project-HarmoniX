@@ -7,6 +7,7 @@ export default function Cookie() {
       const receivedState = urlParams.get('state');
       if(originalState != receivedState){
         window.location.href="https://harmonix-play.vercel.app/login?error=state_mismatch";
+        return;
       }
       // Original URLs
       const firstUrl = window.location.href;
