@@ -2,6 +2,12 @@ import React, { useEffect } from "react";
 export default function Cookie() {
   useEffect(() => {
     const setCookieData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const originalState = localStorage.getItem('state');
+      const receivedState = urlParams.get('state');
+      if(originalState != receivedState){
+        window.location.href="https://harmonix-play.vercel.app/login?error=state_mismatch";
+      }
       // Original URLs
       const firstUrl = window.location.href;
       const secondUrl = "https://harmonix-stream.vercel.app/callback";
@@ -20,8 +26,7 @@ export default function Cookie() {
         window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
         return;
       }
-      const data = await response.jaon();
-      console.log(data);
+      window.location.href="https://harmonix-play.vercel.app/user/home";
       return;
     };
 

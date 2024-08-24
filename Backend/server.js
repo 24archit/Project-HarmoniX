@@ -2,23 +2,23 @@
 const express = require("express");
 const querystring = require("querystring");
 const request = require("request");
-require('dotenv').config();
+require("dotenv").config();
 const cookieParser = require("cookie-parser");
-import('node-fetch');
+import("node-fetch");
 
 const app = express();
 //verify
-const cors = require('cors');
+const cors = require("cors");
 const corsOptions = {
-  origin: 'https://harmonix-play.vercel.app', // Adjust this to the URL of your frontend app
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: "https://harmonix-play.vercel.app", // Adjust this to the URL of your frontend app
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  allowedHeaders: ['local-api-access-token'],
+  allowedHeaders: ["local-api-access-token"],
 };
 app.use(cors(corsOptions));
 
 // Set the connection with SQL Database
-const { createClient } = require('@supabase/supabase-js');
+const { createClient } = require("@supabase/supabase-js");
 
 const supabaseUrl = process.env.REACT_APP_HARMONIX_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_ANON_KEY;
@@ -26,25 +26,24 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Defined Useful Information for API Requests
 //verify
-const port= process.env.REACT_APP_PORT;
-const host=process.env.REACT_APP_HOST;
+const port = process.env.REACT_APP_PORT;
+const host = process.env.REACT_APP_HOST;
 const protocol = process.env.REACT_APP_PROTOCOL;
 const client_id = process.env.REACT_APP_HARMONIX_CLIENT_ID;
 const client_secret = process.env.REACT_APP_HARMONIX_CLIENT_SECRET;
 const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read";
 //Function Generate random string
-function generateRandomString(length) {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-const originalState = generateRandomString(16);
+// function generateRandomString(length) {
+//   const characters =
+//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//   let result = "";
+//   const charactersLength = characters.length;
+//   for (let i = 0; i < length; i++) {
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
+//   return result;
+// }
 
 // Function to verify the cases as per the situation
 // Situation 1: Cookie Expired => Return 0,
@@ -69,46 +68,46 @@ async function updateData(req, res, accessToken) {
     ? JSON.parse(req.cookies["userdetails"])
     : null;
   userdetails.expiry = Date.now() + 3000000;
-//verify
-res.cookie("userdetails", JSON.stringify(userdetails), {
-  maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-  httpOnly: false, // true if you don’t need client-side access
-  secure: true, // For HTTPS
-  domain: "harmonix-play.vercel.app", // The domain you want the cookie to be valid for
-  sameSite: 'None' // Required for cross-site cookies
-});
+  //verify
+  res.cookie("userdetails", JSON.stringify(userdetails), {
+    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+    httpOnly: false, // true if you don’t need client-side access
+    secure: true, // For HTTPS
+    domain: "harmonix-play.vercel.app", // The domain you want the cookie to be valid for
+    sameSite: "None", // Required for cross-site cookies
+  });
 
   const { data, error } = await supabase
-  .from('userdetails')
-  .update({ accesstoken: accessToken })
-  .eq('userspotifyid', userdetails.userId);
+    .from("userdetails")
+    .update({ accesstoken: accessToken })
+    .eq("userspotifyid", userdetails.userId);
 
-if (error) {
-  console.error("Error updating user details:", error);
-  res.status(500).send("Internal Server Error");
-  return;
+  if (error) {
+    console.error("Error updating user details:", error);
+    res.status(500).send("Internal Server Error");
+    return;
+  }
+  console.log("User details updated successfully:", result);
 }
-    console.log("User details updated successfully:", result);
-  };
 
 async function getToken(req, tokenType) {
   const userdetails = req.cookies["userdetails"]
     ? JSON.parse(req.cookies["userdetails"])
     : null;
-    if (!userdetails) {
-      throw new Error("No user details found in cookies");
+  if (!userdetails) {
+    throw new Error("No user details found in cookies");
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("userdetails")
+      .select("*")
+      .eq("userspotifyid", userdetails.userId)
+      .single();
+
+    if (error || !data) {
+      throw new Error("Database query failed");
     }
-  
-    try {
-      const { data, error } = await supabase
-        .from('userdetails')
-        .select('*')
-        .eq('userspotifyid', userdetails.userId)
-        .single();
-  
-      if (error || !data) {
-        throw new Error("Database query failed");
-      }
     if (tokenType === "accessToken") {
       return data.accesstoken;
     } else {
@@ -544,13 +543,14 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/login-spotify", function (req, res) {
+  const originalState = req.query.state;
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
         response_type: "code",
         client_id: client_id,
         scope: scope,
-        redirect_uri:"https://harmonix-play.vercel.app/callback",
+        redirect_uri: "https://harmonix-play.vercel.app/callback",
         state: originalState,
       })
   );
@@ -563,29 +563,25 @@ app.get("/callback", async function (req, res) {
   }
 
   const authCode = req.query.code || null;
-  const state = req.query.state || null;
-
-  if (!state || state !== originalState) {
-    res.status(400).json({ error: "state-mismatch" });
-    return;
-  }
 
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: authCode,
-      redirect_uri: "https://harmonix-play.vercel.app/callback",//${host}${port}/callback`,
+      redirect_uri: "https://harmonix-play.vercel.app/callback", //${host}${port}/callback`,
       grant_type: "authorization_code",
     },
     headers: {
-      Authorization: "Basic " + Buffer.from(client_id + ":" + client_secret).toString("base64"),
+      Authorization:
+        "Basic " +
+        Buffer.from(client_id + ":" + client_secret).toString("base64"),
     },
     json: true,
   };
 
   request.post(authOptions, async function (error, response, body) {
     if (error || response.statusCode !== 200) {
-     res.status(400).json({ error: "invalid-token" });
+      res.status(400).json({ error: "invalid-token" });
       return;
     }
 
@@ -603,23 +599,29 @@ app.get("/callback", async function (req, res) {
           res.status(400).json({ error: "invalid_token" });
           return;
         }
-        
+
         const userId = body.id;
 
         try {
           // Upsert user details into Supabase
           const { data, error: upsertError } = await supabase
-            .from('userdetails')
-            .upsert([
-              {
-                userspotifyid: userId,
-                accesstoken: accessToken,
-                refreshtoken: refreshToken,
-              },
-            ], { onConflict: 'userspotifyid' });
+            .from("userdetails")
+            .upsert(
+              [
+                {
+                  userspotifyid: userId,
+                  accesstoken: accessToken,
+                  refreshtoken: refreshToken,
+                },
+              ],
+              { onConflict: "userspotifyid" }
+            );
 
           if (upsertError) {
-            console.error("Error inserting/updating user details:", upsertError);
+            console.error(
+              "Error inserting/updating user details:",
+              upsertError
+            );
             res.status(400).json({ error: "database_error" });
             return;
           }
@@ -634,10 +636,10 @@ app.get("/callback", async function (req, res) {
             httpOnly: false, // true if you don’t need client-side access
             secure: true, // For HTTPS
             domain: "harmonix-play.vercel.app", // The domain you want the cookie to be valid for
-            sameSite: 'None' // Required for cross-site cookies
+            sameSite: "None", // Required for cross-site cookies
           });
           console.log("End");
-        res.status(200).json(userdetails);
+          res.status(200).json(userdetails);
         } catch (err) {
           console.error("Error handling the callback:", err);
           res.status(400).json({ error: "server_error" });
@@ -730,9 +732,9 @@ app.get("/api/getArtistAlbums", async function (req, res) {
     res.redirect(`/login/?error=${error}`);
   }
 });
-app.post("/logout", async function(req, res){
-  res.clearCookie('userdetails'); 
-  res.status(200).json('OK'); 
+app.post("/logout", async function (req, res) {
+  res.clearCookie("userdetails");
+  res.status(200).json("OK");
   console.log("Cleared");
 });
 
