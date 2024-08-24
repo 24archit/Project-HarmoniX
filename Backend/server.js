@@ -74,6 +74,7 @@ res.cookie("userdetails", JSON.stringify(userdetails), {
   maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
   httpOnly: false,
   secure: true, // Must be true since you're using HTTPS
+  domain: "harmonix-play.vercel.app"
 });
   const { data, error } = await supabase
   .from('userdetails')
@@ -600,7 +601,7 @@ app.get("/callback", async function (req, res) {
           res.status(400).json({ error: "invalid_token" });
           return;
         }
-
+        
         const userId = body.id;
 
         try {
@@ -629,6 +630,7 @@ app.get("/callback", async function (req, res) {
             maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
             httpOnly: false,
             secure: true, // Must be true since you're using HTTPS
+            domain: "harmonix-play.vercel.app"
         });
         res.status(200).json({ success: true, message: "Operation was successful" });
         } catch (err) {
