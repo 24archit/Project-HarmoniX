@@ -675,7 +675,7 @@ app.get("/api/getUserInfo", async (req, res) => {
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
   } catch (error) {
-    res.status(500).json({error_message: `${error}});
+    res.status(400).json({error_message: `${error}`});
   }
 });
 app.get("/api/search", async function (req, res) {
