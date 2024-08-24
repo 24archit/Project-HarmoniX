@@ -1,36 +1,34 @@
 import React, { useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { getUserInfo } from "../apis/apiFunctions";
-
 export default function Cookie() {
-  const [cookies, setCookie] = useCookies(['userdetails']);
-
   useEffect(() => {
     const setCookieData = async () => {
-      try {
-        const data = await getUserInfo();
-        const userdetails = {
-          userId: data.id,
-          expiry: Date.now() + 3000000, // Expires in ~55 minutes
-        };
+      // Original URLs
+      const firstUrl = window.location.href;
+      const secondUrl = "https://harmonix-stream.vercel.app";
 
-        // Set the cookie with the user details
-        setCookie('userdetails', JSON.stringify(userdetails), {
-          path: '/',
-          expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // Expires in 15 days
-          secure: true,
-        });
+      // Create a URL object for the first URL to extract query parameters
+      const urlObj1 = new URL(firstUrl);
+      const queryParams = urlObj1.search; // This gives you "?param1=value1&param2=value2"
 
-        // Redirect to the user home page
-        window.location.href = "https://harmonix-play.vercel.app/user/home";
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Handle error state if needed
+      // Create a URL object for the second URL
+      const urlObj2 = new URL(secondUrl);
+
+      // Append the query parameters to the second URL
+      urlObj2.search = queryParams;
+
+      // Convert the updated URL object back to a string
+      const updatedUrl = urlObj2.toString();
+
+      const response = await fetch(updatedUrl);
+      if (!response.ok) {
+        const data = await response.json();
+        window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
       }
+      window.location.href = "https://harmonix-play.vercel.app/user/home";
     };
 
     setCookieData();
-  }, [setCookie]);
+  }, []);
 
   return null;
 }

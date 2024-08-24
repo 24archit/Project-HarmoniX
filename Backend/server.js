@@ -547,7 +547,7 @@ app.get("/login-spotify", function (req, res) {
         response_type: "code",
         client_id: client_id,
         scope: scope,
-        redirect_uri:"https://harmonix-stream.vercel.app/callback",
+        redirect_uri:"https://harmonix-play.vercel.app/callback",
         state: originalState,
       })
   );
@@ -555,7 +555,7 @@ app.get("/login-spotify", function (req, res) {
 app.get("/callback", async function (req, res) {
   const error = req.query.error || null;
   if (error) {
-    res.redirect(`/login?error=${error}`);
+    res.status(400).json({ error: error });
     return;
   }
 
@@ -563,7 +563,7 @@ app.get("/callback", async function (req, res) {
   const state = req.query.state || null;
 
   if (!state || state !== originalState) {
-    res.redirect(`/login?error=state_mismatch`);
+    res.status(400).json({ error: "state-mismatch" });
     return;
   }
 
@@ -571,7 +571,7 @@ app.get("/callback", async function (req, res) {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: authCode,
-      redirect_uri: "https://harmonix-stream.vercel.app/callback",//${host}${port}/callback`,
+      redirect_uri: "https://harmonix-play.vercel.app/callback",//${host}${port}/callback`,
       grant_type: "authorization_code",
     },
     headers: {
@@ -582,7 +582,7 @@ app.get("/callback", async function (req, res) {
 
   request.post(authOptions, async function (error, response, body) {
     if (error || response.statusCode !== 200) {
-      res.redirect(`/login?error=invalid_token`);
+     res.status(400).json({ error: "invalid-token" });
       return;
     }
 
@@ -597,7 +597,7 @@ app.get("/callback", async function (req, res) {
       },
       async function (error, response, body) {
         if (error || response.statusCode !== 200) {
-          res.redirect(`/login?error=invalid_token1`);
+          res.status(400).json({ error: "invalid_token" });
           return;
         }
 
@@ -617,7 +617,7 @@ app.get("/callback", async function (req, res) {
 
           if (upsertError) {
             console.error("Error inserting/updating user details:", upsertError);
-            res.redirect("/login?error=database_error");
+            res.status(400).json({ error: "database_error" });
             return;
           }
 
@@ -630,18 +630,16 @@ app.get("/callback", async function (req, res) {
             httpOnly: false,
             secure: true, // Must be true since you're using HTTPS
         });
-        
-        
-
-          res.redirect("https://harmonix-play.vercel.app/setting");
+        res.status(200).json({ success: true, message: "Operation was successful" });
         } catch (err) {
           console.error("Error handling the callback:", err);
-          res.redirect("/login?error=server_error");
+          res.status(400).json({ error: "server_error" });
         }
       }
     );
   });
 });
+
 // app.get("/user/home", async function (req, res) {
 //   res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
 // });

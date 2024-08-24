@@ -38,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginDialog />} />
           <Route path="/" element={<LoginDialog/>}/>
-          <Route path="/setting" element={<Cookie/>}/>
+          <Route path="/callback" element={<Cookie/>}/>
           <Route path="*" element={<LoginDialog/>}/>
         </Routes>
       </Router>
