@@ -337,7 +337,7 @@ app.use("/login", async function (req, res, next) {
 // Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
-  console.log("Hooooo");
+  console.log(req.headers);
   if (
     API_Access_Header ===
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
