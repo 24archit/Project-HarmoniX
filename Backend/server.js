@@ -77,7 +77,7 @@ async function updateData(res, accessToken) {
   console.log("User details updated successfully:", result);
 }
 
-async function getToken(req, tokenType) {
+async function getToken(userId, tokenType) {
   // const userdetails = req.cookies["userdetails"]
   //   ? JSON.parse(req.cookies["userdetails"])
   //   : null;
@@ -89,7 +89,7 @@ async function getToken(req, tokenType) {
     const { data, error } = await supabase
       .from("userdetails")
       .select("*")
-      .eq("userspotifyid", req.headers["userId"])
+      .eq("userspotifyid", userId)
       .single();
 
     if (error || !data) {
@@ -152,8 +152,8 @@ async function search(q, type, req) {
   return JSON.stringify(data);
 }
 
-async function getUserInfo(req) {
-  const accessToken = await getToken(req, "accessToken");
+async function getUserInfo(userId) {
+  const accessToken = await getToken(userId, "accessToken");
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
     headers: {
@@ -671,8 +671,9 @@ app.get("/api/getUserTopArtists", async (req, res) => {
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
+  const userId="ao07zc46ay34tx0wmvmko0fmb";
   try {
-    const userInfo = await getUserInfo(req);
+    const userInfo = await getUserInfo(userId);
     res.json(userInfo);
   } catch (error) {
     res.status(400).json({error_message: `${error}`});
