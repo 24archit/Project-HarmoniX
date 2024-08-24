@@ -671,12 +671,12 @@ app.get("/api/getUserTopArtists", async (req, res) => {
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
-  // try {
+  try {
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
-  // } catch (error) {
-  //   res.redirect(`/login/?error=${error}`);
-  // }
+  } catch (error) {
+    res.status(500).json({error_message: `${error}});
+  }
 });
 app.get("/api/search", async function (req, res) {
   try {
