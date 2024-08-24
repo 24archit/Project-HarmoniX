@@ -75,7 +75,6 @@ async function fetchData(url, method, errorMessage) {
   }
   if (expiryStatus === 2) {
     try {
-      console.log("1");
       const response = await fetch(url, {
         method: method,
         headers: {
@@ -85,7 +84,6 @@ async function fetchData(url, method, errorMessage) {
           "userId": `${userdetails.userId}`,
         },
       });
-      console.log(2);
       if (!response.ok) {
         throw new Error(errorMessage);
       }
