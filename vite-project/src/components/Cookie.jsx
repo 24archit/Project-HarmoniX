@@ -26,7 +26,7 @@ export default function Cookie() {
         window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
         return;
       }
-      window.location.href="https://harmonix-play.vercel.app/user/home";
+      // window.location.href="https://harmonix-play.vercel.app/user/home";
       return;
     };
 
