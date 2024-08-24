@@ -18,8 +18,11 @@ export default function Cookie() {
       if (!response.ok) {
         const data = await response.json();
         window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
+        return;
       }
-      window.location.href = "https://harmonix-play.vercel.app/user/home";
+      const data = await response.jaon();
+      console.log(data);
+      return;
     };
 
     setCookieData();
