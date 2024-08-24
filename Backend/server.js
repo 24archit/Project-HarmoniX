@@ -628,13 +628,6 @@ app.get("/callback", async function (req, res) {
             userId: userId,
             expiry: Date.now() + 3000000, // Expires in ~55 minutes
           };
-          console.log("Start");
-          res.cookie("userdetails", JSON.stringify(userdetails), {
-            maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-            httpOnly: false, // true if you don’t need client-side access
-            secure: true, // For HTTPS
-          });
-          console.log("End");
           res.status(200).json(userdetails);
         } catch (err) {
           console.error("Error handling the callback:", err);

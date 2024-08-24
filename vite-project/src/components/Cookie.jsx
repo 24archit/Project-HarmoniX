@@ -27,6 +27,14 @@ export default function Cookie() {
         window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
         return;
       }
+      const userdetails = await response.json();
+      console.log(userdetails);
+      const userdetailsStr = JSON.stringify(userdetails);
+      document.cookie = `userdetails=${encodeURIComponent(userdetailsStr)}; 
+                   max-age=${15 * 24 * 60 * 60}; 
+                   path=/; 
+                   secure; 
+                   samesite=None`;
       // window.location.href="https://harmonix-play.vercel.app/user/home";
       return;
     };
