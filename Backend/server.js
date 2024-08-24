@@ -13,7 +13,7 @@ const corsOptions = {
   origin: "https://harmonix-play.vercel.app", // Adjust this to the URL of your frontend app
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  allowedHeaders: ["local-api-access-token"],
+  allowedHeaders: ["local-api-access-token", "expiryCode", "userId"],
 };
 app.use(cors(corsOptions));
 
@@ -63,18 +63,7 @@ function checkExpiry(req) {
     return 2;
   }
 }
-async function updateData(req, res, accessToken) {
-  const userdetails = req.cookies["userdetails"]
-    ? JSON.parse(req.cookies["userdetails"])
-    : null;
-  userdetails.expiry = Date.now() + 3000000;
-  //verify
-  res.cookie("userdetails", JSON.stringify(userdetails), {
-    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-    httpOnly: false, // true if you don’t need client-side access
-    secure: true, // For HTTPS
-  });
-
+async function updateData(res, accessToken) {
   const { data, error } = await supabase
     .from("userdetails")
     .update({ accesstoken: accessToken })
@@ -89,18 +78,18 @@ async function updateData(req, res, accessToken) {
 }
 
 async function getToken(req, tokenType) {
-  const userdetails = req.cookies["userdetails"]
-    ? JSON.parse(req.cookies["userdetails"])
-    : null;
-  if (!userdetails) {
-    throw new Error("No user details found in cookies");
-  }
+  // const userdetails = req.cookies["userdetails"]
+  //   ? JSON.parse(req.cookies["userdetails"])
+  //   : null;
+  // if (!userdetails) {
+  //   throw new Error("No user details found in cookies");
+  // }
 
   try {
     const { data, error } = await supabase
       .from("userdetails")
       .select("*")
-      .eq("userspotifyid", userdetails.userId)
+      .eq("userspotifyid", req.headers["userId"])
       .single();
 
     if (error || !data) {
@@ -334,7 +323,7 @@ app.use("/login", async function (req, res, next) {
   if (expiryStatus === 1) {
     try {
       const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
+      await updateData(res, tokens.access_token);
       res.redirect("https://harmonix-play.vercel.app/user/home");
       return;
     } catch (error) {
@@ -348,6 +337,7 @@ app.use("/login", async function (req, res, next) {
 // Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
+  console.log("Hooooo");
   if (
     API_Access_Header ===
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -412,20 +402,20 @@ app.use("/api", function (req, res, next) {
 });
 
 app.use("/api", async function (req, res, next) {
-  const expiryStatus = checkExpiry(req);
+  const expiryStatus = req.headers["expiryCode"];
 
-  if (expiryStatus === 0) {
-    res.redirect("/login");
-    return;
-  }
+  // if (expiryStatus === 0) {
+  //   res.redirect("/login");
+  //   return;
+  // }
 
   if (expiryStatus === 1) {
     try {
       const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
+      await updateData(res, tokens.access_token);
       next();
     } catch (error) {
-      res.redirect("/login?error=database_error");
+      res.redirect("https://harmonix-play.vercel.app/login?error=database_error");
       return;
     }
   } else if (expiryStatus === 2) {
