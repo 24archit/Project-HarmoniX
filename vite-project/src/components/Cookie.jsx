@@ -32,9 +32,7 @@ export default function Cookie() {
       const userdetailsStr = JSON.stringify(userdetails);
       document.cookie = `userdetails=${encodeURIComponent(userdetailsStr)}; 
                    max-age=${15 * 24 * 60 * 60}; 
-                   path=/; 
-                   secure; 
-                   samesite=None`;
+                   secure;`
       // window.location.href="https://harmonix-play.vercel.app/user/home";
       return;
     };
