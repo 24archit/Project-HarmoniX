@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Player from './components/Player';
 import NavBar from './components/NavBar';
 import LoginDialog from './components/LoginDialog';
+import Cookie from './components/Cookie';
 import HomePage from './pages/HomePage';
 import ArtistPage from './pages/ArtistPage';
 import { getExpiryStatus } from './apis/apiFunctions';
@@ -31,12 +32,13 @@ function App() {
   }, []);
 
   // Conditionally render based on expiryCode
-  if (expiryCode === 0) {
+  if (expiryCode === 0 || expiryCode===1) {
     return (
       <Router>
         <Routes>
           <Route path="/login" element={<LoginDialog />} />
           <Route path="/" element={<LoginDialog/>}/>
+          <Route path="/setting" element={<Cookie/>}/>
           <Route path="*" element={<LoginDialog/>}/>
         </Routes>
       </Router>
