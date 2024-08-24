@@ -628,6 +628,7 @@ app.get("/callback", async function (req, res) {
             userId: userId,
             expiry: Date.now() + 3000000, // Expires in ~55 minutes
           };
+          console.log("Start");
           res.cookie("userdetails", JSON.stringify(userdetails), {
             maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
             httpOnly: false, // true if you don’t need client-side access
@@ -635,7 +636,7 @@ app.get("/callback", async function (req, res) {
             domain: "harmonix-play.vercel.app", // The domain you want the cookie to be valid for
             sameSite: 'None' // Required for cross-site cookies
           });
-          
+          console.log("End");
         res.status(200).json({ success: true, message: "Operation was successful" });
         } catch (err) {
           console.error("Error handling the callback:", err);
