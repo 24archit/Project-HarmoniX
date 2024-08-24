@@ -57,7 +57,6 @@ async function fetchData(url, method, errorMessage) {
     try {
       const response = await fetch(url, {
         method: method,
-        credentials: "include",
         headers: {
           "local-api-access-token":
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
@@ -78,7 +77,6 @@ async function fetchData(url, method, errorMessage) {
     try {
       const response = await fetch(url, {
         method: method,
-        credentials: "include",
         headers: {
           "local-api-access-token":
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
