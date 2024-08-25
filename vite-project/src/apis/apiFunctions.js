@@ -1,6 +1,8 @@
-const port = "";
-const protocol = "https";
-const host = "harmonix-stream.vercel.app";
+require("dotenv").config();
+const port = process.env.REACT_APP_PORT;
+const protocol = process.env.REACT_APP_PROTOCOL;
+const serverHost = process.env.REACT_APP_SERVER_HOST;
+
 
 function checkExpiry() {
   const cookie = document.cookie
@@ -44,11 +46,10 @@ async function fetchData(url, method, errorMessage) {
 
   const expiryStatus = checkExpiry();
   if (expiryStatus === 1) {
-
-    const userdetailsNew= {
+    const userdetailsNew = {
       userId: userdetails.userId,
       expiry: Date.now() + 3000000,
-    }
+    };
     const userdetailsStr = JSON.stringify(userdetailsNew);
     document.cookie = `userdetails=${encodeURIComponent(
       userdetailsStr
@@ -58,8 +59,7 @@ async function fetchData(url, method, errorMessage) {
       const response = await fetch(url, {
         method: method,
         headers: {
-          "local-api-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          "local-api-access-token": `${process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN}`,
           "expiry-code": "1",
           "user-id": `${userdetails.userId}`,
         },
@@ -71,7 +71,7 @@ async function fetchData(url, method, errorMessage) {
       return JSON.parse(data);
     } catch (error) {
       document.cookie = "userdetails=; max-age=0; secure;";
-      window.location.href=`https://harmonix-play.vercel.app/login?error=${error}`;
+      window.location.href = `https://harmonix-play.vercel.app/login?error=${error}`;
       throw new Error(error);
     }
   }
@@ -80,8 +80,7 @@ async function fetchData(url, method, errorMessage) {
       const response = await fetch(url, {
         method: method,
         headers: {
-          "local-api-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          "local-api-access-token": `${process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN}`,
           "expiry-code": "2",
           "user-id": `${userdetails.userId}`,
         },
@@ -93,7 +92,7 @@ async function fetchData(url, method, errorMessage) {
       return JSON.parse(data);
     } catch (error) {
       document.cookie = "userdetails=; max-age=0; secure;";
-      window.location.href=`https://harmonix-play.vercel.app/login?error=${error}`;
+      window.location.href = `https://harmonix-play.vercel.app/login?error=${error}`;
       throw new Error(error);
     }
   } else {
@@ -106,7 +105,7 @@ async function fetchData(url, method, errorMessage) {
 export async function getTopTracksIndia() {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getTopTracksIndia`,
+      `${protocol}://${serverHost}${port}/api/getTopTracksIndia`,
       "GET",
       "Failed to fetch top tracks for India"
     );
@@ -118,7 +117,7 @@ export async function getTopTracksIndia() {
 export async function getTopTracksGlobal() {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getTopTracksGlobal`,
+      `${protocol}://${serverHost}${port}/api/getTopTracksGlobal`,
       "GET",
       "Failed to fetch top global tracks"
     );
@@ -130,7 +129,7 @@ export async function getTopTracksGlobal() {
 export async function getArtistData(id) {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getArtistData?id=${id}`,
+      `${protocol}://${serverHost}${port}/api/getArtistData?id=${id}`,
       "GET",
       `Failed to fetch artist data for id ${id}`
     );
@@ -144,7 +143,7 @@ export async function getArtistData(id) {
 export async function getArtistAlbums(id) {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getArtistAlbums?id=${id}`,
+      `${protocol}://${serverHost}${port}/api/getArtistAlbums?id=${id}`,
       "GET",
       `Failed to fetch albums for artist id ${id}`
     );
@@ -158,7 +157,7 @@ export async function getArtistAlbums(id) {
 export async function getArtistTopTracks(id) {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getArtistTopTracks?id=${id}`,
+      `${protocol}://${serverHost}${port}/api/getArtistTopTracks?id=${id}`,
       "GET",
       `Failed to fetch top tracks for artist id ${id}`
     );
@@ -172,7 +171,7 @@ export async function getArtistTopTracks(id) {
 export async function getUserTopArtists(number) {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getUserTopArtists?number=${number}`,
+      `${protocol}://${serverHost}${port}/api/getUserTopArtists?number=${number}`,
       "GET",
       `Failed to fetch top artists for user with number ${number}`
     );
@@ -186,7 +185,7 @@ export async function getUserTopArtists(number) {
 export async function getUserInfo() {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/api/getUserInfo`,
+      `${protocol}://${serverHost}${port}/api/getUserInfo`,
       "GET",
       "Failed to fetch user info"
     );
@@ -194,18 +193,6 @@ export async function getUserInfo() {
     throw new Error(`Error fetching user info: ${error.message}`);
   }
 }
-
-// export async function getExpiryStatus() {
-//   try {
-//     return await fetchData(
-//       `${protocol}://${host}${port}/getExpiryStatus`,
-//       "GET",
-//       "Failed to fetch expiry status"
-//     );
-//   } catch (error) {
-//     throw new Error(`Error fetching expiry status: ${error.message}`);
-//   }
-// }
 export async function getSearchResult(query, type) {
   try {
     return await fetchData(
@@ -220,7 +207,7 @@ export async function getSearchResult(query, type) {
 export async function getAudioLink(id) {
   try {
     return await fetchData(
-      `${protocol}://${host}${port}/getAudioLink?id=${id}`,
+      `${protocol}://${serverHost}${port}/getAudioLink?id=${id}`,
       "GET",
       "Failed to play the track"
     );

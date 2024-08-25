@@ -1,8 +1,18 @@
+import { useEffect, useState } from "react";
 import "../assets/styles/LoginDialog.css";
 import { useParams } from 'react-router-dom';
 
 export default function LoginDialog() {
-    const { error } = useParams();
+    const[error, setError] = useState("");
+    useEffect(() => {
+        const fetchError = async () => {
+            const { error } = useParams();
+            setError(error);
+        };
+    
+        fetchError();
+      }, []);
+    
 
     function generateRandomString(length) {
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
