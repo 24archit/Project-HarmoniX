@@ -1,6 +1,6 @@
 const port = "";
 const protocol = "https";
-const host = process.env.REACT_APP_SERVER_HOST;
+const host = "harmonix-stream.vercel.app";
 
 
 function checkExpiry() {
