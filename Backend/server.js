@@ -401,27 +401,27 @@ app.use("/api", function (req, res, next) {
   }
 });
 
-app.use("/api", async function (req, res, next) {
-  const expiryStatus = req.headers["expiry-code"];
+// app.use("/api", async function (req, res, next) {
+//   const expiryStatus = req.headers["expiry-code"];
 
-  // if (expiryStatus === 0) {
-  //   res.redirect("/login");
-  //   return;
-  // }
+//   // if (expiryStatus === 0) {
+//   //   res.redirect("/login");
+//   //   return;
+//   // }
 
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(res, tokens.access_token);
-      next();
-    } catch (error) {
-      res.redirect("https://harmonix-play.vercel.app/login?error=database_error");
-      return;
-    }
-  } else if (expiryStatus === 2) {
-    next();
-  }
-});
+//   if (expiryStatus === 1) {
+//     try {
+//       const tokens = await getFreshTokens(req);
+//       await updateData(res, tokens.access_token);
+//       next();
+//     } catch (error) {
+//       res.redirect("https://harmonix-play.vercel.app/login?error=database_error");
+//       return;
+//     }
+//   } else if (expiryStatus === 2) {
+//     next();
+//   }
+// });
 // app.get("/getExpiryStatus", function (req, res) {
 //   console.log(req);
 //   const data = checkExpiry(req);
