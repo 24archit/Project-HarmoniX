@@ -1,7 +1,7 @@
 const port = "";
 const protocol = "https";
 const host = "harmonix-stream.vercel.app";
-require("dotenv").config();
+
 
 function checkExpiry() {
   const cookie = document.cookie
