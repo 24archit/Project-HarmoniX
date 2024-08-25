@@ -1,6 +1,7 @@
+require("dotenv").config();
 const port = "";
 const protocol = "https";
-const host = "harmonix-stream.vercel.app";
+const host = process.env.REACT_APP_SERVER_HOST;
 
 
 function checkExpiry() {
