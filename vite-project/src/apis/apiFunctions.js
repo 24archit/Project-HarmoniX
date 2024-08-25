@@ -70,7 +70,9 @@ async function fetchData(url, method, errorMessage) {
       const data = await response.json();
       return JSON.parse(data);
     } catch (error) {
-      throw new Error(error.message);
+      document.cookie = "userdetails=; max-age=0; secure;";
+      window.location.href=`https://harmonix-play.vercel.app/login?error=${error}`;
+      throw new Error(error);
     }
   }
   if (expiryStatus === 2) {
@@ -90,9 +92,12 @@ async function fetchData(url, method, errorMessage) {
       const data = await response.json();
       return JSON.parse(data);
     } catch (error) {
-      throw new Error(error.message);
+      document.cookie = "userdetails=; max-age=0; secure;";
+      window.location.href=`https://harmonix-play.vercel.app/login?error=${error}`;
+      throw new Error(error);
     }
   } else {
+    document.cookie = "userdetails=; max-age=0; secure;";
     window.location.href = "https://harmonix-play.vercel.app/login";
     return;
   }

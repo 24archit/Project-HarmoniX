@@ -50,24 +50,24 @@ const scope =
 // Situation 2: Cookie Present & Token Expired => Return 1,
 // Situation 3: Cookie Present & Token Not Expired => Return 2;
 
-function checkExpiry(req) {
-  const userdetails = req.cookies["userdetails"]
-    ? JSON.parse(req.cookies["userdetails"])
-    : null;
-  if (!userdetails) {
-    console.log("hoo");
-    return 0;
-  } else if (userdetails.expiry < Date.now()) {
-    return 1;
-  } else {
-    return 2;
-  }
-}
-async function updateData(res, accessToken) {
+// function checkExpiry(req) {
+//   const userdetails = req.cookies["userdetails"]
+//     ? JSON.parse(req.cookies["userdetails"])
+//     : null;
+//   if (!userdetails) {
+//     console.log("hoo");
+//     return 0;
+//   } else if (userdetails.expiry < Date.now()) {
+//     return 1;
+//   } else {
+//     return 2;
+//   }
+// }
+async function updateData(req, res, accessToken) {
   const { data, error } = await supabase
     .from("userdetails")
     .update({ accesstoken: accessToken })
-    .eq("userspotifyid", userdetails.userId);
+    .eq("userspotifyid", req.headers["user-id"]);
 
   if (error) {
     console.error("Error updating user details:", error);
@@ -77,7 +77,7 @@ async function updateData(res, accessToken) {
   console.log("User details updated successfully:", result);
 }
 
-async function getToken(userId, tokenType) {
+async function getToken(req, tokenType) {
   // const userdetails = req.cookies["userdetails"]
   //   ? JSON.parse(req.cookies["userdetails"])
   //   : null;
@@ -89,7 +89,7 @@ async function getToken(userId, tokenType) {
     const { data, error } = await supabase
       .from("userdetails")
       .select("*")
-      .eq("userspotifyid", userId)
+      .eq("userspotifyid", req.headers["user-id"])
       .single();
 
     if (error || !data) {
@@ -152,8 +152,8 @@ async function search(q, type, req) {
   return JSON.stringify(data);
 }
 
-async function getUserInfo(userId) {
-  const accessToken = await getToken(userId, "accessToken");
+async function getUserInfo(req) {
+  const accessToken = await getToken(req, "accessToken");
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
     headers: {
@@ -313,31 +313,30 @@ app.use(cookieParser());
 //     next();
 //   }
 // });
-app.use("/login", async function (req, res, next) {
-  const expiryStatus = checkExpiry(req);
-  console.log(expiryStatus);
-  if (expiryStatus === 0) {
-    next();
-    return;
-  }
-  if (expiryStatus === 1) {
-    try {
-      const tokens = await getFreshTokens(req);
-      await updateData(res, tokens.access_token);
-      res.redirect("https://harmonix-play.vercel.app/user/home");
-      return;
-    } catch (error) {
-      console.log(error);
-      res.send(`<a href=${protocol}://${host}${port}/login>Login</a>`);
-      return;
-    }
-  }
-  res.redirect("https://harmonix-play.vercel.app/user/home");
-});
+// app.use("/login", async function (req, res, next) {
+//   const expiryStatus = checkExpiry(req);
+//   console.log(expiryStatus);
+//   if (expiryStatus === 0) {
+//     next();
+//     return;
+//   }
+//   if (expiryStatus === 1) {
+//     try {
+//       const tokens = await getFreshTokens(req);
+//       await updateData(req, res, tokens.access_token);
+//       res.redirect("https://harmonix-play.vercel.app/user/home");
+//       return;
+//     } catch (error) {
+//       console.log(error);
+//       res.send(`<a href=${protocol}://${host}${port}/login>Login</a>`);
+//       return;
+//     }
+//   }
+//   res.redirect("https://harmonix-play.vercel.app/user/home");
+// });
 // Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
-  console.log(req.headers);
   if (
     API_Access_Header ===
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -412,10 +411,10 @@ app.use("/api", async function (req, res, next) {
   if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
-      await updateData(res, tokens.access_token);
+      await updateData(req, res, tokens.access_token);
       next();
     } catch (error) {
-      res.redirect("https://harmonix-play.vercel.app/login?error=database_error");
+      res.status(400).json({error: "Unable to update accessToken"});
       return;
     }
   } else if (expiryStatus == 2) {
@@ -436,100 +435,100 @@ app.use("/api", async function (req, res, next) {
 //     res.redirect("https://harmonix-stream.vercel.app/user/home");
 //   }
 // });
-app.get("/login", function (req, res) {
-  const error = req.query.error || null;
-  if (error === "access_denied") {
-    res.send(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Authorization Failed</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
-            color: #ffffff;
-          }
-          h1 { color: #ff4081; }
-          p { margin: 20px 0; }
-          a {
-            color: #64ffda;
-            text-decoration: none;
-            border: 2px solid #64ffda;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background 0.3s, color 0.3s;
-          }
-          a:hover {
-            background: #64ffda;
-            color: #0d0d0d;
-          }
-          footer {
-            margin-top: 40px;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>Authorization Failed</h1>
-        <p>You need to authorize your Spotify account to enjoy our services. Please try again.</p>
-        <a href=${protocol}://${host}${port}/login>Login</a>
-        <footer>
-          <p>&copy; Team Harmonix</p>
-        </footer>
-      </body>
-      </html>
-    `);
-  } else {
-    res.send(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Connection Error</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
-            color: #ffffff;
-          }
-          h1 { color: #ff4081; }
-          p { margin: 20px 0; }
-          a {
-            color: #64ffda;
-            text-decoration: none;
-            border: 2px solid #64ffda;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background 0.3s, color 0.3s;
-          }
-          a:hover {
-            background: #64ffda;
-            color: #0d0d0d;
-          }
-          footer {
-            margin-top: 40px;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>Unable to Connect with Spotify</h1>
-        <p>We encountered an issue connecting to Spotify. Please try again later.</p>
-        <a href=${protocol}://${host}${port}/login>Login</a>
-        <footer>
-          <p>&copy; Team Harmonix</p>
-        </footer>
-      </body>
-      </html>
-    `);
-  }
-});
+// app.get("/login", function (req, res) {
+//   const error = req.query.error || null;
+//   if (error === "access_denied") {
+//     res.send(`
+//       <!DOCTYPE html>
+//       <html lang="en">
+//       <head>
+//         <meta charset="UTF-8">
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         <title>Authorization Failed</title>
+//         <style>
+//           body {
+//             font-family: Arial, sans-serif;
+//             text-align: center;
+//             padding: 50px;
+//             background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
+//             color: #ffffff;
+//           }
+//           h1 { color: #ff4081; }
+//           p { margin: 20px 0; }
+//           a {
+//             color: #64ffda;
+//             text-decoration: none;
+//             border: 2px solid #64ffda;
+//             padding: 10px 20px;
+//             border-radius: 5px;
+//             transition: background 0.3s, color 0.3s;
+//           }
+//           a:hover {
+//             background: #64ffda;
+//             color: #0d0d0d;
+//           }
+//           footer {
+//             margin-top: 40px;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <h1>Authorization Failed</h1>
+//         <p>You need to authorize your Spotify account to enjoy our services. Please try again.</p>
+//         <a href=${protocol}://${host}${port}/login>Login</a>
+//         <footer>
+//           <p>&copy; Team Harmonix</p>
+//         </footer>
+//       </body>
+//       </html>
+//     `);
+//   } else {
+//     res.send(`
+//       <!DOCTYPE html>
+//       <html lang="en">
+//       <head>
+//         <meta charset="UTF-8">
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         <title>Connection Error</title>
+//         <style>
+//           body {
+//             font-family: Arial, sans-serif;
+//             text-align: center;
+//             padding: 50px;
+//             background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
+//             color: #ffffff;
+//           }
+//           h1 { color: #ff4081; }
+//           p { margin: 20px 0; }
+//           a {
+//             color: #64ffda;
+//             text-decoration: none;
+//             border: 2px solid #64ffda;
+//             padding: 10px 20px;
+//             border-radius: 5px;
+//             transition: background 0.3s, color 0.3s;
+//           }
+//           a:hover {
+//             background: #64ffda;
+//             color: #0d0d0d;
+//           }
+//           footer {
+//             margin-top: 40px;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <h1>Unable to Connect with Spotify</h1>
+//         <p>We encountered an issue connecting to Spotify. Please try again later.</p>
+//         <a href=${protocol}://${host}${port}/login>Login</a>
+//         <footer>
+//           <p>&copy; Team Harmonix</p>
+//         </footer>
+//       </body>
+//       </html>
+//     `);
+//   }
+// });
 
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
@@ -643,7 +642,7 @@ app.get("/api/getTopTracksIndia", async (req, res) => {
     const topTracks = await getTopTracksIndia(req);
     res.json(topTracks);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getTopTracksGlobal", async (req, res) => {
@@ -651,7 +650,7 @@ app.get("/api/getTopTracksGlobal", async (req, res) => {
     const topTracks = await getTopTracksGlobal(req);
     res.json(topTracks);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getTopDanceBolly", async (req, res) => {
@@ -659,7 +658,7 @@ app.get("/api/getTopDanceBolly", async (req, res) => {
     const topDanceBolly = await getTopDanceBolly(req);
     res.json(topDanceBolly);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getUserTopArtists", async (req, res) => {
@@ -667,13 +666,12 @@ app.get("/api/getUserTopArtists", async (req, res) => {
     const topArtists = await getUserTopArtists(req, req.query.number);
     res.json(topArtists);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
-  const userId=req.headers["user-id"];
   try {
-    const userInfo = await getUserInfo(userId);
+    const userInfo = await getUserInfo(req);
     res.json(userInfo);
   } catch (error) {
     res.status(400).json({error_message: `${error}`});
@@ -686,7 +684,7 @@ app.get("/api/search", async function (req, res) {
     let result = await search(q, type, req);
     res.json(result);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getArtistData", async function (req, res) {
@@ -694,7 +692,7 @@ app.get("/api/getArtistData", async function (req, res) {
     let result = await getArtistData(req);
     res.json(result);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getArtistTopTracks", async function (req, res) {
@@ -702,7 +700,7 @@ app.get("/api/getArtistTopTracks", async function (req, res) {
     let result = await getArtistTopTracks(req);
     res.json(result);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.get("/api/getArtistAlbums", async function (req, res) {
@@ -710,7 +708,7 @@ app.get("/api/getArtistAlbums", async function (req, res) {
     let result = await getArtistAlbums(req);
     res.json(result);
   } catch (error) {
-    res.redirect(`/login/?error=${error}`);
+    res.status(400).json({error: "Not able to fetch data from Spotify"});
   }
 });
 app.post("/logout", async function (req, res) {

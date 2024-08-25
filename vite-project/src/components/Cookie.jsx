@@ -27,14 +27,12 @@ export default function Cookie() {
         const updatedUrl = secondUrl + queryParams;
 
         // Fetch user details
-        const response = await fetch(updatedUrl, {
-          credentials: 'include'
-        });
+        const response = await fetch(updatedUrl);
 
         // Check response status
         if (!response.ok) {
           const data = await response.json();
-          window.location.href = `https://harmonix-play.vercel.app/login?${data.error}`;
+          window.location.href = `https://harmonix-play.vercel.app/login?error=${data.error}`;
           return;
         }
 
@@ -45,6 +43,7 @@ export default function Cookie() {
 
         // Redirect to user home after setting the cookie
         window.location.href = "https://harmonix-play.vercel.app/user/home";
+        return;
       } catch (error) {
         // Handle errors and redirect if needed
         console.error("Error setting cookie:", error);
