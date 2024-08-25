@@ -60,8 +60,8 @@ async function fetchData(url, method, errorMessage) {
         headers: {
           "local-api-access-token":
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-          "expiryCode": 1,
-          "userId": `${userdetails.userId}`,
+          "expiry-code": 1,
+          "user-id": `${userdetails.userId}`,
         },
       });
       if (!response.ok) {
@@ -80,8 +80,8 @@ async function fetchData(url, method, errorMessage) {
         headers: {
           "local-api-access-token":
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-          "expiryCode": 2,
-          "userId": `${userdetails.userId}`,
+          "expiry-code": 2,
+          "user-id": `${userdetails.userId}`,
         },
       });
       if (!response.ok) {

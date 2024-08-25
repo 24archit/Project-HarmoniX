@@ -13,7 +13,7 @@ const corsOptions = {
   origin: "https://harmonix-play.vercel.app", // Adjust this to the URL of your frontend app
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  allowedHeaders: ["local-api-access-token", "expiryCode", "userId"],
+  allowedHeaders: ["local-api-access-token", "expiry-code", "user-id"],
 };
 app.use(cors(corsOptions));
 
@@ -402,7 +402,7 @@ app.use("/api", function (req, res, next) {
 });
 
 app.use("/api", async function (req, res, next) {
-  const expiryStatus = req.headers["expiryCode"];
+  const expiryStatus = req.headers["expiry-code"];
 
   // if (expiryStatus === 0) {
   //   res.redirect("/login");
@@ -671,7 +671,7 @@ app.get("/api/getUserTopArtists", async (req, res) => {
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
-  const userId="ao07zc46ay34tx0wmvmko0fmb";
+  const userId=req.headers["user-id"];
   try {
     const userInfo = await getUserInfo(userId);
     res.json(userInfo);
