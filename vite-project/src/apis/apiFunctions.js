@@ -59,7 +59,7 @@ async function fetchData(url, method, errorMessage) {
       const response = await fetch(url, {
         method: method,
         headers: {
-          "local-api-access-token": `${process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN}`,
+          "local-api-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
           "expiry-code": "1",
           "user-id": `${userdetails.userId}`,
         },
@@ -80,7 +80,7 @@ async function fetchData(url, method, errorMessage) {
       const response = await fetch(url, {
         method: method,
         headers: {
-          "local-api-access-token": `${process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN}`,
+          "local-api-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
           "expiry-code": "2",
           "user-id": `${userdetails.userId}`,
         },
