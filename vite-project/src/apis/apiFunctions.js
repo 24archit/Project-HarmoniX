@@ -1,4 +1,3 @@
-require("dotenv").config();
 const port = "";
 const protocol = "https";
 const host = process.env.REACT_APP_SERVER_HOST;
