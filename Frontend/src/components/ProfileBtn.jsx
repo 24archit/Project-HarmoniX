@@ -11,7 +11,6 @@ export default function ProfileBtn() {
         const fetchData = async () => {
             try {
                 const data = await getUserInfo();
-                console.log(data);
                 setTimeout(() => {  
                     setuserInfo(data);
                 }, 1000);

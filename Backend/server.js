@@ -529,7 +529,19 @@ app.use("/api", async function (req, res, next) {
 //     `);
 //   }
 // });
-
+app.get("/revive", async function(req, res, next){
+  try{
+    const tokens = await getFreshTokens(req);
+    await updateData(req, res, tokens.access_token);
+    const userdetails = {
+      userId: req.headers["user-id"],
+      expiry: Date.now() + 3000000, // Expires in ~55 minutes
+    };
+    res.status(200).json(userdetails);
+  } catch {
+    res.status(400).json({error: "Unable to update accessToken"});
+  }
+})
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
   res.redirect(

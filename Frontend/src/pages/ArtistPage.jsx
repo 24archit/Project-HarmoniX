@@ -23,7 +23,6 @@ export default function ArtistPage({setNewUrl}) {
         const fetchArtistData = async () => {
             try {
                 const data = await getArtistData(id);
-                console.log(data);
                 setTimeout(() => {
                     setArtistData(data);
                 }, 1000);
@@ -45,7 +44,6 @@ export default function ArtistPage({setNewUrl}) {
         const fetchTopTracks = async () => {
             try {
                 const data = await getArtistTopTracks(id);
-                console.log(data);
                 setTimeout(() => {
                     setArtistTopTracks(data.tracks);
                 }, 1000);
@@ -65,7 +63,6 @@ export default function ArtistPage({setNewUrl}) {
         const fetchAlbums = async () => {
             try {
                 const data = await getArtistAlbums(id);
-                console.log(data);
                 setTimeout(() => {
                     setArtistAlbums(data.items);
                 }, 1000);

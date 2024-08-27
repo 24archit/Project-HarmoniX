@@ -11,7 +11,6 @@ export default function HomePage({ setNewUrl }) {
   const fetchTracks = async (fetchFunction, setTracks) => {
     try {
       const data = await fetchFunction();
-      console.log(data);
       const newArr = data.tracks.items;
       setTracks(newArr);
     } catch (error) {
@@ -33,7 +32,6 @@ export default function HomePage({ setNewUrl }) {
     const fetchUserTopArtists = async () => {
       try {
         const data = await getUserTopArtists(12);
-        console.log(data);
         setUserTopArtists(data.items);
       } catch (error) {
         console.error('Error fetching user top artists:', error);

@@ -68,7 +68,7 @@ export default function AlertDialog() {
         document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       };
       await clearCookie('userdetails');
-      window.location.href = 'https://harmonix-stream.vercel.app/login';
+      window.location.href = 'https://harmonix-play.vercel.app/login';
     } catch (error) {
       console.error(error);
     }

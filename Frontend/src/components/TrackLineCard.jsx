@@ -16,12 +16,9 @@ export function TrackLineCard({
     const [alertVisibility, setAlertVisibility] = useState(false);
     const handelOnClick = async () => {
         try {
-            console.log(cardId);
             const link = await fetch(`https://harmonix-stream.vercel.app/getAudioLink?id=${cardId}`);
             const data = await link.json();
-            console.log(data);
             setNewUrl(data);
-            console.log("Hi");
         }
         catch {
             setNewUrl('');
