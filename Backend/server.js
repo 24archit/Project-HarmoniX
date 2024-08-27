@@ -7,10 +7,10 @@ const cookieParser = require("cookie-parser");
 import("node-fetch");
 
 const app = express();
-//verify
+
 const cors = require("cors");
 const corsOptions = {
-  origin: "https://harmonix-play.vercel.app", // Adjust this to the URL of your frontend app
+  origin: "https://harmonix-play.vercel.app", 
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   allowedHeaders: ["local-api-access-token", "expiry-code", "user-id"],
@@ -25,7 +25,7 @@ const supabaseKey = process.env.REACT_APP_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Defined Useful Information for API Requests
-//verify
+
 const port = process.env.REACT_APP_PORT;
 const host = process.env.REACT_APP_HOST;
 const protocol = process.env.REACT_APP_PROTOCOL;
@@ -33,36 +33,7 @@ const client_id = process.env.REACT_APP_HARMONIX_CLIENT_ID;
 const client_secret = process.env.REACT_APP_HARMONIX_CLIENT_SECRET;
 const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read";
-//Function Generate random string
-// function generateRandomString(length) {
-//   const characters =
-//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-//   let result = "";
-//   const charactersLength = characters.length;
-//   for (let i = 0; i < length; i++) {
-//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-//   }
-//   return result;
-// }
 
-// Function to verify the cases as per the situation
-// Situation 1: Cookie Expired => Return 0,
-// Situation 2: Cookie Present & Token Expired => Return 1,
-// Situation 3: Cookie Present & Token Not Expired => Return 2;
-
-// function checkExpiry(req) {
-//   const userdetails = req.cookies["userdetails"]
-//     ? JSON.parse(req.cookies["userdetails"])
-//     : null;
-//   if (!userdetails) {
-//     console.log("hoo");
-//     return 0;
-//   } else if (userdetails.expiry < Date.now()) {
-//     return 1;
-//   } else {
-//     return 2;
-//   }
-// }
 async function updateData(req, res, accessToken) {
   const { data, error } = await supabase
     .from("userdetails")
@@ -78,12 +49,7 @@ async function updateData(req, res, accessToken) {
 }
 
 async function getToken(req, tokenType) {
-  // const userdetails = req.cookies["userdetails"]
-  //   ? JSON.parse(req.cookies["userdetails"])
-  //   : null;
-  // if (!userdetails) {
-  //   throw new Error("No user details found in cookies");
-  // }
+
 
   try {
     const { data, error } = await supabase
@@ -292,48 +258,6 @@ async function getArtistAlbums(req) {
 }
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use("/user", async function (req, res, next) {
-//   const expiryStatus = checkExpiry(req);
-
-//   if (expiryStatus === 0) {
-//     res.redirect("/login");
-//     return;
-//   }
-
-//   if (expiryStatus === 1) {
-//     try {
-//       const tokens = await getFreshTokens(req);
-//       await updateData(req, res, tokens.access_token);
-//       next();
-//     } catch (error) {
-//       res.redirect("/login?error=database_error");
-//       return;
-//     }
-//   } else if (expiryStatus === 2) {
-//     next();
-//   }
-// });
-// app.use("/login", async function (req, res, next) {
-//   const expiryStatus = checkExpiry(req);
-//   console.log(expiryStatus);
-//   if (expiryStatus === 0) {
-//     next();
-//     return;
-//   }
-//   if (expiryStatus === 1) {
-//     try {
-//       const tokens = await getFreshTokens(req);
-//       await updateData(req, res, tokens.access_token);
-//       res.redirect("https://harmonix-play.vercel.app/user/home");
-//       return;
-//     } catch (error) {
-//       console.log(error);
-//       res.send(`<a href=${protocol}://${host}${port}/login>Login</a>`);
-//       return;
-//     }
-//   }
-//   res.redirect("https://harmonix-play.vercel.app/user/home");
-// });
 // Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
@@ -403,11 +327,6 @@ app.use("/api", function (req, res, next) {
 app.use("/api", async function (req, res, next) {
   const expiryStatus = req.headers["expiry-code"];
 
-  // if (expiryStatus == 0) {
-  //   res.redirect("/login");
-  //   return;
-  // }
-
   if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
@@ -421,127 +340,6 @@ app.use("/api", async function (req, res, next) {
     next();
   }
 });
-// app.get("/getExpiryStatus", function (req, res) {
-//   console.log(req);
-//   const data = checkExpiry(req);
-//   res.json(data);
-// });
-
-// app.get("/", async function (req, res) {
-//   const expiryStatus = checkExpiry(req);
-//   if (expiryStatus == 0) {
-//     res.redirect("/login");
-//   } else {
-//     res.redirect("https://harmonix-stream.vercel.app/user/home");
-//   }
-// });
-// app.get("/login", function (req, res) {
-//   const error = req.query.error || null;
-//   if (error === "access_denied") {
-//     res.send(`
-//       <!DOCTYPE html>
-//       <html lang="en">
-//       <head>
-//         <meta charset="UTF-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>Authorization Failed</title>
-//         <style>
-//           body {
-//             font-family: Arial, sans-serif;
-//             text-align: center;
-//             padding: 50px;
-//             background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
-//             color: #ffffff;
-//           }
-//           h1 { color: #ff4081; }
-//           p { margin: 20px 0; }
-//           a {
-//             color: #64ffda;
-//             text-decoration: none;
-//             border: 2px solid #64ffda;
-//             padding: 10px 20px;
-//             border-radius: 5px;
-//             transition: background 0.3s, color 0.3s;
-//           }
-//           a:hover {
-//             background: #64ffda;
-//             color: #0d0d0d;
-//           }
-//           footer {
-//             margin-top: 40px;
-//           }
-//         </style>
-//       </head>
-//       <body>
-//         <h1>Authorization Failed</h1>
-//         <p>You need to authorize your Spotify account to enjoy our services. Please try again.</p>
-//         <a href=${protocol}://${host}${port}/login>Login</a>
-//         <footer>
-//           <p>&copy; Team Harmonix</p>
-//         </footer>
-//       </body>
-//       </html>
-//     `);
-//   } else {
-//     res.send(`
-//       <!DOCTYPE html>
-//       <html lang="en">
-//       <head>
-//         <meta charset="UTF-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>Connection Error</title>
-//         <style>
-//           body {
-//             font-family: Arial, sans-serif;
-//             text-align: center;
-//             padding: 50px;
-//             background: linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c);
-//             color: #ffffff;
-//           }
-//           h1 { color: #ff4081; }
-//           p { margin: 20px 0; }
-//           a {
-//             color: #64ffda;
-//             text-decoration: none;
-//             border: 2px solid #64ffda;
-//             padding: 10px 20px;
-//             border-radius: 5px;
-//             transition: background 0.3s, color 0.3s;
-//           }
-//           a:hover {
-//             background: #64ffda;
-//             color: #0d0d0d;
-//           }
-//           footer {
-//             margin-top: 40px;
-//           }
-//         </style>
-//       </head>
-//       <body>
-//         <h1>Unable to Connect with Spotify</h1>
-//         <p>We encountered an issue connecting to Spotify. Please try again later.</p>
-//         <a href=${protocol}://${host}${port}/login>Login</a>
-//         <footer>
-//           <p>&copy; Team Harmonix</p>
-//         </footer>
-//       </body>
-//       </html>
-//     `);
-//   }
-// });
-// app.get("/revive", async function(req, res, next){
-//   try{
-//     const tokens = await getFreshTokens(req);
-//     await updateData(req, res, tokens.access_token);
-//     const userdetails = {
-//       userId: req.headers["user-id"],
-//       expiry: Date.now() + 3000000, // Expires in ~55 minutes
-//     };
-//     res.status(200).json(userdetails);
-//   } catch {
-//     res.status(400).json({error: "Unable to update accessToken"});
-//   }
-// })
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
   res.redirect(
