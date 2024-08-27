@@ -37,7 +37,6 @@ function getExpiryStatus() {
 
   // Check the conditions
   if (!userdetails) {
-    console.log("hoo");
     return 0;
   } else if (userdetails.expiry < Date.now()) {
     return 1;
@@ -53,40 +52,6 @@ function App() {
     const fetchExpiryStatus = async () => {
       try {
         const expiryStatus = getExpiryStatus();
-        if (expiryStatus === 1) {
-          try {
-            const cookie = document.cookie
-              .split("; ")
-              .find((row) => row.startsWith("userdetails="));
-            const cookieValue = cookie.split("=")[1];
-            const decodedValue = decodeURIComponent(cookieValue);
-            let userdetails;
-            userdetails = JSON.parse(decodedValue);
-            const response = await fetch(
-              "https://harmonix-stream.vercel.app/revive",
-              {
-                method: "GET",
-                headers: {
-                  "expiry-code": "1",
-                  "user-id": `${userdetails.userId}`,
-                },
-              }
-            );
-            if (!response.ok) {
-              throw new Error(errorMessage);
-            }
-            const userdetailsNew = await response.json();
-            const userdetailsStr = JSON.stringify(userdetailsNew);
-            document.cookie = `userdetails=${encodeURIComponent(
-              userdetailsStr
-            )}; max-age=${15 * 24 * 60 * 60}; secure;`;
-            expiryStatus = 2;
-          } catch (error) {
-            document.cookie = "userdetails=; max-age=0; secure;";
-            window.location.href = `https://harmonix-play.vercel.app/login?error=${error}`;
-            throw new Error(error);
-          }
-        }
         setExpiryCode(expiryStatus);
       } catch (error) {
         console.error("Error fetching expiry status:", error);
