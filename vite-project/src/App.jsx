@@ -50,18 +50,18 @@ function App() {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("userdetails="));
-    const cookieValue = cookie.split("=")[1];
-    const decodedValue = decodeURIComponent(cookieValue);
-    let userdetails;
-    userdetails = JSON.parse(decodedValue);
     const fetchExpiryStatus = async () => {
       try {
         const expiryStatus = getExpiryStatus();
         if (expiryStatus === 1) {
           try {
+            const cookie = document.cookie
+              .split("; ")
+              .find((row) => row.startsWith("userdetails="));
+            const cookieValue = cookie.split("=")[1];
+            const decodedValue = decodeURIComponent(cookieValue);
+            let userdetails;
+            userdetails = JSON.parse(decodedValue);
             const response = await fetch(
               "https://harmonix-stream.vercel.app/revive",
               {
