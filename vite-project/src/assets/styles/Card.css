@@ -26,7 +26,6 @@
 }
 
 .card:hover {
-    cursor: pointer;
     box-shadow:
         2px -2px 10px rgba(24, 222, 159, 0.488),
         /* Top */
@@ -36,7 +35,6 @@
         /* Right */
         0px 0px 0px rgba(0, 0, 0, 0);
     /* No shadow on bottom */
-    transform: scale(1.07);
 }
 
 /* .card:active{
@@ -87,6 +85,7 @@
     background: linear-gradient(rgba(89, 18, 196, 0.888), rgba(16, 16, 134, 0.61));
     color: #a4a8c6;
     font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.08s ease-out;
 }
 
