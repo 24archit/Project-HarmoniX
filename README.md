@@ -79,11 +79,12 @@
 
 <hr>
 
-<h2>📝 License</h2>
+### 📝 License
 
-<p>This project is protected under a <b>Custom Proprietary License</b>.
+This project is protected under a **Custom Proprietary License**.  
 Usage, reproduction, modification, or distribution of the code is not permitted without prior written consent from the author.
-For further details, please see the <a src="./LICENSE.txt">LICENSE file</a>.</p>
+For further details, please see the [LICENSE](./LICENSE.txt) file.
+
 
 <hr>
 
