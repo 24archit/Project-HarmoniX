@@ -366,7 +366,7 @@ app.get("/callback", async function (req, res) {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: authCode,
-      redirect_uri: "https://harmonix-play.vercel.app/callback", //${host}${port}/callback`,
+      redirect_uri: "https://harmonix-play.vercel.app/callback",
       grant_type: "authorization_code",
     },
     headers: {
@@ -438,15 +438,6 @@ app.get("/callback", async function (req, res) {
   });
 });
 
-// app.get("/user/home", async function (req, res) {
-//   res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
-// });
-// app.get("/user/artist/:id", async function (req, res) {
-//   res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
-// });
-// app.get("/user/search", async function (req, res) {
-//   res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
-// });
 app.get("/api/getTopTracksIndia", async (req, res) => {
   try {
     const topTracks = await getTopTracksIndia(req);
@@ -619,6 +610,3 @@ app.use((req, res, next) => {
   `);
 });
 module.exports = app;
-// app.listen(2424, () => {
-//   console.log(`Server Started, Listening on  : ${protocol}://${host}${port}`);
-// });

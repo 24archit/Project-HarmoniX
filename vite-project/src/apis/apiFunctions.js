@@ -196,17 +196,6 @@ export async function getUserInfo() {
   }
 }
 
-// export async function getExpiryStatus() {
-//   try {
-//     return await fetchData(
-//       `${protocol}://${host}${port}/getExpiryStatus`,
-//       "GET",
-//       "Failed to fetch expiry status"
-//     );
-//   } catch (error) {
-//     throw new Error(`Error fetching expiry status: ${error.message}`);
-//   }
-// }
 export async function getSearchResult(query, type) {
   try {
     return await fetchData(
