@@ -81,7 +81,9 @@
 
 <h2>📝 License</h2>
 
-<p>This project is licensed under the MIT License - see the <a href="./LICENSE.txt">LICENSE</a> file for details.</p>
+<p>This project is protected under a <b>Custom Proprietary License</b>.
+Usage, reproduction, modification, or distribution of the code is not permitted without prior written consent from the author.
+For further details, please see the <a src="./LICENSE.txt">LICENSE file</a>.</p>
 
 <hr>
 
