@@ -1,6 +1,6 @@
 # HarmoniX - Music To Your Mood 🎵
 
-<img src="./vite-project/src/assets/media/Logo_Readme.png" alt="HarmoniX Logo" width="100" height="100">
+<img src="./vite-project/src/assets/media/Logo_Readme.png" alt="HarmoniX Logo" width="875" height="398">
 
 <p>
   <strong>HarmoniX</strong> is a full-stack web application designed to elevate your music streaming experience. Integrating with the Spotify Web API, HarmoniX allows you to explore diverse playlists, discover new tracks, and seamlessly stream your favorite music. Enjoy real-time trending songs, manage your playlists, and effortlessly search for your desired artists, albums, and songs.
