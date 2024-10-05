@@ -79,19 +79,6 @@
 
 <hr>
 
-<h2>🧑‍💻 Contributing</h2>
-
-<p>Contributions are welcome! To contribute:</p>
-<ol>
-  <li>Fork the repository.</li>
-  <li>Create your feature branch (<code>git checkout -b feature/YourFeature</code>).</li>
-  <li>Commit your changes (<code>git commit -m 'Add YourFeature'</code>).</li>
-  <li>Push to the branch (<code>git push origin feature/YourFeature</code>).</li>
-  <li>Open a pull request.</li>
-</ol>
-
-<hr>
-
 <h2>📝 License</h2>
 
 <p>This project is licensed under the MIT License - see the <a href="./LICENSE">LICENSE</a> file for details.</p>
