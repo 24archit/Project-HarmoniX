@@ -1,0 +1,11 @@
+Copyright 2024 Archit Mishra.
+
+All rights reserved.
+
+This project and the source code contained in this repository (Harmonix) are the property of Archit Msihra. 
+
+Permission to use, copy, modify, or distribute this software for any purpose is strictly forbidden without explicit written permission from the owner.
+
+No portion of the backend code or the architecture is to be used, shared, or included in any other project, portfolio, or resume without explicit written consent.
+
+For inquiries regarding usage rights, please contact archit240305@gmail.com
