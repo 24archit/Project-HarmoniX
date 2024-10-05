@@ -1,4 +1,4 @@
-# HarmoniX - Music To Your Mood 🎵
+                        # HarmoniX - Music To Your Mood 🎵
 
 <img src="./vite-project/src/assets/media/Logo_Readme.png" alt="HarmoniX Logo" width="875" height="398">
 
