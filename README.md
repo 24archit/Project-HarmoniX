@@ -16,20 +16,20 @@
 
 <h3>Website Screenshots:</h3>
 <p><strong>Login Page:</strong></p>
-<img src="./vite-project/assets/media/Readme-Media/Login_SS_Readme.png" alt="Login Page" width="600">
+<img src="./vite-project/src/assets/media/Readme-Media/Login_SS_Readme.png" alt="Login Page" width="600">
 
 <p><strong>Home Page:</strong></p>
-<img src="./vite-project/assets/media/Readme-Media/Home_SS_Readme.png" alt="Home Page" width="600">
+<img src="./vite-project/src/assets/media/Readme-Media/Home_SS_Readme.png" alt="Home Page" width="600">
 
 <p><strong>Artist Page:</strong></p>
 <img src="./vite-project/assets/media/Readme-Media/Artist_SS_Readme.png" alt="Artist Page" width="600">
 
 <p><strong>Search Page:</strong></p>
-<img src="./vite-project/assets/media/Readme-Media/Search_Page_Categories_SS_Readme.png" alt="Search Page" width="600">
-<img src=./vite-project/assets/media/Readme-Media/SearchPage_SS_Readme.png" alt="Search Page" width="600">
+<img src="./vite-project/src/assets/media/Readme-Media/Search_Page_Categories_SS_Readme.png" alt="Search Page" width="600">
+<img src=./vite-project/src/assets/media/Readme-Media/SearchPage_SS_Readme.png" alt="Search Page" width="600">
 
 <p><strong>Logout Page:</strong></p>
-<img src="./vite-project/assets/media/Readme-Media/Logout_SS_Readme.png" alt="Logout Page" width="600">
+<img src="./vite-project/src/assets/media/Readme-Media/Logout_SS_Readme.png" alt="Logout Page" width="600">
 
 
 <hr>
