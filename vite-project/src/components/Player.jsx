@@ -15,10 +15,10 @@ const Player = ({ url, setNewUrl }) => {
     const [alertVisibility, setAlertVisibility] = useState(false);
 
     const handleVisibilityChange = useCallback(() => {
-        if (document.visibilityState === 'visible') {
-            if (playing) {
-                playerRef.current.seekTo(progress, 'fraction');
-            }
+        // Removed seeking logic to prevent rewinding
+        if (document.visibilityState === 'visible' && playing) {
+            // Continue playing if it was playing before
+            playerRef.current.seekTo(progress, 'fraction');
         }
     }, [playing, progress]);
 
@@ -109,7 +109,6 @@ const Player = ({ url, setNewUrl }) => {
 
     return (
         <>
-            
             <div className='player'>
                 <button className='prev-btn' onClick={playPrevious}>
                     <i className="fa-solid fa-backward-step"></i>
