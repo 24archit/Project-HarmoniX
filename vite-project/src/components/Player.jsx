@@ -83,11 +83,38 @@ const Player = ({ url, setNewUrl }) => {
         setVolumeIcon(icon);
     };
 
+    // Seek forward by 10 seconds
+    const seekForward = () => {
+        if (playerRef.current) {
+            const newProgress = Math.min(progress * duration + 10, duration); // Ensure we don't exceed duration
+            playerRef.current.seekTo(newProgress, 'seconds');
+            setProgress(newProgress / duration); // Update progress state
+        }
+    };
+
+    // Seek backward by 10 seconds
+    const seekBackward = () => {
+        if (playerRef.current) {
+            const newProgress = Math.max(progress * duration - 10, 0); // Ensure we don't go below 0
+            playerRef.current.seekTo(newProgress, 'seconds');
+            setProgress(newProgress / duration); // Update progress state
+        }
+    };
+
     return (
         <>
             <div className='player'>
+                <button className='prev-btn' onClick={() => console.log('Previous button clicked')}>
+                    <i className="fa-solid fa-backward-step"></i>
+                </button>
                 <button className='play-pause-btn' onClick={togglePlayPause}>
                     {playing ? <i className="fa-solid fa-pause icon"></i> : <i className="fa-solid fa-play icon"></i>}
+                </button>
+                <button className='next-btn' onClick={() => console.log('Next button clicked')}>
+                    <i className="fa-solid fa-forward-step"></i>
+                </button>
+                <button className='backward-btn' onClick={seekBackward}>
+                    <i className="fa-solid fa-backward"></i>
                 </button>
                 <input
                     type='range'
@@ -104,6 +131,9 @@ const Player = ({ url, setNewUrl }) => {
                 <span className='duration-board'>
                     {prettyMilliseconds((progress * duration) * 1000, { colonNotation: true, secondsDecimalDigits: 0 })} | {prettyMilliseconds(duration * 1000, { colonNotation: true, secondsDecimalDigits: 0 })}
                 </span>
+                <button className='forward-btn' onClick={seekForward}>
+                    <i className="fa-solid fa-forward"></i>
+                </button>
                 <i className={`fa-solid ${volumeIcon} volume-icon`}></i>
                 <input
                     type='range'
@@ -121,7 +151,7 @@ const Player = ({ url, setNewUrl }) => {
                         url={url}
                         playing={playing}
                         volume={volume}
-                        muted={false} 
+                        muted={false}
                         width='0px'
                         height='0px'
                         config={{
