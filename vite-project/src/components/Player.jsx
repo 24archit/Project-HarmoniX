@@ -9,6 +9,7 @@ const Player = ({ url, setNewUrl }) => {
     const [volume, setVolume] = useState(0.8);
     const [playing, setPlaying] = useState(true);
     const [duration, setDuration] = useState(0);
+    const [volumeIcon, setVolumeIcon] = useState('fa-volume-high');
     const playerRef = useRef(null);
     const [alertVisibility, setAlertVisibility] = useState(false);
     const progressRef = useRef(-1); // Use ref for progress to avoid re-renders
