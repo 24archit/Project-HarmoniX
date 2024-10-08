@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, Suspense, useCallback } from 'react';
 import prettyMilliseconds from 'pretty-ms';
-import ReactPlayer from 'react-player/youtube'; // Importing YouTube specific react-player
+import ReactPlayer from 'react-player/youtube'; 
 import { Snackbar, Alert, AlertTitle } from '@mui/material';
 
 import '../assets/styles/Player.css';
@@ -8,21 +8,21 @@ import '../assets/styles/Player.css';
 const Player = ({ url, setNewUrl }) => {
     const [volume, setVolume] = useState(0.8);
     const [playing, setPlaying] = useState(true);
+    const [progress, setProgress] = useState(-1);
     const [duration, setDuration] = useState(0);
     const [volumeIcon, setVolumeIcon] = useState('fa-volume-high');
     const playerRef = useRef(null);
     const [alertVisibility, setAlertVisibility] = useState(false);
-    const progressRef = useRef(-1); // Use ref for progress to avoid re-renders
 
     const handleVisibilityChange = useCallback(() => {
-        // Handle visibility changes
         if (document.visibilityState === 'visible') {
-            // Continue playing if the player is in playing state
+            // Resume playback if it was playing before switching tabs
             if (playing) {
-                playerRef.current.seekTo(progressRef.current, 'fraction');
+                playerRef.current.seekTo(progress, 'fraction');
+                playerRef.current.getInternalPlayer().playVideo(); // Ensure the video plays
             }
         }
-    }, [playing]);
+    }, [playing, progress]);
 
     useEffect(() => {
         document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -36,20 +36,37 @@ const Player = ({ url, setNewUrl }) => {
             setAlertVisibility(false);
             playerRef.current.seekTo(0, 'seconds');
             setPlaying(true);
-            progressRef.current = 0; // Reset progress on new URL
         }
     }, [url]);
 
     useEffect(() => {
-        // This effect updates the progress reference without triggering re-renders
-        const updateProgress = (state) => {
-            progressRef.current = state.played;
-        };
-        const handleProgress = (state) => updateProgress(state);
-        return () => {
-            // Cleanup if needed
-        };
-    }, []);
+        updateVolumeIcon(volume);
+    }, [volume]);
+
+    useEffect(() => {
+        if (progress === 1) {
+            setPlaying(false);
+        }
+    }, [progress]);
+
+    const handleVolumeChange = (event) => {
+        const newVolume = parseFloat(event.target.value);
+        setVolume(newVolume);
+        updateVolumeIcon(newVolume);
+    };
+
+    const togglePlayPause = () => {
+        setPlaying((prev) => !prev);
+        if (playing) {
+            playerRef.current.getInternalPlayer().pauseVideo(); // Pause video on play/pause toggle
+        } else {
+            playerRef.current.getInternalPlayer().playVideo(); // Play video on play/pause toggle
+        }
+    };
+
+    const handleProgress = (state) => {
+        setProgress(state.played);
+    };
 
     const handleDuration = (duration) => {
         setDuration(duration);
@@ -57,23 +74,27 @@ const Player = ({ url, setNewUrl }) => {
 
     const handleSeekChange = (event) => {
         const newProgress = parseFloat(event.target.value);
-        progressRef.current = newProgress; // Update progress ref
+        setProgress(newProgress);
         playerRef.current.seekTo(newProgress, 'fraction');
     };
 
-    const togglePlayPause = () => {
-        setPlaying((prev) => !prev);
+    const playPrevious = () => {
+        console.log('Previous button clicked');
+    };
+
+    const playNext = () => {
+        console.log('Next button clicked');
     };
 
     const seekForward = () => {
-        const newProgress = Math.min(progressRef.current + 10 / duration, 1);
-        progressRef.current = newProgress; // Update progress ref
+        const newProgress = Math.min(progress + 10 / duration, 1);
+        setProgress(newProgress);
         playerRef.current.seekTo(newProgress, 'fraction');
     };
 
     const seekBackward = () => {
-        const newProgress = Math.max(progressRef.current - 10 / duration, 0);
-        progressRef.current = newProgress; // Update progress ref
+        const newProgress = Math.max(progress - 10 / duration, 0);
+        setProgress(newProgress);
         playerRef.current.seekTo(newProgress, 'fraction');
     };
 
@@ -82,29 +103,27 @@ const Player = ({ url, setNewUrl }) => {
         setVolumeIcon(icon);
     };
 
-    const handleVolumeChange = (event) => {
-        const newVolume = parseFloat(event.target.value);
-        setVolume(newVolume);
-        updateVolumeIcon(newVolume);
+    const onReady = () => {
+        // Handle any ready actions if needed
     };
 
     const handlePlayerError = (error) => {
         console.error('Error playing video:', error);
         setAlertVisibility(true);
         setNewUrl("");
-        progressRef.current = 0; // Reset progress on error
+        setProgress(0);
     };
 
     return (
         <>
             <div className='player'>
-                <button className='prev-btn' onClick={() => console.log('Previous button clicked')}>
+                <button className='prev-btn' onClick={playPrevious}>
                     <i className="fa-solid fa-backward-step"></i>
                 </button>
                 <button className='play-pause-btn' onClick={togglePlayPause}>
-                    {playing && progressRef.current !== 1 && url ? <i className="fa-solid fa-pause icon"></i> : <i className="fa-solid fa-play icon"></i>}
+                    {playing && progress !== 1 && url ? <i className="fa-solid fa-pause icon"></i> : <i className="fa-solid fa-play icon"></i>}
                 </button>
-                <button className='next-btn' onClick={() => console.log('Next button clicked')}>
+                <button className='next-btn' onClick={playNext}>
                     <i className="fa-solid fa-forward-step"></i>
                 </button>
                 <input
@@ -112,14 +131,14 @@ const Player = ({ url, setNewUrl }) => {
                     min={0}
                     max={1}
                     step='0.01'
-                    value={progressRef.current}
+                    value={progress}
                     onChange={handleSeekChange}
                 />
                 <button className='backward-btn' onClick={seekBackward}>
                     <i className="fa-solid fa-backward"></i>
                 </button>
                 <span className='duration-board'>
-                    {prettyMilliseconds(Math.floor(progressRef.current * duration) * 1000, { colonNotation: true, secondsDecimalDigits: 0 })} | {prettyMilliseconds(Math.floor(duration) * 1000, { colonNotation: true, secondsDecimalDigits: 0 })}
+                    {prettyMilliseconds((Math.floor(progress * duration)) * 1000, { colonNotation: true, secondsDecimalDigits: 0 })} | {prettyMilliseconds((Math.floor(duration)) * 1000, { colonNotation: true, secondsDecimalDigits: 0 })}
                 </span>
                 <button className='forward-btn' onClick={seekForward}>
                     <i className="fa-solid fa-forward"></i>
@@ -141,7 +160,7 @@ const Player = ({ url, setNewUrl }) => {
                         url={url}
                         playing={playing}
                         volume={volume}
-                        muted={false} // Ensure muted is set to false for audio to play
+                        muted={false} 
                         width='0px'
                         height='0px'
                         config={{
@@ -157,14 +176,14 @@ const Player = ({ url, setNewUrl }) => {
                         }}
                         onProgress={handleProgress}
                         onDuration={handleDuration}
-                        onReady={() => {}}
+                        onReady={onReady}
                         onError={handlePlayerError}
                     />
                 )}
             </Suspense>
             {alertVisibility && (
                 <Snackbar
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
                     autoHideDuration={6000}
                     open={alertVisibility}
                     onClose={() => setAlertVisibility(false)}
