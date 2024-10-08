@@ -53,7 +53,7 @@ async function fetchData(url, method, errorMessage) {
     const userdetailsStr = JSON.stringify(userdetailsNew);
     document.cookie = `userdetails=${encodeURIComponent(
       userdetailsStr
-    )}; max-age=${15 * 24 * 60 * 60}; secure;`;
+    )}; max-age=${15 * 24 * 60 * 60}; HttpOnly; secure;`;
 
     try {
       const response = await fetch(url, {
