@@ -1,35 +1,31 @@
-.logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-#logo-symbol {
-  font-size: 3.6rem;
-  color: rgb(26, 135, 46);
-}
-
-#logo-name {
-  font-family: 'Lucida Console';
-  text-align: center;
-  color: white;
-  font-size: 2rem;
-}
-
-#slogan {
-  font-family: 'Courier New';
-  color: rgb(239, 177, 61);
-  font-weight: 549;
-}
-
-@media (max-width: 768px) {
-  #logo-symbol {
-      font-size: 2.4rem;
+.logo{
+    display: flex; 
+     align-items: center;
+    justify-content: center;  
+    text-decoration: none;
   }
-  #logo-name {
-      font-size: 1.5rem;
+  .logo-name{
+    margin-left: 0rem;
+    align-items: center;
+    justify-content: center;
   }
-  #slogan {
-      font-size: 0.9rem;
+  #logo-symbol{
+    font-size: 3.6rem; 
+    color:rgb(26, 135, 46);
   }
-}
+  #logo-name{
+    font-family : Lucida Console;
+    text-align: center; 
+    justify-content: center;  
+    letter-spacing: 0.18rem;
+    color: white;
+    font-size: 2rem;
+  }
+  #slogan{
+    font-family: Courier New;
+    text-align: center;
+    color:rgb(239, 177, 61);
+    font-weight: 549; 
+    justify-content: center; 
+    letter-spacing: 0.03rem;
+  }

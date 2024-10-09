@@ -1,21 +1,15 @@
-.nav-bar {
-    justify-content: space-between;
-    display: flex;
+.nav-bar{
+    justify-content:left;
+    display:flex;
     align-items: center;
     position: fixed;
     top: 0rem;
     left: 0rem;
-    background: linear-gradient(#00091f, #000000, #00091f);
+    background: linear-gradient(#00091f, #000000,#00091f);
     width: 100%;
     z-index: 1000;
-    padding: 0.5rem 1rem;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-    .nav-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0.5rem;
-    }
+    padding-left: 0.7rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.2rem;
+    
 }
