@@ -1,66 +1,38 @@
-.nav-search-bar{
-    margin-left: 7rem;
-    justify-content: center;
+.nav-search-bar {
+    margin-left: 2rem;
     display: flex;
     align-items: center;
-    height:1.7rem;
+    height: 1.7rem;
     border: 0.01rem solid rgb(99, 99, 227);
     border-radius: 1rem;
     opacity: 0.6;
-    transition: opacity 0.4s ease-out; 
-    width: fit-content;
+    transition: opacity 0.4s ease-out;
 }
-.nav-search-bar:hover{
+
+.nav-search-bar:hover {
     opacity: 1;
-    box-shadow: 0.25rem 0.25rem 0.9rem  rgba(71, 180, 219, 0.487);
 }
-.nav-search-bar:focus-within{   
-    opacity: 1;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0.6));
-    box-shadow: 0 0 2.2rem 0.17rem rgba(52, 176, 221, 0.417);
+
+#nav-select-category, #nav-input-bar, #nav-search-button {
+    padding: 0.3rem;
 }
-#nav-select-category{
-    border: none;
-    height: 100%;
+
+#nav-select-category {
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
-    width: auto;
-    background-color: rgb(121, 121, 195);
-    color: white;
-    padding:0.3rem;
-    outline: none;
-    text-align: center;
 }
-#nav-input-bar{
-    border: none;
-    width: 32rem;
-    height: 100%;
-    text-align: left; 
-    background-color: white;  
-    padding:0.3rem;
-    outline: none;
-    text-decoration: none;
-    caret-color: rgb(52, 169, 236);
+
+#nav-input-bar {
+    width: 20rem;
 }
-#nav-search-button{
-    border-bottom-right-radius: 1rem;
-    border-top-right-radius: 1rem;
-    height: 100%;
-    border: none;
-    width:12%;
-    padding:0.3rem;
-    outline: none;
-    font-size: 0.8rem;
-    transition: background-color 0.4s ease-out;
-    color: white;
-    background-color: rgb(171, 171, 210);
+
+@media (max-width: 768px) {
+    .nav-search-bar {
+        margin-left: 0;
+        width: 100%;
+        justify-content: space-between;
+    }
+    #nav-input-bar {
+        width: 12rem;
+    }
 }
-#nav-search-button:hover{
-    opacity: 1;
-    background-color:rgb(52, 169, 236) ;
-    cursor: pointer;
-}
-#nav-search-button:active{
-    background-color: rgb(25, 25, 83);
-    color: white;
-} 
