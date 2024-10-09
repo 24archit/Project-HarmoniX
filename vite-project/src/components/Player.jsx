@@ -13,7 +13,7 @@ const Player = ({ url, setNewUrl }) => {
     const [volumeIcon, setVolumeIcon] = useState('fa-volume-high');
     const playerRef = useRef(null);
     const [alertVisibility, setAlertVisibility] = useState(false);
-    const intervalRef = useRef(null); // Ref to store the interval
+    const intervalRef = useRef(null);
 
     useEffect(() => {
         if (url) {
@@ -35,12 +35,14 @@ const Player = ({ url, setNewUrl }) => {
 
     useEffect(() => {
         // Start monitoring playback when the player is ready
-        if (playing) {
+        if (playing && duration > 0) {
             intervalRef.current = setInterval(() => {
                 if (playerRef.current) {
-                    // Get the current progress and update state
-                    const currentProgress = playerRef.current.getCurrentTime() / duration;
-                    setProgress(currentProgress);
+                    const currentTime = playerRef.current.getCurrentTime();
+                    if (duration > 0 && !isNaN(currentTime)) {
+                        const currentProgress = currentTime / duration;
+                        setProgress(currentProgress);
+                    }
                 }
             }, 1000); // Check every second
         } else {
@@ -68,7 +70,17 @@ const Player = ({ url, setNewUrl }) => {
     };
 
     const handleDuration = (duration) => {
-        setDuration(duration);
+        if (!isNaN(duration)) {
+            setDuration(duration);
+        }
+    };
+
+    const handleSeekChange = (e) => {
+        const newProgress = parseFloat(e.target.value);
+        if (!isNaN(newProgress) && duration > 0) {
+            setProgress(newProgress);
+            playerRef.current.seekTo(newProgress * duration, 'seconds');
+        }
     };
 
     const handlePlayerError = (error) => {
@@ -94,12 +106,8 @@ const Player = ({ url, setNewUrl }) => {
                     min={0}
                     max={1}
                     step='0.01'
-                    value={progress}
-                    onChange={(e) => {
-                        const newProgress = parseFloat(e.target.value);
-                        setProgress(newProgress);
-                        playerRef.current.seekTo(newProgress * duration, 'seconds');
-                    }}
+                    value={isNaN(progress) ? 0 : progress}
+                    onChange={handleSeekChange}
                 />
                 <span className='duration-board'>
                     {prettyMilliseconds((progress * duration) * 1000, { colonNotation: true, secondsDecimalDigits: 0 })} | {prettyMilliseconds(duration * 1000, { colonNotation: true, secondsDecimalDigits: 0 })}
@@ -121,7 +129,7 @@ const Player = ({ url, setNewUrl }) => {
                         url={url}
                         playing={playing}
                         volume={volume}
-                        muted={false} 
+                        muted={false}
                         width='0px'
                         height='0px'
                         config={{
@@ -142,7 +150,7 @@ const Player = ({ url, setNewUrl }) => {
             </Suspense>
             {alertVisibility && (
                 <Snackbar
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                     autoHideDuration={6000}
                     open={alertVisibility}
                     onClose={() => setAlertVisibility(false)}
