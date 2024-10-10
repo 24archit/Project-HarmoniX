@@ -54,6 +54,7 @@ export default function HomePagePlaylistTrackSection(props) {
                   ))}
                 </React.Fragment>
               }
+              spotifyUrl={item.track.external_urls.spotify}
             />
           ))}
         </Slider>
