@@ -18,7 +18,7 @@ export function SectionCard({
   cardType = "",
   cardId = "",
   setNewUrl,
-  spotifyUrl="",
+  spotifyUrl = "",
 }) {
   const [alertVisibility, setAlertVisibility] = useState(false);
   const navigate = useNavigate();
@@ -42,9 +42,12 @@ export function SectionCard({
   return (
     <div className="card">
       <div className="card-details">
-        <a href={spotifyUrl} target="_blank" rel="noopener noreferrer">
-          <img className="spotify-logo" src={spotifyLogo} alt="Spotify Logo" />
-        </a>
+        <div className="spotify-logo">
+          <a href={spotifyUrl} target="_blank" rel="noopener noreferrer">
+            <img src={spotifyLogo} alt="Spotify Logo" />
+          </a>
+        </div>
+
         <img
           className="card-photo"
           src={imgSrc}

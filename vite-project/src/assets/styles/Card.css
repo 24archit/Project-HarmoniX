@@ -171,9 +171,24 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
 }
-.spotify-logo{
+.spotify-logo {
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
     opacity: 0.6;
+}
+
+.spotify-logo a {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.spotify-logo img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+.spotify-logo:hover{
+    opacity: 1;
 }
