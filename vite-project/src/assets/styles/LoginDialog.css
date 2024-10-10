@@ -155,7 +155,7 @@ html {
 }
 
 .powered-by-logos p {
-    font-size: 25px;
+    font-size: 40px;
     margin-bottom: 10px;
     background: linear-gradient(to right, #33ffff, #0042c7); /* Your gradient colors */
     -webkit-background-clip: text;
