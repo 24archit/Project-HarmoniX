@@ -65,12 +65,12 @@ export default function LoginDialog() {
                         <div className="powered-by-logos">
                             <p>Powered by:</p>
                             <img 
-                                src="./assets/media/spotify_full_logo.png" 
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/1200px-Spotify_logo_with_text.svg.png" 
                                 alt="Spotify Logo" 
                                 className="logo-full"
                             />
                             <img 
-                                src="./assets/media/youtube_full_logo.jpg" 
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1280px-Logo_of_YouTube_%282015-2017%29.svg.png" 
                                 alt="YouTube Logo" 
                                 className="logo-full"
                             />
