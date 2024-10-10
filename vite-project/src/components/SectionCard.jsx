@@ -6,6 +6,7 @@ import { format } from "indian-number-format";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Snackbar, Alert, AlertTitle} from '@mui/material';
+import spotifyLogo from '../assets/media/Spotify_logo.png';
 export function SectionCard({
     imgSrc = TrackLogo,
     cardName = 'Loading..',
@@ -39,7 +40,7 @@ export function SectionCard({
     return (
         <div className="card">
             <div className='card-details'>
-                <img className='spotify-logo' src="../assets/media/Spotify_logo.png"/>
+                <img className='spotify-logo' src={spotifyLogo}/>
                 <img className="card-photo" src={imgSrc} alt="img1" draggable="true" style={cardType === "artist" ? { borderRadius: '50%' } : {}} />
                 <p className="card-name">{cardName}</p>
                 {albumType && (
