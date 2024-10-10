@@ -39,6 +39,7 @@ export function SectionCard({
     return (
         <div className="card">
             <div className='card-details'>
+                <img className='spotify-logo' src="./assets/media/Spotify_logo.png"/>
                 <img src={imgSrc} alt="img1" draggable="true" style={cardType === "artist" ? { borderRadius: '50%' } : {}} />
                 <p className="card-name">{cardName}</p>
                 {albumType && (
