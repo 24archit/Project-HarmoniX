@@ -40,7 +40,7 @@
 /* .card:active{
     box-shadow: 2px 2px 10px 7px rgba(255, 255, 255, 0.722)
 } */
-.card img {
+.card-photo {
     height: 13rem;
     width: 13rem;
     border-radius: 1rem;
