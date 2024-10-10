@@ -1,10 +1,4 @@
-* {
-    padding: 0;
-    border: none;
-    font-family: 'Courier New', Courier, monospace, sans-serif;
-    margin: 0; 
-    box-sizing: border-box;
-}
+
 
 html {
     scroll-behavior: smooth;
@@ -161,9 +155,11 @@ html {
 }
 
 .powered-by-logos p {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 10px;
-    color: #ffffff;
+    background: linear-gradient(to right, #33ffff, #0042c7); /* Your gradient colors */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .powered-by-logos img {
