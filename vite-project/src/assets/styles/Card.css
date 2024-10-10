@@ -2,7 +2,7 @@
 
 .card {
     background: linear-gradient(#010d2bcb, #0000009b, #010d2dbc, rgba(255, 255, 255, 0.145));
-    height: 24rem;
+    height: 25.3rem;
     width: 18rem;
     padding-top: 1rem;
     padding-left: 0rem;
@@ -175,4 +175,5 @@
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
+    opacity: 0.6;
 }
