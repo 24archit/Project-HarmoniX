@@ -155,9 +155,9 @@ html {
 }
 
 .powered-by-logos p {
-    font-size: 40px;
+    font-size: 30px;
     margin-bottom: 10px;
-    background: linear-gradient(to right, #33ffff, #0042c7); /* Your gradient colors */
+    background: linear-gradient(to right, #33ffff, #6bf8bd); /* Your gradient colors */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
