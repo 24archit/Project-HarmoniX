@@ -30,6 +30,7 @@ export default function SearchPageTrackSection(props) {
                         cardType="track"
                         cardId={item.id}
                         setNewUrl={props.setNewUrl}
+                        spotifyUrl={item.external_urls.spotify}
                     />
                 ))}
             </div>

@@ -39,6 +39,7 @@ export default function SearchPagePlaylistSection({
                         }
                         cardType='playlist'
                         cardId={item.id}
+                        spotifyUrl={item.external_urls.spotify}
                     />
                 ))}
             </div>

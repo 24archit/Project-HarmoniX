@@ -22,6 +22,7 @@ export default function SearchPageArtistSection(props) {
                         followers={item.followers ? item.followers.total : 0}  
                         cardType ="artist"
                         cardId={item.id}
+                        spotifyUrl={item.external_urls.spotify}
                     />
                 ))}
             </div>

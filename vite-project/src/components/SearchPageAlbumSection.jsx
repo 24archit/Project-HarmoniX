@@ -30,6 +30,7 @@ export default function SearchPageAlbumSection(props) {
                         albumType={item.album_type}
                         cardType='album'
                         cardId={item.id}
+                        spotifyUrl={item.external_urls.spotify}
                     />
                 ))}
             </div>
