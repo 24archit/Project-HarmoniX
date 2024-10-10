@@ -70,7 +70,7 @@ export default function LoginDialog() {
                                 className="logo-full"
                             />
                             <img 
-                                src="./assets/media/youtube_full_logo.png" 
+                                src="./assets/media/youtube_full_logo.jpg" 
                                 alt="YouTube Logo" 
                                 className="logo-full"
                             />
