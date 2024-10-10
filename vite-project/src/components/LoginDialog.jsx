@@ -64,6 +64,7 @@ export default function LoginDialog() {
                         
                         <div className="powered-by-logos">
                             <p>Powered by:</p>
+                            <div className="logo-container">
                             <img 
                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/1200px-Spotify_logo_with_text.svg.png" 
                                 alt="Spotify Logo" 
@@ -74,6 +75,7 @@ export default function LoginDialog() {
                                 alt="YouTube Logo" 
                                 className="logo-full"
                             />
+                            </div>
                         </div>
                        
                         <button id="spotify-login-btn" onClick={handleClick}>Login with Spotify</button>

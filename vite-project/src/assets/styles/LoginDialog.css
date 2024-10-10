@@ -120,7 +120,6 @@ html {
 
 /* Login Button */
 #spotify-login-btn {
-    margin-top: 3rem;
     height: 2.1rem;
     background-color: rgba(135, 135, 210, 0.565);
     border-radius: 0.4rem;
@@ -174,7 +173,7 @@ html {
 
 .powered-by-logos .logo-full {
     display: block;
-    height: 40px; /* Adjust the height of your full word logos */
+    height: 50px; /* Adjust the height of your full word logos */
     margin: 5px auto;
     width: auto;
     max-width: 80%;
@@ -184,4 +183,9 @@ html {
 ::-webkit-scrollbar-thumb {
     background: linear-gradient(#09fff38f, rgba(73, 156, 215, 0.627));
     border-radius: 0.375rem;
+}
+.logo-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
