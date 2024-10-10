@@ -120,6 +120,7 @@ html {
 
 /* Login Button */
 #spotify-login-btn {
+    margin-top: 0.7rem;
     height: 2.1rem;
     background-color: rgba(135, 135, 210, 0.565);
     border-radius: 0.4rem;
@@ -160,7 +161,7 @@ html {
 }
 
 .powered-by-logos p {
-    font-size: 14px;
+    font-size: 20px;
     margin-bottom: 10px;
     color: #ffffff;
 }
