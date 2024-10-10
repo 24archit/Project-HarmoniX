@@ -63,6 +63,7 @@ html{
     flex-direction: column;
     align-items: center;
     border-radius: 7rem;
+    text-align: center;
     box-shadow: 0px 0px 60px rgba(47, 213, 235, 0.705), 0px 0px 30px rgba(112, 241, 112, 0.562), 0px 0px 90px rgba(10, 5, 84, 0.891);
 }
 .full-logo{
@@ -147,4 +148,19 @@ html{
     background-color: rgb(25, 25, 83);
     color: rgb(232, 195, 10);
     animation: none;
+}
+.powered-by-logos {
+    margin: 20px 0;
+}
+
+.powered-by-logos p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.powered-by-logos .logo {
+    height: 30px;
+    margin: 0 10px;
+    vertical-align: middle;
 }

@@ -12,7 +12,7 @@ function generateRandomString(length) {
     return result;
 }
 export default function LoginDialog() {
-    const[error, setError] = useState("");
+    const [error, setError] = useState("");
     useEffect(() => {
         const fetchError = async () => {
             const { error } = useParams();
@@ -22,7 +22,7 @@ export default function LoginDialog() {
         fetchError();
       }, []);
       
-    const handleClick = () => { // Fixed typo in function name
+    const handleClick = () => {
         const originalState = generateRandomString(16);
         localStorage.setItem('state', `${originalState}`);
         const url = `https://harmonix-stream.vercel.app/login-spotify?state=${originalState}`;
@@ -88,7 +88,21 @@ export default function LoginDialog() {
                             <p>Welcome to <b>HarmoniX,</b></p>
                             <p>where "every beat finds its harmony".</p>
                         </div>
-                        <p id="login-to-spotify">**Login to your "Spotify Account" to enjoy services**</p>
+                        
+                        <div className="powered-by-logos">
+                            <p>Powered by:</p>
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
+                                alt="Spotify Logo" 
+                                className="logo"
+                            />
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
+                                alt="YouTube Logo" 
+                                className="logo"
+                            />
+                        </div>
+                       
                         <button id="spotify-login-btn" onClick={handleClick}>Login with Spotify</button>
                     </div>
                 </div>
