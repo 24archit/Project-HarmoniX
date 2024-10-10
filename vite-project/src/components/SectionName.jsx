@@ -5,7 +5,7 @@ export function SectionName(props) {
     <div className="section-name">
       <li>
         <i className={props.iconClass} id={props.iconId}></i>
-        {props.name}
+         {props.name}
       </li>
       <button className="more-btn-home">&gt;</button>
     </div>

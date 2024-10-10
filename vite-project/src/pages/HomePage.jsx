@@ -50,7 +50,7 @@ export default function HomePage({ setNewUrl }) {
         <HomePagePlaylistTrackSection
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Top Tracks: Live from India"
+          name=" Top Tracks: Live from India"
           data={topIndiaTracks.slice(0, 12)}
           setNewUrl={setNewUrl}
           showMore={topIndiaTracks.length > 12}
@@ -60,7 +60,7 @@ export default function HomePage({ setNewUrl }) {
         <SectionLoading
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Top Tracks: Live from India"
+          name=" Top Tracks: Live from India"
           setNewUrl={setNewUrl}
         />
       )}
@@ -69,7 +69,7 @@ export default function HomePage({ setNewUrl }) {
         <HomePagePlaylistTrackSection
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Sync: Global Top Tracks"
+          name=" Sync: Global Top Tracks"
           data={topGlobalTracks.slice(0, 12)}
           setNewUrl={setNewUrl}
           showMore={topGlobalTracks.length > 12}
@@ -79,7 +79,7 @@ export default function HomePage({ setNewUrl }) {
         <SectionLoading
           iconClass="fa-solid fa-arrow-trend-up"
           iconId="trend-icon"
-          name="Sync: Global Top Tracks"
+          name=" Sync: Global Top Tracks"
           setNewUrl={setNewUrl}
         />
       )}
