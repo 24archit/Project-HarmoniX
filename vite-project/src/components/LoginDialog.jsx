@@ -11,6 +11,7 @@ function generateRandomString(length) {
     }
     return result;
 }
+
 export default function LoginDialog() {
     const [error, setError] = useState("");
     useEffect(() => {
@@ -18,10 +19,9 @@ export default function LoginDialog() {
             const { error } = useParams();
             setError(error);
         };
-    
         fetchError();
-      }, []);
-      
+    }, []);
+
     const handleClick = () => {
         const originalState = generateRandomString(16);
         localStorage.setItem('state', `${originalState}`);
@@ -29,48 +29,21 @@ export default function LoginDialog() {
         window.location.href = url;
     };
 
-    const errorPageStyles = {
-        body: {
-            fontFamily: 'Arial, sans-serif',
-            textAlign: 'center',
-            padding: '50px',
-            background: 'linear-gradient(135deg, #0d0d0d, #1a237e, #4a148c)',
-            color: '#ffffff',
-        },
-        h1: { color: '#ff4081' },
-        p: { margin: '20px 0' },
-        a: {
-            color: '#64ffda',
-            textDecoration: 'none',
-            border: '2px solid #64ffda',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            transition: 'background 0.3s, color 0.3s',
-        },
-        aHover: {
-            background: '#64ffda',
-            color: '#0d0d0d',
-        },
-        footer: { marginTop: '40px' },
-    };
-
     return (
         <>
             {error === "access_denied" ? (
-                <div style={errorPageStyles.body}>
-                    <h1 style={errorPageStyles.h1}>Authorization Failed</h1>
-                    <p style={errorPageStyles.p}>You need to authorize your Spotify account to enjoy our services. Please try again.</p>
+                <div className="error-body">
+                    <h1 className="error-title">Authorization Failed</h1>
+                    <p className="error-message">
+                        You need to authorize your Spotify account to enjoy our services. Please try again.
+                    </p>
                     <a
                         href="https://harmonix-play.vercel.app/login"
-                        style={errorPageStyles.a}
-                        onMouseOver={(e) => e.currentTarget.style = `background: ${errorPageStyles.aHover.background}; color: ${errorPageStyles.aHover.color};`}
-                        onMouseOut={(e) => e.currentTarget.style = `color: ${errorPageStyles.a.color}; border: 2px solid ${errorPageStyles.a.color}; background: none;`}
+                        className="retry-login-btn"
                     >
                         Login
                     </a>
-                    <footer style={errorPageStyles.footer}>
-                        <p>&copy; Team Harmonix</p>
-                    </footer>
+                    <footer className="footer">&copy; Team Harmonix</footer>
                 </div>
             ) : (
                 <div id="login-bg">
@@ -92,14 +65,14 @@ export default function LoginDialog() {
                         <div className="powered-by-logos">
                             <p>Powered by:</p>
                             <img 
-                                src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
+                                src="./assets/media/spotify_full_logo.png" 
                                 alt="Spotify Logo" 
-                                className="logo"
+                                className="logo-full"
                             />
                             <img 
-                                src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" 
+                                src="./assets/media/youtube_full_logo.png" 
                                 alt="YouTube Logo" 
-                                className="logo"
+                                className="logo-full"
                             />
                         </div>
                        
