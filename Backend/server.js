@@ -374,21 +374,6 @@ app.get("/callback", async function (req, res) {
   if (!authCode) {
     return res.status(400).json({ error: "No authorization code provided" });
   }
-
-  const authOptions = {
-    url: "https://accounts.spotify.com/api/token",
-    form: {
-      code: authCode,
-      redirect_uri: "https://harmonix-play.vercel.app/callback",
-      grant_type: "authorization_code",
-    },
-    headers: {
-      Authorization:
-        "Basic " +
-        Buffer.from(client_id + ":" + client_secret).toString("base64"),
-    },
-    json: true,
-  };
   try {
     // Request for the access and refresh tokens
     const tokenResponse = await axios.post(
@@ -458,14 +443,6 @@ app.get("/callback", async function (req, res) {
               .status(500)
               .json({ error: "Database error during update" });
           }
-
-          // Successful update
-          return res
-            .status(200)
-            .json({
-              message: "User tokens updated successfully",
-              data: updateData,
-            });
         } else {
           // Handle any other errors during insert
           console.error("Error inserting user details:", insertError);
@@ -476,10 +453,7 @@ app.get("/callback", async function (req, res) {
       }
 
       // Successful insert
-      return res
-        .status(201)
-        .json({ message: "User tokens inserted successfully", data: data });
-
+      
       // Prepare response with user details and token expiration time
       const userdetails = {
         userId: userId,
