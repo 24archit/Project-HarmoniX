@@ -59,22 +59,21 @@ async function updateData(req, res, accessToken) {
 async function getToken(req, tokenType) {
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
-      "userid": req.headers["user-id"], // Set the header properly
+      userid: req.headers["user-id"], // Pass Spotify ID from request header
     },
   });
   
   try {
     const { data, error } = await supabase
       .from("userdetails")
-      .select("*") // No need for .eq() since RLS will check
-      .single(); // This retrieves a single row
-  
-    console.log(data);
-  
+      .select("*")
+      .eq("userspotifyid", req.headers["user-id"])
+      .single();
+
+      
     if (error || !data) {
       throw new Error("Database query failed");
     }
-  
     if (tokenType === "accessToken") {
       return data.accesstoken;
     } else {
