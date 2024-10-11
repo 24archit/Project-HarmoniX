@@ -17,7 +17,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Set the connection with SQL Database
+
 const { createClient } = require("@supabase/supabase-js");
 
 const supabaseUrl = process.env.REACT_APP_HARMONIX_SUPABASE_URL;
@@ -271,8 +271,7 @@ app.use(cookieParser());
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
   if (
-    API_Access_Header ===
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    API_Access_Header === process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN
   ) {
     next();
   } else {
