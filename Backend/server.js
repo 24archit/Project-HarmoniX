@@ -415,7 +415,7 @@ app.get("/callback", async function (req, res) {
     });
 
     const userId = userResponse.data.id;  // Get the Spotify user ID
-
+    console.log(userId);
     // Insert or update user details in Supabase
     try {
       // Create a new Supabase client for this user (passing user-id in the headers)
