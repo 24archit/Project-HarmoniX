@@ -37,7 +37,7 @@ const scope =
 async function updateData(req, res, accessToken) {
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
-      "user-id": req.headers["user-id"],  // Pass Spotify ID from request header
+      "userid": req.headers["user-id"],  // Pass Spotify ID from request header
     },
   });
   const { data, error } = await supabase
@@ -56,7 +56,7 @@ async function updateData(req, res, accessToken) {
 async function getToken(req, tokenType) {
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
-      "user-id": req.headers["user-id"],  // Pass Spotify ID from request header
+      "userid": req.headers["user-id"],  // Pass Spotify ID from request header
     },
   });
 
@@ -422,7 +422,7 @@ app.get("/callback", async function (req, res) {
       // Create a new Supabase client for this user (passing user-id in the headers)
       const supabaseWithHeaders = createClient(supabaseUrl, supabaseKey, {
         headers: {
-          "user-id": userId,  // Pass Spotify ID as a header
+          "userid": userId,  // Pass Spotify ID as a header
         },
       });
 
