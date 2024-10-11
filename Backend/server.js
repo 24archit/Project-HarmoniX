@@ -1,7 +1,7 @@
 // Importing Required Packages
 const express = require("express");
 const querystring = require("querystring");
-const axios = require('axios');
+const axios = require("axios");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 import("node-fetch");
@@ -10,19 +10,17 @@ const app = express();
 
 const cors = require("cors");
 const corsOptions = {
-  origin: "https://harmonix-play.vercel.app", 
+  origin: "https://harmonix-play.vercel.app",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   allowedHeaders: ["local-api-access-token", "expiry-code", "user-id"],
 };
 app.use(cors(corsOptions));
 
-
 const { createClient } = require("@supabase/supabase-js");
 
 const supabaseUrl = process.env.REACT_APP_HARMONIX_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_ANON_KEY;
-
 
 // Defined Useful Information for API Requests
 
@@ -37,7 +35,7 @@ const scope =
 async function updateData(req, res, accessToken) {
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
-      "userid": req.headers["user-id"],  // Pass Spotify ID from request header
+      userid: req.headers["user-id"], // Pass Spotify ID from request header
     },
   });
   const { data, error } = await supabase
@@ -56,7 +54,7 @@ async function updateData(req, res, accessToken) {
 async function getToken(req, tokenType) {
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
-      "userid": req.headers["user-id"],  // Pass Spotify ID from request header
+      userid: req.headers["user-id"], // Pass Spotify ID from request header
     },
   });
 
@@ -270,9 +268,7 @@ app.use(cookieParser());
 // Apply authenticateRequest middleware to your API routes
 app.use("/api", function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
-  if (
-    API_Access_Header === process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN
-  ) {
+  if (API_Access_Header === process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN) {
     next();
   } else {
     res.status(403).send(`
@@ -341,7 +337,7 @@ app.use("/api", async function (req, res, next) {
       await updateData(req, res, tokens.access_token);
       next();
     } catch (error) {
-      res.status(400).json({error: "Unable to update accessToken"});
+      res.status(400).json({ error: "Unable to update accessToken" });
       return;
     }
   } else if (expiryStatus == 2) {
@@ -414,50 +410,64 @@ app.get("/callback", async function (req, res) {
       headers: { Authorization: `Bearer ${access_token}` },
     });
 
-    const userId = userResponse.data.id;  // Get the Spotify user ID
+    const userId = userResponse.data.id; // Get the Spotify user ID
     console.log(userId);
-    console.log(typeof userId);  
+    console.log(typeof userId);
     // Insert or update user details in Supabase
     try {
       // Create a new Supabase client for this user (passing user-id in the headers)
       const supabaseWithHeaders = createClient(supabaseUrl, supabaseKey, {
         headers: {
-          "userid": userId,  // Pass Spotify ID as a header
+          userid: userId, // Pass Spotify ID as a header
         },
       });
 
       // Upsert user details into Supabase
-      const { data, error: upsertError } = await supabaseWithHeaders
+      const { data: updateData, error: updateError } = await supabaseWithHeaders
         .from("userdetails")
-        .upsert(
-          [
+        .update({
+          accesstoken: access_token,
+          refreshtoken: refresh_token,
+        })
+        .match({ userspotifyid: userId }); // Specify the user to update
+
+      // Check for any errors during the update
+      if (updateError) {
+        console.error("Error updating user details:", updateError);
+        return res.status(500).json({ error: "Database error during update" });
+      }
+
+      // If no rows were updated, insert a new user record
+      if (updateData.length === 0) {
+        const { data: insertData, error: insertError } =
+          await supabaseWithHeaders.from("userdetails").insert([
             {
               userspotifyid: userId,
               accesstoken: access_token,
               refreshtoken: refresh_token,
             },
-          ],
-          { onConflict: ["userspotifyid"] }
-        );
+          ]);
 
-      if (upsertError) {
-        console.error("Error inserting/updating user details:", upsertError);
-        return res.status(500).json({ error: "Database error" });
+        // Check for any errors during the insert
+        if (insertError) {
+          console.error("Error inserting user details:", insertError);
+          return res
+            .status(500)
+            .json({ error: "Database error during insert" });
+        }
       }
 
       // Prepare response with user details and token expiration time
       const userdetails = {
         userId: userId,
-        expiry: Date.now() + 3000000,  // Set token expiry (in this case ~55 minutes)
+        expiry: Date.now() + 3000000, // Set token expiry (in this case ~55 minutes)
       };
 
-      return res.status(200).json(userdetails);  // Send the user details response
-
+      return res.status(200).json(userdetails); // Send the user details response
     } catch (err) {
       console.error("Error handling the callback:", err);
       return res.status(500).json({ error: "Server error" });
     }
-
   } catch (err) {
     console.error("Error during the OAuth flow:", err);
     return res.status(400).json({ error: "Failed to handle OAuth callback" });
@@ -469,7 +479,7 @@ app.get("/api/getTopTracksIndia", async (req, res) => {
     const topTracks = await getTopTracksIndia(req);
     res.json(topTracks);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getTopTracksGlobal", async (req, res) => {
@@ -477,7 +487,7 @@ app.get("/api/getTopTracksGlobal", async (req, res) => {
     const topTracks = await getTopTracksGlobal(req);
     res.json(topTracks);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getTopDanceBolly", async (req, res) => {
@@ -485,7 +495,7 @@ app.get("/api/getTopDanceBolly", async (req, res) => {
     const topDanceBolly = await getTopDanceBolly(req);
     res.json(topDanceBolly);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getUserTopArtists", async (req, res) => {
@@ -493,7 +503,7 @@ app.get("/api/getUserTopArtists", async (req, res) => {
     const topArtists = await getUserTopArtists(req, req.query.number);
     res.json(topArtists);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
@@ -501,7 +511,7 @@ app.get("/api/getUserInfo", async (req, res) => {
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
   } catch (error) {
-    res.status(400).json({error_message: `${error}`});
+    res.status(400).json({ error_message: `${error}` });
   }
 });
 app.get("/api/search", async function (req, res) {
@@ -511,7 +521,7 @@ app.get("/api/search", async function (req, res) {
     let result = await search(q, type, req);
     res.json(result);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getArtistData", async function (req, res) {
@@ -519,7 +529,7 @@ app.get("/api/getArtistData", async function (req, res) {
     let result = await getArtistData(req);
     res.json(result);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getArtistTopTracks", async function (req, res) {
@@ -527,7 +537,7 @@ app.get("/api/getArtistTopTracks", async function (req, res) {
     let result = await getArtistTopTracks(req);
     res.json(result);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.get("/api/getArtistAlbums", async function (req, res) {
@@ -535,7 +545,7 @@ app.get("/api/getArtistAlbums", async function (req, res) {
     let result = await getArtistAlbums(req);
     res.json(result);
   } catch (error) {
-    res.status(400).json({error: "Not able to fetch data from Spotify"});
+    res.status(400).json({ error: "Not able to fetch data from Spotify" });
   }
 });
 app.post("/logout", async function (req, res) {
