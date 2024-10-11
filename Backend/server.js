@@ -62,7 +62,7 @@ async function getToken(req, tokenType) {
       userid: req.headers["user-id"], // Pass Spotify ID from request header
     },
   });
-
+  console.log(req.headers["user-id"]);
   try {
     const { data, error } = await supabase
       .from("userdetails")
