@@ -43,7 +43,7 @@ export function SectionCard({
     <div className="card">
       <div className="card-details">
         <div className="spotify-logo">
-          <a href={spotifyUrl} target="_blank" rel="noopener noreferrer">
+          <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" aria-label={"Listen on Spotify"}>
             <img src={spotifyLogo} alt="Spotify Logo" />
           </a>
         </div>
