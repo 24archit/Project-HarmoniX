@@ -69,7 +69,7 @@ async function getToken(req, tokenType) {
       .select("*")
       .eq("userspotifyid", req.headers["user-id"])
       .single();
-
+    console.log(data);
     if (error || !data) {
       throw new Error("Database query failed");
     }
