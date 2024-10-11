@@ -438,24 +438,24 @@ app.get("/callback", async function (req, res) {
       }
 
       // If no rows were updated, insert a new user record
-      if (updateData.length === 0) {
-        const { data: insertData, error: insertError } =
-          await supabaseWithHeaders.from("userdetails").insert([
-            {
-              userspotifyid: userId,
-              accesstoken: access_token,
-              refreshtoken: refresh_token,
-            },
-          ]);
+      // if (updateData.length === 0) {
+      //   const { data: insertData, error: insertError } =
+      //     await supabaseWithHeaders.from("userdetails").insert([
+      //       {
+      //         userspotifyid: userId,
+      //         accesstoken: access_token,
+      //         refreshtoken: refresh_token,
+      //       },
+      //     ]);
 
-        // Check for any errors during the insert
-        if (insertError) {
-          console.error("Error inserting user details:", insertError);
-          return res
-            .status(500)
-            .json({ error: "Database error during insert" });
-        }
-      }
+      //   // Check for any errors during the insert
+      //   if (insertError) {
+      //     console.error("Error inserting user details:", insertError);
+      //     return res
+      //       .status(500)
+      //       .json({ error: "Database error during insert" });
+      //   }
+      // }
 
       // Prepare response with user details and token expiration time
       const userdetails = {
