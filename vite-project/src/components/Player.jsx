@@ -130,8 +130,8 @@ const Player = ({ url, setNewUrl }) => {
                         playing={playing}
                         volume={volume}
                         muted={false}
-                        width='1px'
-                        height='1px'
+                        width='640px'
+                        height='360px'
                         config={{
                             youtube: {
                                 playerVars: {
