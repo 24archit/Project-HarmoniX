@@ -1,13 +1,9 @@
 import React from 'react';
-import { useColor } from 'color-thief-react';
 import TrackLogo from "../assets/media/Animated-Track-Logo.gif";
 import "../assets/styles/TrackImg.css";
 
 export function TrackImg() {
-    const { data, loading, error } = useColor(TrackLogo, 'rgbString', { crossOrigin: 'anonymous', quality: 10 });
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error loading color</div>;
+   
 
     return (
         <>
