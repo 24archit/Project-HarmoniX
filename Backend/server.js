@@ -395,7 +395,7 @@ app.get("/callback", async function (req, res) {
       "https://accounts.spotify.com/api/token",
       new URLSearchParams({
         code: authCode,
-        redirect_uri: redirect_uri,
+        redirect_uri: "https://harmonix-play.vercel.app/callback",
         grant_type: "authorization_code",
       }).toString(),
       {
