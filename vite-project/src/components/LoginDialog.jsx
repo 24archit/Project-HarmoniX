@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../assets/styles/LoginDialog.css";
 import { useParams } from 'react-router-dom';
 import youtubeLogo from "../assets/media/Youtube_Logo.png"
+import spotifyLogo from "../assets/media/Spotify_Full_Logo.png"
 function generateRandomString(length) {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -66,7 +67,7 @@ export default function LoginDialog() {
                             <p>Powered by:</p>
                             <div className="logo-container">
                             <img 
-                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/1200px-Spotify_logo_with_text.svg.png" 
+                                src={spotifyLogo}
                                 alt="Spotify Logo" 
                                 className="logo-full"
                             />
