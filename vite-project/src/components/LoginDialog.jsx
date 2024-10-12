@@ -74,7 +74,7 @@ export default function LoginDialog() {
                                 src={youtubeLogo} 
                                 alt="YouTube Logo" 
                                 className="logo-full"
-                                style={height: "60px"}
+                                style={{height: "60px"}}
                             />
                             </div>
                         </div>
