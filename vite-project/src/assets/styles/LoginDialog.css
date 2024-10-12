@@ -162,15 +162,10 @@ html {
     -webkit-text-fill-color: transparent;
 }
 
-.powered-by-logos img {
-    height: 30px; /* Adjust based on your logo size */
-    width: auto;
-    margin: 10px 0;
-}
 
 .powered-by-logos .logo-full {
     display: block;
-    height: 50px; /* Adjust the height of your full word logos */
+    height: 30px; /* Adjust the height of your full word logos */
     margin: 5px auto;
     width: auto;
     max-width: 80%;
