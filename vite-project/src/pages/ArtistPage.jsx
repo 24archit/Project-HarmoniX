@@ -113,7 +113,7 @@ export default function ArtistPage({ setNewUrl }) {
             <button
               className={selectedBtn === "albums" ? "btn selected" : "btn"}
               onClick={() => setSelectedBtn("albums")}
-              style={{ marginLeft: "2rem" }}
+              style={{ marginLeft: "2rem" , marginRight: "2rem"}}
             >
               Albums
             </button>
