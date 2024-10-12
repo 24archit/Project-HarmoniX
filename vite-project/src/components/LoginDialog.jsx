@@ -71,7 +71,7 @@ export default function LoginDialog() {
                                 className="logo-full"
                             />
                             <img 
-                                src={youtubeLogo} 
+                                src="https://static.wikia.nocookie.net/bignate/images/4/46/YouTube_Logo_Picture.jpg/revision/latest?cb=20200323221742" 
                                 alt="YouTube Logo" 
                                 className="logo-full"
                             />
