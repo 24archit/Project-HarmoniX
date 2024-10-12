@@ -20,6 +20,7 @@ export  function ArtistTopTrackPart(props) {
                         </span>
                     ))}
                 </React.Fragment>}
+                spotifyUrl={item.external_urls.spotify}
                 cardId ={item.id}
                 setNewUrl={props.setNewUrl}
                 />
