@@ -4,6 +4,7 @@ import { Skeleton } from "@mui/material";
 import prettyMilliseconds from "pretty-ms";
 import { useState } from "react";
 import { Snackbar, Alert, AlertTitle } from "@mui/material";
+import spotifyLogo from "../assets/media/Spotify_logo.png";
 export function TrackLineCard({
   imgSrc = profilePic,
   trackName,
