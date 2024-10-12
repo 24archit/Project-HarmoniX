@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../assets/styles/LoginDialog.css";
 import { useParams } from 'react-router-dom';
-
+import youtubeLogo from "../assets/media/Youtube_Logo.png"
 function generateRandomString(length) {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -71,7 +71,7 @@ export default function LoginDialog() {
                                 className="logo-full"
                             />
                             <img 
-                                src="https://i.pinimg.com/originals/97/cd/90/97cd9061054455ac6ccdc35ba5d16b00.png" 
+                                src={youtubeLogo} 
                                 alt="YouTube Logo" 
                                 className="logo-full"
                             />
