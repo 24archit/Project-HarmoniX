@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import '../assets/styles/Section.css';
 import { SectionName } from './SectionName.jsx';
 import { SectionCard } from './SectionCard.jsx';
@@ -7,12 +7,14 @@ import PlaylistIcon from "../assets/media/playlist-icon.png";
 
 export default function SearchPageAlbumSection(props) {
     const scrollRef = useRef(null); // Ref to the scrollable div
+    const [isHovered, setIsHovered] = useState(false); // State to track if hovered
 
     const handleScroll = (event) => {
-        // Prevent the default vertical scrolling
-        event.preventDefault();
-        // Scroll horizontally based on the wheel delta
-        scrollRef.current.scrollLeft += event.deltaY;
+        // Only scroll horizontally if hovered
+        if (isHovered) {
+            event.preventDefault(); // Prevent default vertical scroll
+            scrollRef.current.scrollLeft += event.deltaY; // Scroll horizontally
+        }
     };
 
     useEffect(() => {
@@ -29,13 +31,19 @@ export default function SearchPageAlbumSection(props) {
                 ref.removeEventListener('wheel', handleScroll);
             }
         };
-    }, [scrollRef]); // Run effect when scrollRef changes
+    }, [scrollRef, isHovered]); // Re-run effect when scrollRef or isHovered changes
 
     return (
         <section className="section">
             <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false} />
-            <div className="material" ref={scrollRef} draggable="true">
-                {props.data.map((item, idx) => (
+            <div
+                className="material"
+                ref={scrollRef}
+                draggable="true"
+                onMouseEnter={() => setIsHovered(true)} // Set hovered state to true
+                onMouseLeave={() => setIsHovered(false)} // Set hovered state to false
+            >
+                {props.data.map((item) => (
                     <SectionCard
                         key={item.id}
                         imgSrc={item.images && item.images.length > 0 ? item.images[0].url : PlaylistIcon}
