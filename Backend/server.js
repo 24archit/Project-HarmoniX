@@ -509,7 +509,6 @@ app.get("/api/getUserTopArtists", async (req, res) => {
 app.get("/api/getUserInfo", async (req, res) => {
   try {
     const accessToken = await getToken(req, "accessToken");
-    console.log("Using Access Token:", accessToken); 
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
   } catch (error) {
