@@ -38,13 +38,13 @@ const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read user-follow-modify";
 
 async function updateData(req, accessToken, refreshToken) {
-  const userid=  req.headers["user-id"];
+  const userid = req.headers["user-id"];
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
       userid: userid, // Pass Spotify ID from request header
     },
   });
-  const {data: updateData, error: updateError  } = await supabase
+  const { data: updateData, error: updateError } = await supabase
     .from("userdetails")
     .update({ accesstoken: accessToken, refreshtoken: refreshToken })
     .eq("userspotifyid", userid);
@@ -276,7 +276,7 @@ app.use(cookieParser());
 app.use("/api", async function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
   const expiryStatus = req.headers["expiry-code"];
-  
+
   // Check for API access token
   if (API_Access_Header !== process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN) {
     return res.status(403).send(`
@@ -334,20 +334,18 @@ app.use("/api", async function (req, res, next) {
       </html>
     `);
   }
-  
-  
+
   // Handle token expiry based on the status
   if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
       await updateData(req, tokens.access_token, tokens.refresh_token);
-      next(); 
+      next();
     } catch (error) {
       console.error("Error during token update:", error.message);
       return res.status(400).json({ error: "Unable to update access token" });
     }
-  }
-   else if (expiryStatus == 2) {
+  } else if (expiryStatus == 2) {
     next(); // Expiry status 2, proceed to the next middleware or route handler
   } else {
     return res.status(400).json({ error: "Invalid expiry status" }); // Handle unexpected expiry status
@@ -645,8 +643,9 @@ app.use((req, res, next) => {
 </html>
   `);
 });
-app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'favicon.ico'));
+
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "favicon.ico"));
 });
 
 module.exports = app;
