@@ -22,28 +22,38 @@
 .section-name:hover{
     cursor:default;  
 }
-.more-btn-home{
+.more-btn-home {
     font-size: 1rem;
-    height: 1.8rem;
-    width: 4.4rem;
-    border-radius: 30%;
+    height: 2rem; /* Increased height for better appearance */
+    width: 5rem; /* Slightly increased width */
+    border-radius: 20px; /* Softer rounded corners */
     margin-left: 0.4rem;
     display: flex;
-    justify-content: center ; 
-    align-items: center;  
-    color: rgb(220, 220, 220);
-    background-color: rgba(171, 171, 210, 0.572);
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* Pure white for text */
+    background-color: rgba(173, 216, 230, 0.8); /* Light blue background */
     outline: none;
     border: none;
-    transition: background-color 0.4s ease-out;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Added smooth transition for hover and active states */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
 }
-.more-btn-home:hover{
-    opacity: 1;
-    background-color:rgb(52, 169, 236) ;
+
+.more-btn-home:hover {
+    background-color: #87CEEB; /* Brighter light blue on hover */
     cursor: pointer;
-    box-shadow: 0.255rem 0.255rem 0.9rem  rgba(71, 179, 219, 0.6);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Increased shadow on hover for effect */
+    transform: scale(1.05); /* Subtle zoom effect */
 }
-.more-btn-home:active{
-    background-color: rgb(25, 25, 83);
-    color: rgb(231, 195, 36);
-} 
+
+.more-btn-home:active {
+    background-color: #4682B4; /* Darker blue on click */
+    color: #f0f8ff; /* Slightly different shade for text */
+    transform: scale(0.95); /* Shrink slightly when clicked */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
+
+.more-btn-home:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.5); /* Light blue focus ring for accessibility */
+}
