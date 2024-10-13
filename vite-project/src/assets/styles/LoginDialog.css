@@ -165,7 +165,7 @@ html {
 
 .powered-by-logos .logo-full {
     display: block;
-    height: 30px; /* Adjust the height of your full word logos */
+    height: 40px; /* Adjust the height of your full word logos */
     margin: 5px auto;
     width: auto;
     max-width: 80%;
@@ -181,6 +181,7 @@ html {
     gap: 2rem;
 }
 #spotify-logo-login{
-    height: 40px;
+    margin-top: 0;
+    height: 50px;
     width: auto;
 }
