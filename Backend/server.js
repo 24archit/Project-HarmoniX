@@ -39,12 +39,16 @@ const scope =
 
 async function updateData(req, res, accessToken, refreshToken) {
   const userid=  req.headers["user-id"];
+  console.log("req is:");
+  console.log(req);
+  console.log(userid);
+  console.log(typeof userid);
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
       userid: userid, // Pass Spotify ID from request header
     },
   });
-  const { data, error } = await supabase
+  const {data: updateData, error: updateError  } = await supabase
     .from("userdetails")
     .update({ accesstoken: accessToken, refreshtoken: refreshToken })
     .eq("userspotifyid", userid);
@@ -341,6 +345,7 @@ app.use("/api", async function (req, res, next) {
   if (expiryStatus == 2) {
     try {
       const tokens = await getFreshTokens(req);
+      console.log(tokens);
       await updateData(req, res, tokens.access_token, tokens.refresh_token);
       next();
     } catch (error) {
