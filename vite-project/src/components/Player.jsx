@@ -19,7 +19,10 @@ const Player = ({ url, setNewUrl }) => {
         if (url) {
             setPlaying(true);
             setProgress(0); // Reset progress to 0 when a new URL is set
-            playerRef.current.seekTo(0, 'seconds');
+            setDuration(0);  // Reset duration to 0 when a new URL is set
+            if (playerRef.current) {
+                playerRef.current.seekTo(0, 'seconds'); // Seek to the beginning of the new song
+            }
         }
     }, [url]);
 
@@ -71,7 +74,7 @@ const Player = ({ url, setNewUrl }) => {
 
     const handleDuration = (duration) => {
         if (!isNaN(duration)) {
-            setDuration(duration);
+            setDuration(duration); // Update duration when a new video is loaded
         }
     };
 
@@ -143,7 +146,7 @@ const Player = ({ url, setNewUrl }) => {
                                 }
                             }
                         }}
-                        onDuration={handleDuration}
+                        onDuration={handleDuration} // Ensure this triggers on each video load
                         onError={handlePlayerError}
                     />
                 )}
