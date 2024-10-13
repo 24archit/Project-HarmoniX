@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "../assets/styles/LoginDialog.css";
 import { useParams } from 'react-router-dom';
 import youtubeLogo from "../assets/media/Youtube_Logo.png"
-import spotifyLogo from "../assets/media/spotify_Full_Logo.png"
 function generateRandomString(length) {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
