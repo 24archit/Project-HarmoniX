@@ -49,7 +49,6 @@
 
 .more-btn-home:active {
     background-color: #4682B4; /* Darker blue on click */
-    color: #f0f8ff; /* Slightly different shade for text */
     transform: scale(0.95); /* Shrink slightly when clicked */
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
 }
