@@ -5,7 +5,7 @@
     position: fixed;
     top: 0rem;
     left: 0rem;
-    background: linear-gradient(#00091f, #000000,#00091f);
+    background-color: black;
     width: 100%;
     z-index: 1000;
     padding-left: 0.7rem;
