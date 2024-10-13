@@ -37,7 +37,11 @@ const Player = ({ url, setNewUrl }) => {
     }, [progress]);
 
     useEffect(() => {
-        // Start monitoring playback when the player is ready
+        // Clear previous interval when URL changes or when playback is stopped
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
         if (playing && duration > 0) {
             intervalRef.current = setInterval(() => {
                 if (playerRef.current) {
@@ -48,8 +52,6 @@ const Player = ({ url, setNewUrl }) => {
                     }
                 }
             }, 1000); // Check every second
-        } else {
-            clearInterval(intervalRef.current); // Clear interval when not playing
         }
 
         return () => clearInterval(intervalRef.current); // Cleanup on unmount
@@ -74,7 +76,7 @@ const Player = ({ url, setNewUrl }) => {
 
     const handleDuration = (duration) => {
         if (!isNaN(duration)) {
-            setDuration(duration); // Update duration when a new video is loaded
+            setDuration(duration); // Set the duration when it's available
         }
     };
 
@@ -128,6 +130,7 @@ const Player = ({ url, setNewUrl }) => {
             <Suspense fallback={<div>Loading...</div>}>
                 {url && (
                     <ReactPlayer
+                        key={url} // Force ReactPlayer to reinitialize on URL change
                         ref={playerRef}
                         url={url}
                         playing={playing}
