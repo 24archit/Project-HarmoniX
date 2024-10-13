@@ -52,7 +52,7 @@ async function updateData(req, accessToken, refreshToken) {
   if (updateError) {
     throw new Error("Error updating user details");
   }
-  console.log("User details updated successfully");
+  console.log("User details (accessToken) updated successfully");
 }
 
 async function getToken(req, tokenType) {
@@ -132,7 +132,6 @@ async function search(q, type, req) {
 
 async function getUserInfo(req) {
   const accessToken = await getToken(req, "accessToken");
-  console.log("Access Token for API call:", accessToken);
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
     headers: {
@@ -271,90 +270,8 @@ async function getArtistAlbums(req) {
 }
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// Apply authenticateRequest middleware to your API routes
-// app.use("/api", function (req, res, next) {
-//   const API_Access_Header = req.headers["local-api-access-token"];
-//   if (API_Access_Header === process.env.REACT_APP_LOCAL_API_ACCESS_TOKEN) {
-//     next();
-//   } else {
-//     res.status(403).send(`
-//       <!DOCTYPE html>
-//       <html lang="en">
-//       <head>
-//         <meta charset="UTF-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>403 - Access Denied</title>
-//         <style>
-//           body {
-//             font-family: Arial, sans-serif;
-//             background-color: #f8f9fa;
-//             color: #343a40;
-//             display: flex;
-//             justify-content: center;
-//             align-items: center;
-//             height: 100vh;
-//             margin: 0;
-//           }
-//           .container {
-//             text-align: center;
-//           }
-//           h1 {
-//             font-size: 3em;
-//             margin-bottom: 0.5em;
-//           }
-//           p {
-//             margin: 0.5em 0;
-//           }
-//           a {
-//             color: #007bff;
-//             text-decoration: none;
-//           }
-//           a:hover {
-//             text-decoration: underline;
-//           }
-//           .footer {
-//             margin-top: 2em;
-//             font-size: 0.9em;
-//             color: #6c757d;
-//           }
-//         </style>
-//       </head>
-//       <body>
-//         <div class="container">
-//           <h1>403 - Access Denied</h1>
-//           <p>You do not have the necessary permissions to access this resource.</p>
-//           <p>Please contact your administrator if you believe this is an error.</p>
-//           <div class="footer">
-//             <p>This message is from Team Harmonix.</p>
-//           </div>
-//         </div>
-//       </body>
-//       </html>
-//     `);
-//   }
-// });
 
-// app.use("/api", async function (req, res, next) {
-//   const expiryStatus = req.headers["expiry-code"];
-//   console.log("Expiry Status:", expiryStatus);
-//   if (expiryStatus == 2) {
-//     try {
-//       const tokens = await getFreshTokens(req);
-//       console.log("Fresh Tokens:", tokens);
-//       await updateData(req, res, tokens.access_token, tokens.refresh_token);
-//       console.log("Access Token updated successfully.");  
-//       const latestAccessToken = await getToken(req, "accessToken");
-//       console.log("Latest Access Token:", latestAccessToken);
-//       next();
-//     } catch (error) {
-//       res.status(400).json({ error: "Unable to update accessToken" });
-//       return;
-//     }
-//   } 
-//   // else if (expiryStatus == 2) {
-//   //   next();
-//   // }
-// });
+// Apply authenticateRequest middleware to your API routes
 
 app.use("/api", async function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
@@ -418,24 +335,13 @@ app.use("/api", async function (req, res, next) {
     `);
   }
   
-  console.log("Expiry Status:", expiryStatus);
   
   // Handle token expiry based on the status
   if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
-      console.log("Fresh Tokens:", tokens);
-      
       await updateData(req, tokens.access_token, tokens.refresh_token);
-      console.log("Access Token updated successfully.");
-      await new Promise(resolve => setTimeout(resolve, 100));
-      // Retrieve the latest access token after updating
-      const latestAccessToken = await getToken(req, "accessToken");
-      console.log("Latest Access Token:", latestAccessToken);
-      
-  
-
-      next(); // Proceed to the next middleware or route handler
+      next(); 
     } catch (error) {
       console.error("Error during token update:", error.message);
       return res.status(400).json({ error: "Unable to update access token" });
@@ -447,15 +353,6 @@ app.use("/api", async function (req, res, next) {
     return res.status(400).json({ error: "Invalid expiry status" }); // Handle unexpected expiry status
   }
 });
-
-
-
-
-
-
-
-
-
 
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
