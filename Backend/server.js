@@ -52,7 +52,7 @@ async function updateData(req, accessToken, refreshToken) {
   if (updateError) {
     throw new Error("Error updating user details");
   }
-  console.log("User details updated successfully:", result);
+  console.log("User details updated successfully");
 }
 
 async function getToken(req, tokenType) {
