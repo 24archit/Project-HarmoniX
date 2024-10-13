@@ -37,16 +37,17 @@ const client_secret = process.env.REACT_APP_HARMONIX_CLIENT_SECRET;
 const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read user-follow-modify";
 
-async function updateData(req, res, accessToken) {
+async function updateData(req, res, accessToken, refreshToken) {
+  const userid=  req.headers["user-id"];
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
-      userid: req.headers["user-id"], // Pass Spotify ID from request header
+      userid: userid, // Pass Spotify ID from request header
     },
   });
   const { data, error } = await supabase
     .from("userdetails")
-    .update({ accesstoken: accessToken })
-    .eq("userspotifyid", req.headers["user-id"]);
+    .update({ accesstoken: accessToken, refreshtoken: refreshToken })
+    .eq("userspotifyid", userid);
 
   if (error) {
     console.error("Error updating user details:", error);
@@ -62,7 +63,7 @@ async function getToken(req, tokenType) {
       userid: req.headers["user-id"], // Pass Spotify ID from request header
     },
   });
-  
+
   try {
     const { data, error } = await supabase
       .from("userdetails")
@@ -70,7 +71,6 @@ async function getToken(req, tokenType) {
       .eq("userspotifyid", req.headers["user-id"])
       .single();
 
-      
     if (error || !data) {
       throw new Error("Database query failed");
     }
@@ -110,6 +110,7 @@ async function getFreshTokens(req) {
 
   return {
     access_token: body.access_token,
+    refresh_token: refreshToken,
   };
 }
 
@@ -340,7 +341,7 @@ app.use("/api", async function (req, res, next) {
   if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
-      await updateData(req, res, tokens.access_token);
+      await updateData(req, res, tokens.access_token, tokens.refresh_token);
       next();
     } catch (error) {
       res.status(400).json({ error: "Unable to update accessToken" });
@@ -454,7 +455,7 @@ app.get("/callback", async function (req, res) {
       }
 
       // Successful insert
-      
+
       // Prepare response with user details and token expiration time
       const userdetails = {
         userId: userId,
