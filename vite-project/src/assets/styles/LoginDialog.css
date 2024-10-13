@@ -180,3 +180,7 @@ html {
     display: flex;
     gap: 2rem;
 }
+#spotify-logo-login{
+    height: 40px;
+    width: auto;
+}

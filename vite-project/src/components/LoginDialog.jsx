@@ -69,6 +69,7 @@ export default function LoginDialog() {
                                 src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
                                 alt="Spotify Logo" 
                                 className="logo-full"
+                                id="spotify-logo-login"
                             />
                             <img 
                                 src={youtubeLogo}
