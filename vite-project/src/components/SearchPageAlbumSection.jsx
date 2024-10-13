@@ -1,15 +1,40 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import '../assets/styles/Section.css';
-import { SectionName, SectionNameLoad } from './SectionName.jsx';
-import { SectionCard, SectionCardLoad } from './SectionCard.jsx';
+import { SectionName } from './SectionName.jsx';
+import { SectionCard } from './SectionCard.jsx';
 import { Link } from 'react-router-dom';
-import PlaylistIcon from "../assets/media/playlist-icon.png"
+import PlaylistIcon from "../assets/media/playlist-icon.png";
 
 export default function SearchPageAlbumSection(props) {
+    const scrollRef = useRef(null); // Ref to the scrollable div
+
+    const handleScroll = (event) => {
+        // Prevent the default vertical scrolling
+        event.preventDefault();
+        // Scroll horizontally based on the wheel delta
+        scrollRef.current.scrollLeft += event.deltaY;
+    };
+
+    useEffect(() => {
+        const ref = scrollRef.current;
+
+        // Add mouse wheel event listener
+        if (ref) {
+            ref.addEventListener('wheel', handleScroll);
+        }
+
+        // Cleanup function to remove event listener
+        return () => {
+            if (ref) {
+                ref.removeEventListener('wheel', handleScroll);
+            }
+        };
+    }, [scrollRef]); // Run effect when scrollRef changes
+
     return (
         <section className="section">
-            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false}  />
-            <div className="material" draggable="true">
+            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false} />
+            <div className="material" ref={scrollRef} draggable="true">
                 {props.data.map((item, idx) => (
                     <SectionCard
                         key={item.id}
