@@ -22,7 +22,6 @@ export default function HomePagePlaylistTrackSection(props) {
         iconClass={props.iconClass}
         iconId={props.iconId}
         name={props.name}
-        button="true"
       />
       <div className="material-2">
         <Slider {...settings} >

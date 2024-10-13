@@ -4,7 +4,7 @@ export function SectionName({
   iconClass="",
   iconId="",
   name="",
-  button="true"
+  button=true
 }) {
   return (
     <div className="section-name">
