@@ -337,7 +337,7 @@ app.use("/api", function (req, res, next) {
 app.use("/api", async function (req, res, next) {
   const expiryStatus = req.headers["expiry-code"];
   console.log(expiryStatus);
-  if (expiryStatus == 1) {
+  if (expiryStatus == 2) {
     try {
       const tokens = await getFreshTokens(req);
       await updateData(req, res, tokens.access_token);
@@ -345,10 +345,10 @@ app.use("/api", async function (req, res, next) {
     } catch (error) {
       res.status(400).json({ error: "Unable to update accessToken" });
       return;
-    }
-  } else if (expiryStatus == 2) {
-    next();
-  }
+    }}
+  // else if (expiryStatus == 2) {
+  //   next();
+  // }
 });
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
