@@ -37,7 +37,7 @@ const client_secret = process.env.REACT_APP_HARMONIX_CLIENT_SECRET;
 const scope =
   "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read user-follow-modify";
 
-async function updateData(req, res, accessToken, refreshToken) {
+async function updateData(req, accessToken, refreshToken) {
   const userid=  req.headers["user-id"];
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
@@ -49,10 +49,8 @@ async function updateData(req, res, accessToken, refreshToken) {
     .update({ accesstoken: accessToken, refreshtoken: refreshToken })
     .eq("userspotifyid", userid);
 
-  if (error) {
-    console.error("Error updating user details:", error);
-    res.status(500).send("Internal Server Error");
-    return;
+  if (updateError) {
+    throw new Error("Error updating user details");
   }
   console.log("User details updated successfully:", result);
 }
@@ -423,12 +421,12 @@ app.use("/api", async function (req, res, next) {
   console.log("Expiry Status:", expiryStatus);
   
   // Handle token expiry based on the status
-  if (expiryStatus == 2) {
+  if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
       console.log("Fresh Tokens:", tokens);
       
-      await updateData(req, res, tokens.access_token, tokens.refresh_token);
+      await updateData(req, tokens.access_token, tokens.refresh_token);
       console.log("Access Token updated successfully.");
       await new Promise(resolve => setTimeout(resolve, 100));
       // Retrieve the latest access token after updating
@@ -443,11 +441,11 @@ app.use("/api", async function (req, res, next) {
       return res.status(400).json({ error: "Unable to update access token" });
     }
   }
-  //  else if (expiryStatus == 2) {
-  //   next(); // Expiry status 2, proceed to the next middleware or route handler
-  // } else {
-  //   return res.status(400).json({ error: "Invalid expiry status" }); // Handle unexpected expiry status
-  // }
+   else if (expiryStatus == 2) {
+    next(); // Expiry status 2, proceed to the next middleware or route handler
+  } else {
+    return res.status(400).json({ error: "Invalid expiry status" }); // Handle unexpected expiry status
+  }
 });
 
 
