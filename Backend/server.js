@@ -39,10 +39,6 @@ const scope =
 
 async function updateData(req, res, accessToken, refreshToken) {
   const userid=  req.headers["user-id"];
-  console.log("req is:");
-  console.log(req);
-  console.log(userid);
-  console.log(typeof userid);
   const supabase = createClient(supabaseUrl, supabaseKey, {
     headers: {
       userid: userid, // Pass Spotify ID from request header
@@ -138,6 +134,7 @@ async function search(q, type, req) {
 
 async function getUserInfo(req) {
   const accessToken = await getToken(req, "accessToken");
+  console.log("Access Token for API call:", accessToken);
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
     headers: {
@@ -341,12 +338,15 @@ app.use("/api", function (req, res, next) {
 
 app.use("/api", async function (req, res, next) {
   const expiryStatus = req.headers["expiry-code"];
-  console.log(expiryStatus);
+  console.log("Expiry Status:", expiryStatus);
   if (expiryStatus == 2) {
     try {
       const tokens = await getFreshTokens(req);
-      console.log(tokens);
+      console.log("Fresh Tokens:", tokens);
       await updateData(req, res, tokens.access_token, tokens.refresh_token);
+      console.log("Access Token updated successfully.");  
+      const latestAccessToken = await getToken(req, "accessToken");
+      console.log("Latest Access Token:", latestAccessToken);
       next();
     } catch (error) {
       res.status(400).json({ error: "Unable to update accessToken" });
@@ -409,8 +409,6 @@ app.get("/callback", async function (req, res) {
     });
 
     const userId = userResponse.data.id; // Get the Spotify user ID
-    console.log(userId);
-    console.log(typeof userId);
     // Insert or update user details in Supabase
     try {
       // Create a new Supabase client for this user (passing user-id in the headers)
@@ -513,6 +511,8 @@ app.get("/api/getUserTopArtists", async (req, res) => {
 });
 app.get("/api/getUserInfo", async (req, res) => {
   try {
+    const accessToken = await getToken(req, "accessToken");
+    console.log("Using Access Token:", accessToken); 
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
   } catch (error) {
@@ -556,7 +556,6 @@ app.get("/api/getArtistAlbums", async function (req, res) {
 app.post("/logout", async function (req, res) {
   res.clearCookie("userdetails");
   res.status(200).json("OK");
-  console.log("Cleared");
 });
 
 app.get("/getAudioLink", async function (req, res) {
