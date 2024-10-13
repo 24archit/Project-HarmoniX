@@ -14,6 +14,45 @@ const Player = ({ url, setNewUrl }) => {
     const playerRef = useRef(null);
     const [alertVisibility, setAlertVisibility] = useState(false);
     const intervalRef = useRef(null);
+    const volumeSliderRef = useRef(null); // Reference for volume slider
+
+    // Handle spacebar play/pause functionality
+    useEffect(() => {
+        const handleSpacebar = (e) => {
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault(); // Prevent space from scrolling the page
+                if (url) {
+                    togglePlayPause(); // Call the play/pause toggle
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleSpacebar);
+
+        return () => window.removeEventListener('keydown', handleSpacebar);
+    }, [url, playing]);
+
+    // Handle mouse wheel volume control
+    useEffect(() => {
+        const handleVolumeScroll = (e) => {
+            const delta = e.deltaY > 0 ? -0.05 : 0.05; // Scroll up increases volume, scroll down decreases volume
+            let newVolume = Math.min(1, Math.max(0, volume + delta));
+            setVolume(newVolume);
+            updateVolumeIcon(newVolume);
+        };
+
+        // Attach scroll listener to the volume slider only
+        const slider = volumeSliderRef.current;
+        if (slider) {
+            slider.addEventListener('wheel', handleVolumeScroll);
+        }
+
+        return () => {
+            if (slider) {
+                slider.removeEventListener('wheel', handleVolumeScroll);
+            }
+        };
+    }, [volume]);
 
     useEffect(() => {
         if (url) {
@@ -141,6 +180,7 @@ const Player = ({ url, setNewUrl }) => {
                     step='0.01'
                     value={volume}
                     onChange={handleVolumeChange}
+                    ref={volumeSliderRef} // Reference for volume slider
                 />
             </div>
             <Suspense fallback={<div>Loading...</div>}>
