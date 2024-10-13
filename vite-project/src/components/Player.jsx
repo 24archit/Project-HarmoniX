@@ -7,7 +7,7 @@ import '../assets/styles/Player.css';
 
 const Player = ({ url, setNewUrl }) => {
     const [volume, setVolume] = useState(0.8);
-    const [playing, setPlaying] = useState(true);
+    const [playing, setPlaying] = useState(false); // Start with "not playing"
     const [progress, setProgress] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volumeIcon, setVolumeIcon] = useState('fa-volume-high');
@@ -23,6 +23,8 @@ const Player = ({ url, setNewUrl }) => {
             if (playerRef.current) {
                 playerRef.current.seekTo(0, 'seconds'); // Seek to the beginning of the new song
             }
+        } else {
+            setPlaying(false); // Ensure it stops playing if URL is empty
         }
     }, [url]);
 
@@ -64,12 +66,15 @@ const Player = ({ url, setNewUrl }) => {
     };
 
     const togglePlayPause = () => {
-        setPlaying((prev) => !prev);
-        if (playerRef.current) {
-            if (playing) {
-                playerRef.current.getInternalPlayer().pauseVideo(); // Pause video
-            } else {
-                playerRef.current.getInternalPlayer().playVideo(); // Play video
+        // Only toggle play/pause if a URL is set
+        if (url) {
+            setPlaying((prev) => !prev);
+            if (playerRef.current) {
+                if (playing) {
+                    playerRef.current.getInternalPlayer().pauseVideo(); // Pause video
+                } else {
+                    playerRef.current.getInternalPlayer().playVideo(); // Play video
+                }
             }
         }
     };
@@ -109,7 +114,11 @@ const Player = ({ url, setNewUrl }) => {
     return (
         <>
             <div className='player'>
-                <button className='play-pause-btn' onClick={togglePlayPause}>
+                <button 
+                    className='play-pause-btn' 
+                    onClick={togglePlayPause} 
+                    disabled={!url} // Disable button if URL is not set
+                >
                     {playing ? <i className="fa-solid fa-pause icon"></i> : <i className="fa-solid fa-play icon"></i>}
                 </button>
                 <input
@@ -119,6 +128,7 @@ const Player = ({ url, setNewUrl }) => {
                     step='0.01'
                     value={isNaN(progress) ? 0 : progress}
                     onChange={handleSeekChange}
+                    disabled={!url} // Disable seek bar if URL is not set
                 />
                 <span className='duration-board'>
                     {prettyMilliseconds((Math.round(progress * duration) * 1000), { colonNotation: true, secondsDecimalDigits: 0 })} | {prettyMilliseconds(duration * 1000, { colonNotation: true, secondsDecimalDigits: 0 })}
