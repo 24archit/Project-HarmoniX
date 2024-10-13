@@ -24,9 +24,9 @@
 }
 .more-btn-home{
     font-size: 1rem;
-    height: auto;
-    width: 4.5rem;
-    border-radius: 10%;
+    height: 2rem;
+    width: 4.4rem;
+    border-radius: 30%;
     margin-left: 0.4rem;
     display: flex;
     justify-content: center ;   
