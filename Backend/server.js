@@ -45,8 +45,7 @@ async function updateData(req, res, accessToken) {
   });
   const { data, error } = await supabase
     .from("userdetails")
-    .update({ accesstoken: accessToken })
-    .eq("userspotifyid", req.headers["user-id"]);
+    .update({ accesstoken: accessToken });
 
   if (error) {
     console.error("Error updating user details:", error);
