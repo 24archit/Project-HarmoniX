@@ -7,7 +7,7 @@ export function SectionName(props) {
         <i className={props.iconClass} id={props.iconId}></i>
          {props.name}
       </li>
-      <button className="more-btn-home">See All &gt;</button>
+      <button className="more-btn-home">See All</button>
     </div>
   );
 }

@@ -23,13 +23,13 @@
     cursor:default;  
 }
 .more-btn-home{
-    font-size: 1.7rem;
-    height: 1.7rem;
-    width: 1.7rem;
-    border-radius: 50%;
+    font-size: 1rem;
+    height: auto;
+    width: 3rem;
+    border-radius: 10%;
     margin-left: 0.4rem;
     display: flex;
-    justify-content: center ;
+    justify-content: center ;   
     line-height: 1.75rem;
     color: rgb(220, 220, 220);
     background-color: rgba(171, 171, 210, 0.572);
