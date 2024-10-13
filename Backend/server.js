@@ -336,7 +336,7 @@ app.use("/api", function (req, res, next) {
 
 app.use("/api", async function (req, res, next) {
   const expiryStatus = req.headers["expiry-code"];
-
+  console.log(expiryStatus);
   if (expiryStatus == 1) {
     try {
       const tokens = await getFreshTokens(req);
