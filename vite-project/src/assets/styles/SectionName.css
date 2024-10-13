@@ -52,8 +52,3 @@
     transform: scale(0.95); /* Shrink slightly when clicked */
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
 }
-
-.more-btn-home:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(135, 206, 250, 0.5); /* Light blue focus ring for accessibility */
-}
