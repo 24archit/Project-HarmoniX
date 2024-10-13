@@ -8,7 +8,7 @@ import TrackLogo from "../assets/media/Track-Logo.png";
 export default function SearchPageTrackSection(props) {
     return (
         <section className="section">
-            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} />
+            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false} />
             <div className="material" draggable="true">
                 {props.data.map((item) => (
                     <SectionCard

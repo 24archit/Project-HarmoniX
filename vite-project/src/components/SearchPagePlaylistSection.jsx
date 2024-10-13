@@ -13,7 +13,7 @@ export default function SearchPagePlaylistSection({
 }) {
     return (
         <section className="section">
-            <SectionName iconClass={iconClass} iconId={iconId} name={name} />
+            <SectionName iconClass={iconClass} iconId={iconId} name={name} button={false}  />
             <div className="material" draggable="true">
                 {data.map((item) => (
                     <SectionCard

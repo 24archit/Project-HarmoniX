@@ -7,7 +7,7 @@ import ProfilePic from "../assets/media/profile-pic.png";
 export default function SearchPageArtistSection(props) {
     return (
         <section className="section">
-            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} />
+            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false}  />
             <div className="material" draggable="true">
                 {props.data.map((item) => (
                     <SectionCard

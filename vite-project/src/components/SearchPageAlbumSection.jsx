@@ -8,7 +8,7 @@ import PlaylistIcon from "../assets/media/playlist-icon.png"
 export default function SearchPageAlbumSection(props) {
     return (
         <section className="section">
-            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} />
+            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false}  />
             <div className="material" draggable="true">
                 {props.data.map((item, idx) => (
                     <SectionCard

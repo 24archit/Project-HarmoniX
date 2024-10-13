@@ -1,13 +1,18 @@
 import "../assets/styles/SectionName.css";
 import { Skeleton } from "@mui/material";
-export function SectionName(props) {
+export function SectionName({
+  iconClass="",
+  iconId="",
+  name="",
+  button="true"
+}) {
   return (
     <div className="section-name">
       <li>
-        <i className={props.iconClass} id={props.iconId}></i>
-         {props.name}
+        <i className={iconClass} id={iconId}></i>
+         {name}
       </li>
-      <button className="more-btn-home">See All</button>
+      {button == true ? <button className="more-btn-home">See All</button> : <></>}
     </div>
   );
 }
