@@ -340,6 +340,7 @@ app.use("/api", async function (req, res, next) {
   if (expiryStatus == 2) {
     try {
       const tokens = await getFreshTokens(req);
+      console.log(tokens);
       await updateData(req, res, tokens.access_token);
       next();
     } catch (error) {
