@@ -24,15 +24,15 @@
 }
 .more-btn-home {
     font-size: 1rem;
-    height: 2rem; /* Increased height for better appearance */
-    width: 5rem; /* Slightly increased width */
+    height: 1.7rem; /* Increased height for better appearance */
+    width: 4.5rem; /* Slightly increased width */
     border-radius: 20px; /* Softer rounded corners */
     margin-left: 0.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff; /* Pure white for text */
-    background-color: rgba(173, 216, 230, 0.8); /* Light blue background */
+    background-color: rgba(96, 147, 163, 0.8); /* Light blue background */
     outline: none;
     border: none;
     transition: background-color 0.3s ease, transform 0.3s ease; /* Added smooth transition for hover and active states */
@@ -40,7 +40,8 @@
 }
 
 .more-btn-home:hover {
-    background-color: #87CEEB; /* Brighter light blue on hover */
+    background-color: #87ebd4; /* Brighter light blue on hover */
+    color: rgb(14, 24, 137);
     cursor: pointer;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Increased shadow on hover for effect */
     transform: scale(1.05); /* Subtle zoom effect */
