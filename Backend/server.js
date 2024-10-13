@@ -334,23 +334,23 @@ app.use("/api", function (req, res, next) {
   }
 });
 
-app.use("/api", async function (req, res, next) {
-  const expiryStatus = req.headers["expiry-code"];
-  console.log(expiryStatus);
-  if (expiryStatus == 2) {
-    try {
-      const tokens = await getFreshTokens(req);
-      console.log(tokens);
-      await updateData(req, res, tokens.access_token);
-      next();
-    } catch (error) {
-      res.status(400).json({ error: "Unable to update accessToken" });
-      return;
-    }}
-  // else if (expiryStatus == 2) {
-  //   next();
-  // }
-});
+// app.use("/api", async function (req, res, next) {
+//   const expiryStatus = req.headers["expiry-code"];
+//   console.log(expiryStatus);
+//   if (expiryStatus == 2) {
+//     try {
+//       const tokens = await getFreshTokens(req);
+//       console.log(tokens);
+//       await updateData(req, res, tokens.access_token);
+//       next();
+//     } catch (error) {
+//       res.status(400).json({ error: "Unable to update accessToken" });
+//       return;
+//     }}
+//   // else if (expiryStatus == 2) {
+//   //   next();
+//   // }
+// });
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
   res.redirect(
@@ -474,6 +474,17 @@ app.get("/callback", async function (req, res) {
 });
 
 app.get("/api/getTopTracksIndia", async (req, res) => {
+  const expiryStatus = req.headers["expiry-code"];
+  console.log(expiryStatus);
+  if (expiryStatus == 2) {
+    try {
+      const tokens = await getFreshTokens(req);
+      console.log(tokens);
+      await updateData(req, res, tokens.access_token);
+    } catch (error) {
+      res.status(400).json({ error: "Unable to update accessToken" });
+      return;
+    }}
   try {
     const topTracks = await getTopTracksIndia(req);
     res.json(topTracks);
@@ -482,6 +493,17 @@ app.get("/api/getTopTracksIndia", async (req, res) => {
   }
 });
 app.get("/api/getTopTracksGlobal", async (req, res) => {
+  const expiryStatus = req.headers["expiry-code"];
+  console.log(expiryStatus);
+  if (expiryStatus == 2) {
+    try {
+      const tokens = await getFreshTokens(req);
+      console.log(tokens);
+      await updateData(req, res, tokens.access_token);
+    } catch (error) {
+      res.status(400).json({ error: "Unable to update accessToken" });
+      return;
+    }}
   try {
     const topTracks = await getTopTracksGlobal(req);
     res.json(topTracks);
@@ -506,6 +528,17 @@ app.get("/api/getUserTopArtists", async (req, res) => {
   }
 });
 app.get("/api/getUserInfo", async (req, res) => {
+  const expiryStatus = req.headers["expiry-code"];
+  console.log(expiryStatus);
+  if (expiryStatus == 2) {
+    try {
+      const tokens = await getFreshTokens(req);
+      console.log(tokens);
+      await updateData(req, res, tokens.access_token);
+    } catch (error) {
+      res.status(400).json({ error: "Unable to update accessToken" });
+      return;
+    }}
   try {
     const userInfo = await getUserInfo(req);
     res.json(userInfo);
