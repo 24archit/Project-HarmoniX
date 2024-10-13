@@ -1,49 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import '../assets/styles/Section.css';
-import { SectionName } from './SectionName.jsx';
-import { SectionCard } from './SectionCard.jsx';
+import { SectionName, SectionNameLoad } from './SectionName.jsx';
+import { SectionCard, SectionCardLoad } from './SectionCard.jsx';
 import { Link } from 'react-router-dom';
-import PlaylistIcon from "../assets/media/playlist-icon.png";
+import PlaylistIcon from "../assets/media/playlist-icon.png"
 
 export default function SearchPageAlbumSection(props) {
-    const scrollRef = useRef(null); // Ref to the scrollable div
-    const [isHovered, setIsHovered] = useState(false); // State to track if hovered
-
-    const handleScroll = (event) => {
-        // Only scroll horizontally if hovered
-        if (isHovered) {
-            event.preventDefault(); // Prevent default vertical scroll
-            scrollRef.current.scrollLeft += event.deltaY; // Scroll horizontally
-        }
-    };
-
-    useEffect(() => {
-        const ref = scrollRef.current;
-
-        // Add mouse wheel event listener
-        if (ref) {
-            ref.addEventListener('wheel', handleScroll);
-        }
-
-        // Cleanup function to remove event listener
-        return () => {
-            if (ref) {
-                ref.removeEventListener('wheel', handleScroll);
-            }
-        };
-    }, [scrollRef, isHovered]); // Re-run effect when scrollRef or isHovered changes
-
     return (
         <section className="section">
-            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} button={false} />
-            <div
-                className="material"
-                ref={scrollRef}
-                draggable="true"
-                onMouseEnter={() => setIsHovered(true)} // Set hovered state to true
-                onMouseLeave={() => setIsHovered(false)} // Set hovered state to false
-            >
-                {props.data.map((item) => (
+            <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} />
+            <div className="material" draggable="true">
+                {props.data.map((item, idx) => (
                     <SectionCard
                         key={item.id}
                         imgSrc={item.images && item.images.length > 0 ? item.images[0].url : PlaylistIcon}
