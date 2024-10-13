@@ -35,7 +35,7 @@ const protocol = process.env.REACT_APP_PROTOCOL;
 const client_id = process.env.REACT_APP_HARMONIX_CLIENT_ID;
 const client_secret = process.env.REACT_APP_HARMONIX_CLIENT_SECRET;
 const scope =
-  "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read";
+  "user-read-private user-read-email playlist-modify-public user-follow-read user-top-read user-follow-modify";
 
 async function updateData(req, res, accessToken) {
   const supabase = createClient(supabaseUrl, supabaseKey, {
