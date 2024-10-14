@@ -62,7 +62,7 @@ function App() {
   }, []);
 
   // Conditionally render based on expiryCode
-  if (expiryCode === 0 || expiryCode === 1) {
+  if (expiryCode === 0) {
     return (
       <Router>
         <Routes>
