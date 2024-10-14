@@ -35,13 +35,13 @@ const host = "harmonix-stream.vercel.app";
 //   }
 // }
 async function fetchData(url, method, errorMessage) {
-  // const cookie = document.cookie
-  //   .split("; ")
-  //   .find((row) => row.startsWith("userdetails="));
-  // const cookieValue = cookie.split("=")[1];
-  // const decodedValue = decodeURIComponent(cookieValue);
-  // let userdetails;
-  // userdetails = JSON.parse(decodedValue);
+  const cookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("userdetails="));
+  const cookieValue = cookie.split("=")[1];
+  const decodedValue = decodeURIComponent(cookieValue);
+  let userdetails;
+  userdetails = JSON.parse(decodedValue);
 
   // const expiryStatus = checkExpiry();
   // if (expiryStatus === 1) {
