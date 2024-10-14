@@ -44,7 +44,58 @@ function getExpiryStatus() {
     return 2;
   }
 }
-function App() {
+async function updateAccessToken() {
+  try {
+    // Extracting cookie to get the user id
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("userdetails="));
+    const cookieValue = cookie.split("=")[1];
+    const decodedValue = decodeURIComponent(cookieValue);
+    let userdetails = JSON.parse(decodedValue);
+
+    // Updating the accesstoken in the database by api
+    const response = await fetch(
+      "https://harmonix-stream.vercel.app/expiry/1/updateData",
+      {
+        method: "patch",
+        headers: {
+          "local-api-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          "user-id": `${userdetails.userId}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      const clearCookie = async (name) => {
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      };
+      await clearCookie("userdetails");
+      window.location.href = "https://harmonix-play.vercel.app/login";
+    }
+
+    // Updating the cookie to 1 hr
+    const clearCookie = async (name) => {
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    };
+    await clearCookie("userdetails");
+    const userdetailsNew = {
+      userId: userdetails.userId,
+      expiry: Date.now() + 3000000,
+    };
+    const userdetailsStr = JSON.stringify(userdetailsNew);
+    document.cookie = `userdetails=${encodeURIComponent(
+      userdetailsStr
+    )}; max-age=${15 * 24 * 60 * 60}; HttpOnly; secure;`;
+    console.log("Cookie Updated", userdetailsNew);
+    console.log(userdetailsStr);
+  } catch {
+    console.error(error);
+    window.location.href = "https://harmonix-play.vercel.app/login";
+    return;
+  }
+}
+async function App() {
   const [expiryCode, setExpiryCode] = useState(0);
   const [url, setUrl] = useState("");
 
@@ -73,7 +124,8 @@ function App() {
         </Routes>
       </Router>
     );
-  } else {
+  } else if (expiryCode == 1) {
+    await updateAccessToken();
     return (
       <Router>
         <div>
