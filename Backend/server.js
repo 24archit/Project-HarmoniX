@@ -352,7 +352,6 @@ app.use("/api", async function (req, res, next) {
   }
 });
 
-
 app.use("/expiry", async function (req, res, next) {
   const API_Access_Header = req.headers["local-api-access-token"];
 
@@ -415,7 +414,6 @@ app.use("/expiry", async function (req, res, next) {
   }
   next();
 });
-
 
 app.get("/login-spotify", function (req, res) {
   const originalState = req.query.state;
@@ -536,16 +534,16 @@ app.get("/callback", async function (req, res) {
     return res.status(400).json({ error: "Failed to handle OAuth callback" });
   }
 });
-app.patch("/expiry/1/updateData", async (req, res)=>{
+app.patch("/expiry/1/updateData", async (req, res) => {
   try {
     const tokens = await getFreshTokens(req);
     await updateData(req, tokens.access_token, tokens.refresh_token);
-    res.status(200).json({AccessToken : "Updated successfully"});
+    res.status(200).json({ AccessToken: "Updated successfully" });
   } catch (error) {
     console.error("Error during token update:", error.message);
     res.status(400).json({ error: "Unable to update access token" });
   }
-})
+});
 app.get("/api/getTopTracksIndia", async (req, res) => {
   try {
     const topTracks = await getTopTracksIndia(req);
@@ -717,7 +715,7 @@ app.use((req, res, next) => {
 </html>
   `);
 });
-app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'favicon.ico'));
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "favicon.ico"));
 });
 module.exports = app;

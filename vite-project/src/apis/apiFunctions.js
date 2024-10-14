@@ -2,7 +2,6 @@ const port = "";
 const protocol = "https";
 const host = "harmonix-stream.vercel.app";
 
-
 // function checkExpiry() {
 //   const cookie = document.cookie
 //     .split("; ")
@@ -77,26 +76,26 @@ async function fetchData(url, method, errorMessage) {
   //   }
   // }
   // if (expiryStatus === 2) {
-    try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          "local-api-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-          "expiry-code": "2",
-          "user-id": `${userdetails.userId}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(errorMessage);
-      }
-      const data = await response.json();
-      return JSON.parse(data);
-    } catch (error) {
-      document.cookie = "userdetails=; max-age=0; secure;";
-      window.location.href=`https://harmonix-play.vercel.app/login?error=${error}`;
-      throw new Error(error);
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        "local-api-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+        "expiry-code": "2",
+        "user-id": `${userdetails.userId}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(errorMessage);
     }
+    const data = await response.json();
+    return JSON.parse(data);
+  } catch (error) {
+    document.cookie = "userdetails=; max-age=0; secure;";
+    window.location.href = `https://harmonix-play.vercel.app/login?error=${error}`;
+    throw new Error(error);
+  }
   // } else {
   //   document.cookie = "userdetails=; max-age=0; secure;";
   //   window.location.href = "https://harmonix-play.vercel.app/login";
