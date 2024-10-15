@@ -77,15 +77,18 @@ async function updateAccessToken() {
     };
     await clearCookie("userdetails");
 
-    const userdetailsNew = {
-      userId: userdetails.userId,
-      expiry: Date.now() + 3000000,
-    };
-    const userdetailsStr = JSON.stringify(userdetailsNew);
-    document.cookie = `userdetails=${encodeURIComponent(
-      userdetailsStr
-    )}; max-age=${15 * 24 * 60 * 60};`; // Removed HttpOnly, Secure from here
-    console.log("Cookie Updated", userdetailsNew);
+    const updateCookie = async(name)=>{
+      const userdetailsNew = {
+        userId: userdetails.userId,
+        expiry: Date.now() + 3000000,
+      };
+      const userdetailsStr = JSON.stringify(userdetailsNew);
+      document.cookie = `${name}=${encodeURIComponent(
+        userdetailsStr
+      )}; max-age=${15 * 24 * 60 * 60};`; // Removed HttpOnly, Secure from here
+      console.log("Cookie Updated", userdetailsNew);
+    }
+    await updateCookie("userdetails");
   } catch (error) {
     console.error("Error updating access token", error);
     window.location.href = "https://harmonix-play.vercel.app/login";
