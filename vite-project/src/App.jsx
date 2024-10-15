@@ -46,12 +46,17 @@ function getExpiryStatus() {
 
 async function updateAccessToken() {
   try {
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("userdetails="));
-    const cookieValue = cookie.split("=")[1];
-    const decodedValue = decodeURIComponent(cookieValue);
-    let userdetails = JSON.parse(decodedValue);
+    let userdetails;
+    const getCookie = async () => {
+      const cookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userdetails="));
+      const cookieValue = cookie.split("=")[1];
+      const decodedValue = decodeURIComponent(cookieValue);
+      userdetails = JSON.parse(decodedValue);
+      return;
+    };
+    await getCookie();
 
     const response = await fetch(
       "https://harmonix-stream.vercel.app/expiry/1/updateData",
@@ -67,6 +72,7 @@ async function updateAccessToken() {
     if (!response.ok) {
       const clearCookie = async (name) => {
         document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        return;
       };
       await clearCookie("userdetails");
       window.location.href = "https://harmonix-play.vercel.app/login";
@@ -74,10 +80,11 @@ async function updateAccessToken() {
 
     const clearCookie = async (name) => {
       document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      return;
     };
     await clearCookie("userdetails");
 
-    const updateCookie = async(name)=>{
+    const updateCookie = async (name) => {
       const userdetailsNew = {
         userId: userdetails.userId,
         expiry: Date.now() + 3000000,
@@ -87,7 +94,8 @@ async function updateAccessToken() {
         userdetailsStr
       )}; max-age=${15 * 24 * 60 * 60};`; // Removed HttpOnly, Secure from here
       console.log("Cookie Updated", userdetailsNew);
-    }
+      return;
+    };
     await updateCookie("userdetails");
   } catch (error) {
     console.error("Error updating access token", error);
@@ -106,8 +114,8 @@ function App() {
         setExpiryCode(expiryStatus);
 
         if (expiryStatus === 1) {
-          await updateAccessToken();  // Token update if expired
-          setExpiryCode(2);  // Set to valid after update
+          await updateAccessToken(); // Token update if expired
+          setExpiryCode(2); // Set to valid after update
         }
       } catch (error) {
         console.error("Error fetching expiry status:", error);
