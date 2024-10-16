@@ -86,6 +86,9 @@ async function updateAccessToken() {
     const clearCookie = (name) => {
       document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     };
+
+    // Add a delay to ensure the cookie is cleared before proceeding
+    await new Promise((resolve) => setTimeout(resolve, 500)); // 500ms delay
     clearCookie("userdetails");
 
     // Step 5: Update the cookie with the new token and expiration time
@@ -94,9 +97,15 @@ async function updateAccessToken() {
       expiry: Date.now() + 3000000, // 50 minutes expiry
     };
     const userdetailsStr = JSON.stringify(userdetailsNew);
+
+    // Add a delay before setting the new cookie
+    await new Promise((resolve) => setTimeout(resolve, 500)); // 500ms delay
     document.cookie = `userdetails=${encodeURIComponent(
       userdetailsStr
     )}; max-age=${15 * 24 * 60 * 60};`; // Cookie expiry set to 15 days
+
+    // Add a delay to ensure the new cookie is properly set before proceeding
+    await new Promise((resolve) => setTimeout(resolve, 500)); // 500ms delay
 
     console.log("Cookie Updated", userdetailsNew);
   } catch (error) {
@@ -105,7 +114,6 @@ async function updateAccessToken() {
   }
 }
 
-// Main App component
 function App() {
   const [expiryCode, setExpiryCode] = useState(0);
   const [url, setUrl] = useState("");
@@ -117,7 +125,8 @@ function App() {
         setExpiryCode(expiryStatus);
 
         if (expiryStatus === 1) {
-          // Call to update the token if expired
+          // Call to update the token if expired with a delay before updating
+          await new Promise((resolve) => setTimeout(resolve, 500)); // 500ms delay
           await updateAccessToken();
           setExpiryCode(2); // After updating the token, set the expiry code to valid (2)
         }
