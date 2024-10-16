@@ -1,88 +1,199 @@
-import React, { useEffect, useState } from 'react';
-import HomePagePlaylistTrackSection from '../components/HomePagePlaylistTrackSection.jsx';
-import SectionLoading from '../components/SectionLoading.jsx';
-import { getTopTracksIndia, getTopTracksGlobal, getUserTopArtists } from '../apis/apiFunctions.js';
+import "./assets/styles/App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Player from "./components/Player";
+import NavBar from "./components/NavBar";
+import LoginDialog from "./components/LoginDialog";
+import Cookie from "./components/Cookie";
+import HomePage from "./pages/HomePage";
+import ArtistPage from "./pages/ArtistPage";
+import React, { useEffect, useState } from "react";
+import SearchPage from "./pages/SearchPage";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-export default function HomePage({ setNewUrl }) {
-  const [topIndiaTracks, setTopIndiaTracks] = useState([]);
-  const [topGlobalTracks, setTopGlobalTracks] = useState([]);
-  const [userTopArtists, setUserTopArtists] = useState([]);
+// Function to get cookie expiry status
+function getExpiryStatus() {
+  const cookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("userdetails="));
 
-  const fetchTracks = async (fetchFunction, setTracks) => {
-    try {
-      const data = await fetchFunction();
-      const newArr = data.tracks.items;
-      setTracks(newArr);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      alert("We're experiencing some issues with fetching data. Check your Internet Connection and please log in again.");
-      window.location.href = "/login";
+  if (!cookie) {
+    return 0;
+  }
+
+  // Extract the cookie value and decode it
+  const cookieValue = cookie.split("=")[1];
+  const decodedValue = decodeURIComponent(cookieValue);
+
+  // Parse the JSON string into an object
+  let userdetails;
+  try {
+    userdetails = JSON.parse(decodedValue);
+  } catch (e) {
+    console.log("Error parsing cookie");
+    return 0;
+  }
+
+  // Check the conditions
+  if (!userdetails) {
+    return 0;
+  } else if (userdetails.expiry < Date.now()) {
+    return 1;
+  } else {
+    return 2;
+  }
+}
+
+// Function to update access token, update cookie, and handle flow
+async function updateAccessToken() {
+  try {
+    // Step 1: Get user details from the cookie
+    const getCookie = () => {
+      const cookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userdetails="));
+      if (!cookie) throw new Error("No cookie found");
+
+      const cookieValue = cookie.split("=")[1];
+      const decodedValue = decodeURIComponent(cookieValue);
+      return JSON.parse(decodedValue); // Parse the JSON string into an object
+    };
+
+    const userdetails = getCookie();
+
+    // Step 2: Make the API call to update the token
+    const response = await fetch(
+      "https://harmonix-stream.vercel.app/expiry/1/updateData",
+      {
+        method: "PATCH",
+        headers: {
+          "local-api-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          "user-id": `${userdetails.userId}`,
+        },
+      }
+    );
+
+    // Step 3: Handle non-successful responses (e.g., token is invalid)
+    if (!response.ok) {
+      await clearCookie("userdetails");
+      window.location.href = "https://harmonix-play.vercel.app/login";
+      return;
     }
-  };
+
+    // Step 4: Clear the existing cookie before updating it
+    const clearCookie = (name) => {
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    };
+    clearCookie("userdetails");
+
+    // Step 5: Update the cookie with the new token and expiration time
+    const userdetailsNew = {
+      userId: userdetails.userId,
+      expiry: Date.now() + 3000000, // 50 minutes expiry
+    };
+    const userdetailsStr = JSON.stringify(userdetailsNew);
+    document.cookie = `userdetails=${encodeURIComponent(
+      userdetailsStr
+    )}; max-age=${15 * 24 * 60 * 60};`; // Cookie expiry set to 15 days
+
+    console.log("Cookie Updated", userdetailsNew);
+  } catch (error) {
+    console.error("Error updating access token", error);
+    window.location.href = "https://harmonix-play.vercel.app/login";
+  }
+}
+
+// Main App component
+function App() {
+  const [expiryCode, setExpiryCode] = useState(0);
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
-    fetchTracks(getTopTracksIndia, setTopIndiaTracks);
-  }, []);
-
-  useEffect(() => {
-    fetchTracks(getTopTracksGlobal, setTopGlobalTracks);
-  }, []);
-
-  useEffect(() => {
-    const fetchUserTopArtists = async () => {
+    const fetchExpiryStatus = async () => {
       try {
-        const data = await getUserTopArtists(12);
-        setUserTopArtists(data.items);
+        const expiryStatus = getExpiryStatus();
+        setExpiryCode(expiryStatus);
+
+        if (expiryStatus === 1) {
+          // Call to update the token if expired
+          await updateAccessToken();
+          setExpiryCode(2); // After updating the token, set the expiry code to valid (2)
+        }
       } catch (error) {
-        console.error('Error fetching user top artists:', error);
+        console.error("Error fetching expiry status:", error);
+        window.location.href = "https://harmonix-play.vercel.app/login";
       }
     };
-    fetchUserTopArtists();
+
+    fetchExpiryStatus();
   }, []);
 
-  const handleMoreClick = (setTracks, tracks, visibleCount) => {
-    setTracks(tracks.slice(0, visibleCount + 12));
-  };
+  // Conditionally render based on expiryCode
+  if (expiryCode === 0) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginDialog />} />
+          <Route path="/" element={<LoginDialog />} />
+          <Route path="/callback" element={<Cookie />} />
+          <Route path="*" element={<LoginDialog />} />
+        </Routes>
+      </Router>
+    );
+  }
 
   return (
-    <>
-      {topIndiaTracks.length ? (
-        <HomePagePlaylistTrackSection
-          iconClass="fa-solid fa-arrow-trend-up"
-          iconId="trend-icon"
-          name=" Top Tracks: Live from India"
-          data={topIndiaTracks.slice(0, 12)}
-          setNewUrl={setNewUrl}
-          showMore={topIndiaTracks.length > 12}
-          onMoreClick={() => handleMoreClick(setTopIndiaTracks, topIndiaTracks, 12)}
-        />
-      ) : (
-        <SectionLoading
-          iconClass="fa-solid fa-arrow-trend-up"
-          iconId="trend-icon"
-          name=" Top Tracks: Live from India"
-          setNewUrl={setNewUrl}
-        />
-      )}
-
-      {topGlobalTracks.length ? (
-        <HomePagePlaylistTrackSection
-          iconClass="fa-solid fa-arrow-trend-up"
-          iconId="trend-icon"
-          name=" Sync: Global Top Tracks"
-          data={topGlobalTracks.slice(0, 12)}
-          setNewUrl={setNewUrl}
-          showMore={topGlobalTracks.length > 12}
-          onMoreClick={() => handleMoreClick(setTopGlobalTracks, topGlobalTracks, 12)}
-        />
-      ) : (
-        <SectionLoading
-          iconClass="fa-solid fa-arrow-trend-up"
-          iconId="trend-icon"
-          name=" Sync: Global Top Tracks"
-          setNewUrl={setNewUrl}
-        />
-      )}
-    </>
+    <Router>
+      <div>
+        <NavBar />
+        <Sidebar />
+        <div className="content">
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <main>
+                  <HomePage setNewUrl={setUrl} />
+                </main>
+              }
+            />
+            <Route
+              exact
+              path="/user/home"
+              element={
+                <main>
+                  <HomePage setNewUrl={setUrl} />
+                </main>
+              }
+            />
+            <Route
+              exact
+              path="/user/search"
+              element={
+                <main>
+                  <SearchPage setNewUrl={setUrl} />
+                </main>
+              }
+            />
+            <Route
+              exact
+              path="/user/artist/:id"
+              element={
+                <main>
+                  <ArtistPage setNewUrl={setUrl} />
+                </main>
+              }
+            />
+            <Route exact path="/user/playlist/:id" element={<main></main>} />
+          </Routes>
+        </div>
+        <Player url={url} setNewUrl={setUrl} />
+      </div>
+    </Router>
   );
 }
+
+export default App;
