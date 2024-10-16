@@ -12,6 +12,7 @@ import SearchPage from "./pages/SearchPage";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// Function to get cookie expiry status
 function getExpiryStatus() {
   const cookie = document.cookie
     .split("; ")
@@ -44,20 +45,24 @@ function getExpiryStatus() {
   }
 }
 
+// Function to update access token, update cookie, and handle flow
 async function updateAccessToken() {
   try {
-    let userdetails;
-    const getCookie = async () => {
+    // Step 1: Get user details from the cookie
+    const getCookie = () => {
       const cookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userdetails="));
+      if (!cookie) throw new Error("No cookie found");
+      
       const cookieValue = cookie.split("=")[1];
       const decodedValue = decodeURIComponent(cookieValue);
-      userdetails = JSON.parse(decodedValue);
-      return;
+      return JSON.parse(decodedValue); // Parse the JSON string into an object
     };
-    await getCookie();
 
+    const userdetails = getCookie();
+
+    // Step 2: Make the API call to update the token
     const response = await fetch(
       "https://harmonix-stream.vercel.app/expiry/1/updateData",
       {
@@ -69,40 +74,38 @@ async function updateAccessToken() {
         },
       }
     );
+
+    // Step 3: Handle non-successful responses (e.g., token is invalid)
     if (!response.ok) {
-      const clearCookie = async (name) => {
-        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-        return;
-      };
       await clearCookie("userdetails");
       window.location.href = "https://harmonix-play.vercel.app/login";
+      return;
     }
 
-    const clearCookie = async (name) => {
+    // Step 4: Clear the existing cookie before updating it
+    const clearCookie = (name) => {
       document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-      return;
     };
-    await clearCookie("userdetails");
+    clearCookie("userdetails");
 
-    const updateCookie = async (name) => {
-      const userdetailsNew = {
-        userId: userdetails.userId,
-        expiry: Date.now() + 3000000,
-      };
-      const userdetailsStr = JSON.stringify(userdetailsNew);
-      document.cookie = `${name}=${encodeURIComponent(
-        userdetailsStr
-      )}; max-age=${15 * 24 * 60 * 60};`; // Removed HttpOnly, Secure from here
-      console.log("Cookie Updated", userdetailsNew);
-      return;
+    // Step 5: Update the cookie with the new token and expiration time
+    const userdetailsNew = {
+      userId: userdetails.userId,
+      expiry: Date.now() + 3000000, // 50 minutes expiry
     };
-    await updateCookie("userdetails");
+    const userdetailsStr = JSON.stringify(userdetailsNew);
+    document.cookie = `userdetails=${encodeURIComponent(
+      userdetailsStr
+    )}; max-age=${15 * 24 * 60 * 60};`; // Cookie expiry set to 15 days
+
+    console.log("Cookie Updated", userdetailsNew);
   } catch (error) {
     console.error("Error updating access token", error);
     window.location.href = "https://harmonix-play.vercel.app/login";
   }
 }
 
+// Main App component
 function App() {
   const [expiryCode, setExpiryCode] = useState(0);
   const [url, setUrl] = useState("");
@@ -114,11 +117,13 @@ function App() {
         setExpiryCode(expiryStatus);
 
         if (expiryStatus === 1) {
-          await updateAccessToken(); // Token update if expired
-          setExpiryCode(2); // Set to valid after update
+          // Call to update the token if expired
+          await updateAccessToken();
+          setExpiryCode(2); // After updating the token, set the expiry code to valid (2)
         }
       } catch (error) {
         console.error("Error fetching expiry status:", error);
+        window.location.href = "https://harmonix-play.vercel.app/login";
       }
     };
 
