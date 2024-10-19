@@ -1,6 +1,6 @@
 .section {
   padding-top: 0.6rem;
-  background: transparent; /* Set to your desired background */
+  background: transparent; /* Ensures no unwanted background */
 }
 
 .slider-container {
@@ -18,6 +18,11 @@
 .track-cards {
   display: flex;
   transition: transform 0.4s ease-in-out;
+  width: 100%; /* Ensures that the cards occupy the full width */
+}
+
+.track-cards > * {
+  flex: 0 0 calc(100% / var(--slides-to-show)); /* Dynamically calculate card width */
 }
 
 .slider-btn {
@@ -28,9 +33,9 @@
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
+  transition: background-color 0.2s;
   width: 50px; /* Fixed size for circular buttons */
   height: 50px; /* Fixed size for circular buttons */
-  transition: background-color 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 
@@ -40,7 +45,7 @@
 
 .prev-btn {
   position: absolute;
-  left: 1rem; /* Adjusted for spacing */
+  left: 1.5rem; /* Increased for better spacing */
   top: 50%;
   transform: translateY(-50%);
   z-index: 1; /* Ensure button is above cards */
@@ -48,7 +53,7 @@
 
 .next-btn {
   position: absolute;
-  right: 1rem; /* Adjusted for spacing */
+  right: 1.5rem; /* Increased for better spacing */
   top: 50%;
   transform: translateY(-50%);
   z-index: 1; /* Ensure button is above cards */
@@ -66,6 +71,6 @@
   }
 
   .track-cards {
-    gap: 0.5rem; /* Adjust spacing for mobile */
+    gap: 0.5rem;
   }
 }
