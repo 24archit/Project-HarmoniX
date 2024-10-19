@@ -7,86 +7,62 @@ import TrackLogo from "../assets/media/Track-Logo.png";
 export default function HomePagePlaylistTrackSection(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(5);
-  const [cardWidth, setCardWidth] = useState(0);
   const sliderRef = useRef(null);
+  const touchStartX = useRef(0);
 
+  // Update the number of slides to show based on screen width
   useEffect(() => {
     const updateSlidesToShow = () => {
       const width = window.innerWidth;
       if (width <= 800) {
-        setSlidesToShow(1.5); // Show 1.5 cards on mobile
+        setSlidesToShow(1.5);
       } else if (width <= 1024) {
-        setSlidesToShow(3); // Show 3 cards on tablets
+        setSlidesToShow(3);
       } else {
-        setSlidesToShow(5); // Show 5 cards on larger screens
-      }
-    };
-
-    const updateCardWidth = () => {
-      if (sliderRef.current) {
-        setCardWidth(sliderRef.current.offsetWidth / slidesToShow);
+        setSlidesToShow(5);
       }
     };
 
     updateSlidesToShow();
-    updateCardWidth();
     window.addEventListener("resize", updateSlidesToShow);
-    window.addEventListener("resize", updateCardWidth);
 
     return () => {
       window.removeEventListener("resize", updateSlidesToShow);
-      window.removeEventListener("resize", updateCardWidth);
     };
-  }, [slidesToShow]);
+  }, []);
 
   const handleNext = () => {
-    if (currentIndex < props.data.length - slidesToShow) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
-    }
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % props.data.length);
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 1);
-    }
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + props.data.length) % props.data.length);
   };
 
   const handleTouchStart = (e) => {
-    setStartX(e.touches[0].clientX);
+    touchStartX.current = e.touches[0].clientX;
   };
 
   const handleTouchMove = (e) => {
-    if (!startX) return;
     const currentX = e.touches[0].clientX;
-    const diffX = startX - currentX;
+    const diffX = touchStartX.current - currentX;
 
     if (diffX > 50) {
       handleNext();
-      setStartX(null); // Reset
     } else if (diffX < -50) {
       handlePrev();
-      setStartX(null); // Reset
     }
   };
 
   return (
     <section className="section">
-      <SectionName
-        iconClass={props.iconClass}
-        iconId={props.iconId}
-        name={props.name}
-      />
-      <div
-        className="slider-container"
-        ref={sliderRef}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-      >
-        <button className="slider-btn prev-btn" onClick={handlePrev} disabled={currentIndex === 0}>
+      <SectionName iconClass={props.iconClass} iconId={props.iconId} name={props.name} />
+      <div className="slider-container" ref={sliderRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
+        <button className="slider-btn prev-btn" onClick={handlePrev}>
           &#10094;
         </button>
-        <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
-          {props.data.slice(currentIndex, currentIndex + slidesToShow).map((item) => (
+        <div className="track-cards" style={{ transform: `translateX(-${(currentIndex * 100) / slidesToShow}%)` }}>
+          {props.data.map((item, index) => (
             <SectionCard
               key={item.track.id}
               imgSrc={item.track.album.images.length > 0 ? item.track.album.images[0].url : TrackLogo}
@@ -106,7 +82,7 @@ export default function HomePagePlaylistTrackSection(props) {
             />
           ))}
         </div>
-        <button className="slider-btn next-btn" onClick={handleNext} disabled={currentIndex >= props.data.length - slidesToShow}>
+        <button className="slider-btn next-btn" onClick={handleNext}>
           &#10095;
         </button>
       </div>
