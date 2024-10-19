@@ -1,14 +1,14 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/Section.css";
 import { SectionName } from "./SectionName.jsx";
 import { SectionCard } from "./SectionCard.jsx";
-import { Link } from "react-router-dom";
 import TrackLogo from "../assets/media/Track-Logo.png";
-import Slider from "react-slick";
 
 export default function HomePagePlaylistTrackSection(props) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(5);
 
+  // Adjust slidesToShow based on window width
   useEffect(() => {
     const updateSlidesToShow = () => {
       const width = window.innerWidth;
@@ -22,18 +22,22 @@ export default function HomePagePlaylistTrackSection(props) {
     };
 
     window.addEventListener("resize", updateSlidesToShow);
-    updateSlidesToShow(); // Initial call
+    updateSlidesToShow();
 
     return () => window.removeEventListener("resize", updateSlidesToShow);
   }, []);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: slidesToShow,
-    slidesToScroll: 1,
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex + slidesToShow < props.data.length ? prevIndex + slidesToShow : prevIndex
+    );
   };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - slidesToShow >= 0 ? prevIndex - slidesToShow : 0));
+  };
+
+  const visibleTracks = props.data.slice(currentIndex, currentIndex + slidesToShow);
 
   return (
     <section className="section">
@@ -42,9 +46,12 @@ export default function HomePagePlaylistTrackSection(props) {
         iconId={props.iconId}
         name={props.name}
       />
-      <div className="material-2">
-        <Slider {...settings}>
-          {props.data.map((item) => (
+      <div className="slider-container">
+        <button className="slider-btn prev-btn" onClick={handlePrev}>
+          &#10094;
+        </button>
+        <div className="track-cards">
+          {visibleTracks.map((item) => (
             <SectionCard
               key={item.track.id}
               imgSrc={
@@ -59,24 +66,22 @@ export default function HomePagePlaylistTrackSection(props) {
               cardType="track"
               setNewUrl={props.setNewUrl}
               cardStat={
-                <React.Fragment>
+                <>
                   {item.track.artists.map((artist, idx) => (
                     <span key={artist.id}>
-                      <Link
-                        to={`/user/artist/${artist.id}`}
-                        className={"card-stat-links"}
-                      >
-                        {artist.name}
-                      </Link>
+                      {artist.name}
                       {idx < item.track.artists.length - 1 ? ", " : ""}
                     </span>
                   ))}
-                </React.Fragment>
+                </>
               }
               spotifyUrl={item.track.external_urls.spotify}
             />
           ))}
-        </Slider>
+        </div>
+        <button className="slider-btn next-btn" onClick={handleNext}>
+          &#10095;
+        </button>
       </div>
     </section>
   );
