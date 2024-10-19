@@ -72,7 +72,10 @@ export default function HomePagePlaylistTrackSection(props) {
     }
   };
 
-  const visibleTracks = props.data.slice(currentIndex, currentIndex + slidesToShow);
+  const visibleTracks = props.data.slice(
+    currentIndex,
+    currentIndex + slidesToShow
+  );
 
   return (
     <section className="section">
@@ -110,6 +113,24 @@ export default function HomePagePlaylistTrackSection(props) {
               spotifyUrl={item.track.external_urls.spotify}
             />
           ))}
+          {/* To create a circular effect, clone the first track */}
+          <SectionCard
+            key={props.data[0].track.id}
+            imgSrc={props.data[0].track.album.images.length > 0 ? props.data[0].track.album.images[0].url : TrackLogo}
+            iconClass={"fa-solid fa-play"}
+            iconId={"play-btn"}
+            cardName={props.data[0].track.album.name}
+            cardId={props.data[0].track.id}
+            cardType="track"
+            setNewUrl={props.setNewUrl}
+            cardStat={props.data[0].track.artists.map((artist, idx) => (
+              <span key={artist.id}>
+                {artist.name}
+                {idx < props.data[0].track.artists.length - 1 ? ", " : ""}
+              </span>
+            ))}
+            spotifyUrl={props.data[0].track.external_urls.spotify}
+          />
         </div>
         <button className="slider-btn next-btn" onClick={handleNext}>
           &#10095;

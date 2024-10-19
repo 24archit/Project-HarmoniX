@@ -30,27 +30,28 @@
   border-radius: 50%;
   width: 50px; /* Fixed size for circular buttons */
   height: 50px; /* Fixed size for circular buttons */
-  transition: background-color 0.2s, transform 0.2s;
+  transition: background-color 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 
 .slider-btn:hover {
-  background-color: #ffffffee;
-  transform: scale(1.1); /* Slightly increase size on hover */
+  background-color: #ffffffee; /* Adjust hover color */
 }
 
 .prev-btn {
   position: absolute;
-  left: 1rem; /* Increased for spacing */
+  left: 1.5rem; /* Increased for better spacing */
   top: 50%;
   transform: translateY(-50%);
+  z-index: 1; /* Ensure button is above cards */
 }
 
 .next-btn {
   position: absolute;
-  right: 1rem; /* Increased for spacing */
+  right: 1.5rem; /* Increased for better spacing */
   top: 50%;
   transform: translateY(-50%);
+  z-index: 1; /* Ensure button is above cards */
 }
 
 @media (max-width: 800px) {
