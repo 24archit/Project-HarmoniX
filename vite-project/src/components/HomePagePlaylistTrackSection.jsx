@@ -12,7 +12,7 @@ export default function HomePagePlaylistTrackSection(props) {
   
   // Touch event state
   const [startX, setStartX] = useState(null);
-  
+
   useEffect(() => {
     const updateSlidesToShow = () => {
       const width = window.innerWidth;
@@ -49,6 +49,7 @@ export default function HomePagePlaylistTrackSection(props) {
   };
 
   const handlePrev = () => {
+    if (currentIndex === 0) return; // Prevent backward navigation at the start
     setCurrentIndex((prevIndex) =>
       (prevIndex - 1 + props.data.length) % props.data.length
     );
@@ -90,7 +91,7 @@ export default function HomePagePlaylistTrackSection(props) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
-        <button className="slider-btn prev-btn" onClick={handlePrev}>
+        <button className="slider-btn prev-btn" onClick={handlePrev} disabled={currentIndex === 0}>
           &#10094;
         </button>
         <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
