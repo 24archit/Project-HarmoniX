@@ -7,37 +7,48 @@ import TrackLogo from "../assets/media/Track-Logo.png";
 export default function HomePagePlaylistTrackSection(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(5);
+  const [cardWidth, setCardWidth] = useState(0);
   const sliderRef = useRef(null);
-
-  // Touch event state
-  const [startX, setStartX] = useState(null);
 
   useEffect(() => {
     const updateSlidesToShow = () => {
       const width = window.innerWidth;
       if (width <= 800) {
-        setSlidesToShow(1.5);
+        setSlidesToShow(1.5); // Show 1.5 cards on mobile
       } else if (width <= 1024) {
-        setSlidesToShow(3);
+        setSlidesToShow(3); // Show 3 cards on tablets
       } else {
-        setSlidesToShow(5);
+        setSlidesToShow(5); // Show 5 cards on larger screens
+      }
+    };
+
+    const updateCardWidth = () => {
+      if (sliderRef.current) {
+        setCardWidth(sliderRef.current.offsetWidth / slidesToShow);
       }
     };
 
     updateSlidesToShow();
+    updateCardWidth();
     window.addEventListener("resize", updateSlidesToShow);
-    
+    window.addEventListener("resize", updateCardWidth);
+
     return () => {
       window.removeEventListener("resize", updateSlidesToShow);
+      window.removeEventListener("resize", updateCardWidth);
     };
-  }, []);
+  }, [slidesToShow]);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % props.data.length);
+    if (currentIndex < props.data.length - slidesToShow) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - slidesToShow + props.data.length) % props.data.length);
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 1);
+    }
   };
 
   const handleTouchStart = (e) => {
@@ -58,9 +69,6 @@ export default function HomePagePlaylistTrackSection(props) {
     }
   };
 
-  // Calculate the transform based on the current index and card width
-  const transformValue = `translateX(-${(currentIndex * (100 / slidesToShow))}%)`;
-
   return (
     <section className="section">
       <SectionName
@@ -74,11 +82,11 @@ export default function HomePagePlaylistTrackSection(props) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
-        <button className="slider-btn prev-btn" onClick={handlePrev}>
+        <button className="slider-btn prev-btn" onClick={handlePrev} disabled={currentIndex === 0}>
           &#10094;
         </button>
-        <div className="track-cards" style={{ transform: transformValue }}>
-          {props.data.map((item) => (
+        <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
+          {props.data.slice(currentIndex, currentIndex + slidesToShow).map((item) => (
             <SectionCard
               key={item.track.id}
               imgSrc={item.track.album.images.length > 0 ? item.track.album.images[0].url : TrackLogo}
@@ -98,7 +106,7 @@ export default function HomePagePlaylistTrackSection(props) {
             />
           ))}
         </div>
-        <button className="slider-btn next-btn" onClick={handleNext}>
+        <button className="slider-btn next-btn" onClick={handleNext} disabled={currentIndex >= props.data.length - slidesToShow}>
           &#10095;
         </button>
       </div>
