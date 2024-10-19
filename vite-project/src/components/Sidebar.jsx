@@ -3,23 +3,28 @@ import '../assets/styles/Sidebar.css';
 import SideBarBtn from './SideBarBtn';
 import { TrackImg } from './TrackImg';
 
-export default function Sidebar() {
+export default function Sidebar({ onMenuToggle }) {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Check if screen size is mobile
   useEffect(() => {
     const updateMobileView = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const isMobileView = window.innerWidth <= 768;
+      setIsMobile(isMobileView);
+      if (!isMobileView) {
+        setMenuOpen(false); // Reset the menu state on larger screens
+        onMenuToggle(false); // Inform parent component to shift sections left
+      }
     };
     updateMobileView();
 
     window.addEventListener('resize', updateMobileView);
     return () => window.removeEventListener('resize', updateMobileView);
-  }, []);
+  }, [onMenuToggle]);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+    onMenuToggle(!menuOpen); // Shift sections based on menu state
   };
 
   return (
@@ -49,8 +54,6 @@ export default function Sidebar() {
           <SideBarBtn iconClass='' iconId='' btnName='About' />
         </nav>
       )}
-      
-      {!isMobile && <TrackImg />}
     </>
   );
 }

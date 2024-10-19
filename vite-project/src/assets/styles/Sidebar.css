@@ -13,34 +13,29 @@
   
   .hamburger-btn {
     position: fixed;
-    top: 1rem;
-    left: 1rem;
-    background: none;
+    top: 5.9rem;
+    left: 0.7rem;
+    background: transparent;
     border: none;
     font-size: 2rem;
-    color: white;
+    color: #0389f7;
     cursor: pointer;
   }
   
   .mobile-sidebar {
     position: fixed;
-    top: 5.9rem;
+    top: 6.9rem;
     left: 0;
-    width: 200px;
-    padding: 0.5rem;
-    background: linear-gradient(#6223a96d, rgba(16, 108, 221, 0.405), #232ca96d, #6223a96d);
+    width: 100%;
+    background: linear-gradient(#6223a96d, rgba(16, 108, 221, 0.405), #232ca96d);
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
   
   @media (max-width: 768px) {
     .sidebar {
-      display: none;
-    }
-    
-    .mobile-sidebar {
-      display: block;
+      display: none; /* Hide the sidebar on mobile */
     }
   }
   

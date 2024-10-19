@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../assets/styles/Section.css";
 import { SectionName } from "./SectionName.jsx";
 import { SectionCard } from "./SectionCard.jsx";
@@ -7,34 +7,49 @@ import TrackLogo from "../assets/media/Track-Logo.png";
 export default function HomePagePlaylistTrackSection(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(5);
+  const [cardWidth, setCardWidth] = useState(0);
+  const sliderRef = useRef(null);
 
-  // Adjust slidesToShow based on window width
+  // Adjust the number of slides to show based on screen width
   useEffect(() => {
     const updateSlidesToShow = () => {
       const width = window.innerWidth;
       if (width <= 768) {
-        setSlidesToShow(1);
+        setSlidesToShow(1.5); // Show 1.5 cards on mobile
       } else if (width <= 1024) {
-        setSlidesToShow(3);
+        setSlidesToShow(3); // Show 3 cards on tablets
       } else {
-        setSlidesToShow(5);
+        setSlidesToShow(5); // Show 5 cards on larger screens
       }
     };
 
-    window.addEventListener("resize", updateSlidesToShow);
-    updateSlidesToShow();
+    const updateCardWidth = () => {
+      if (sliderRef.current) {
+        setCardWidth(sliderRef.current.offsetWidth / slidesToShow);
+      }
+    };
 
-    return () => window.removeEventListener("resize", updateSlidesToShow);
-  }, []);
+    updateSlidesToShow();
+    updateCardWidth();
+    window.addEventListener("resize", updateSlidesToShow);
+    window.addEventListener("resize", updateCardWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateSlidesToShow);
+      window.removeEventListener("resize", updateCardWidth);
+    };
+  }, [slidesToShow]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex + slidesToShow < props.data.length ? prevIndex + slidesToShow : prevIndex
+      (prevIndex + 1) % props.data.length // Circular slider logic
     );
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - slidesToShow >= 0 ? prevIndex - slidesToShow : 0));
+    setCurrentIndex((prevIndex) =>
+      (prevIndex - 1 + props.data.length) % props.data.length // Circular slider logic
+    );
   };
 
   const visibleTracks = props.data.slice(currentIndex, currentIndex + slidesToShow);
@@ -46,12 +61,12 @@ export default function HomePagePlaylistTrackSection(props) {
         iconId={props.iconId}
         name={props.name}
       />
-      <div className="slider-container">
+      <div className="slider-container" ref={sliderRef}>
         <button className="slider-btn prev-btn" onClick={handlePrev}>
           &#10094;
         </button>
-        <div className="track-cards">
-          {visibleTracks.map((item) => (
+        <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
+          {props.data.map((item, index) => (
             <SectionCard
               key={item.track.id}
               imgSrc={
