@@ -33,7 +33,7 @@
     flex-direction: column;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 800px) {
     .sidebar {
       display: none; /* Hide the sidebar on mobile */
     }

@@ -9,17 +9,19 @@ export default function HomePagePlaylistTrackSection(props) {
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [cardWidth, setCardWidth] = useState(0);
   const sliderRef = useRef(null);
-
-  // Adjust the number of slides to show based on screen width
+  
+  // Touch event state
+  const [startX, setStartX] = useState(null);
+  
   useEffect(() => {
     const updateSlidesToShow = () => {
       const width = window.innerWidth;
-      if (width <= 768) {
-        setSlidesToShow(1.5); // Show 1.5 cards on mobile
+      if (width <= 800) {
+        setSlidesToShow(1.5);
       } else if (width <= 1024) {
-        setSlidesToShow(3); // Show 3 cards on tablets
+        setSlidesToShow(3);
       } else {
-        setSlidesToShow(5); // Show 5 cards on larger screens
+        setSlidesToShow(5);
       }
     };
 
@@ -42,14 +44,32 @@ export default function HomePagePlaylistTrackSection(props) {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % props.data.length // Circular slider logic
+      (prevIndex + 1) % props.data.length
     );
   };
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      (prevIndex - 1 + props.data.length) % props.data.length // Circular slider logic
+      (prevIndex - 1 + props.data.length) % props.data.length
     );
+  };
+
+  const handleTouchStart = (e) => {
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!startX) return;
+    const currentX = e.touches[0].clientX;
+    const diffX = startX - currentX;
+
+    if (diffX > 50) {
+      handleNext();
+      setStartX(null); // Reset
+    } else if (diffX < -50) {
+      handlePrev();
+      setStartX(null); // Reset
+    }
   };
 
   const visibleTracks = props.data.slice(currentIndex, currentIndex + slidesToShow);
@@ -61,35 +81,32 @@ export default function HomePagePlaylistTrackSection(props) {
         iconId={props.iconId}
         name={props.name}
       />
-      <div className="slider-container" ref={sliderRef}>
+      <div
+        className="slider-container"
+        ref={sliderRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+      >
         <button className="slider-btn prev-btn" onClick={handlePrev}>
           &#10094;
         </button>
         <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
-          {props.data.map((item, index) => (
+          {props.data.map((item) => (
             <SectionCard
               key={item.track.id}
-              imgSrc={
-                item.track.album.images.length > 0
-                  ? item.track.album.images[0].url
-                  : TrackLogo
-              }
+              imgSrc={item.track.album.images.length > 0 ? item.track.album.images[0].url : TrackLogo}
               iconClass={"fa-solid fa-play"}
               iconId={"play-btn"}
               cardName={item.track.album.name}
               cardId={item.track.id}
               cardType="track"
               setNewUrl={props.setNewUrl}
-              cardStat={
-                <>
-                  {item.track.artists.map((artist, idx) => (
-                    <span key={artist.id}>
-                      {artist.name}
-                      {idx < item.track.artists.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
-                </>
-              }
+              cardStat={item.track.artists.map((artist, idx) => (
+                <span key={artist.id}>
+                  {artist.name}
+                  {idx < item.track.artists.length - 1 ? ", " : ""}
+                </span>
+              ))}
               spotifyUrl={item.track.external_urls.spotify}
             />
           ))}

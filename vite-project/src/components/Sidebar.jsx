@@ -10,7 +10,7 @@ export default function Sidebar({ onMenuToggle }) {
   // Handle mobile view state and reset menu if resized to larger screen
   useEffect(() => {
     const updateMobileView = () => {
-      const isMobileView = window.innerWidth <= 768;
+      const isMobileView = window.innerWidth <= 800;
       setIsMobile(isMobileView);
       
       // If resized to desktop and menu was open, close it

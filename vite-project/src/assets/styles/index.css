@@ -273,8 +273,17 @@ html{
 main {
   height: fit-content;
   width: 100vw;
-  transform: translate(17rem, 5rem) scale(0.8); /* Add scale transformation */
-  transform-origin: top left; /* Set origin to top left to control where scaling happens from */
+  transform: translate(17rem, 5rem) scale(0.8); /* Apply on larger screens */
+  transform-origin: top left;
+  transition: transform 0.3s ease-in-out; /* Smooth transition when changing screen sizes */
+}
+
+@media (max-width: 800px) {
+  main {
+    transform: none; /* Remove translation and scaling for mobile */
+    width: 100vw; /* Ensure it takes full width on mobile */
+    padding: 0.5rem 1rem; /* Optional: Add some padding for better mobile layout */
+  }
 }
 
 #artstation-icon{
