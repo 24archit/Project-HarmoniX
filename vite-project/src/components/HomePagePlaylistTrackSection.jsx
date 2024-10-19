@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "../assets/styles/Section.css";
 import { SectionName } from "./SectionName.jsx";
 import { SectionCard } from "./SectionCard.jsx";
+import { Link } from "react-router-dom";
 import TrackLogo from "../assets/media/Track-Logo.png";
 
 export default function HomePagePlaylistTrackSection(props) {
