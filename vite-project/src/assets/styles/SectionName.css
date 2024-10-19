@@ -3,56 +3,99 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 500;
     letter-spacing: 0.09rem;
-    font-size: 1.5rem;
+    font-size: 1.5rem; 
     display: flex;
-    align-items: center;
+    align-items: center; 
     justify-content: start;
-    flex-wrap: wrap;
-    padding-left: 1.1rem;
+    flex-wrap: wrap;   
+    padding-left: 1.1rem; 
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
-    background: linear-gradient(0.25turn, #5d76c86d, #4c060600, rgba(0, 0, 0, 0.015));
+    background: linear-gradient(0.25turn, #5d76c86d,#4c060600, rgba(0, 0, 0, 0.015));
     border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
-  }
-  
-  .section-name li {
+}
+
+.section-name li {
     margin-bottom: 2px;
     list-style: none;
-  }
-  
-  .section-name:hover {
-    cursor: default;
-  }
-  
-  .more-btn-home {
+}
+
+.section-name:hover {
+    cursor: default;  
+}
+
+.more-btn-home {
     font-size: 1rem;
-    height: 1.7rem;
-    width: 4.5rem;
-    border-radius: 20px;
+    height: 1.7rem; /* Increased height for better appearance */
+    width: 4.5rem; /* Slightly increased width */
+    border-radius: 20px; /* Softer rounded corners */
     margin-left: 0.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    background-color: rgba(96, 147, 163, 0.8);
+    color: #fff; /* Pure white for text */
+    background-color: rgba(96, 147, 163, 0.8); /* Light blue background */
     outline: none;
     border: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .more-btn-home:hover {
-    background-color: #87ebd4;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Added smooth transition for hover and active states */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+}
+
+.more-btn-home:hover {
+    background-color: #87ebd4; /* Brighter light blue on hover */
     color: rgb(14, 24, 137);
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-  }
-  
-  .more-btn-home:active {
-    background-color: #4682B4;
-    transform: scale(0.95);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  }
-  
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Increased shadow on hover for effect */
+    transform: scale(1.05); /* Subtle zoom effect */
+}
+
+.more-btn-home:active {
+    background-color: #4682B4; /* Darker blue on click */
+    transform: scale(0.95); /* Shrink slightly when clicked */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .section-name {
+        font-size: 1.3rem; /* Slightly smaller font for medium screens */
+        padding-left: 0.8rem; /* Reduced padding */
+    }
+
+    .more-btn-home {
+        font-size: 0.9rem; /* Smaller font size for the button */
+        height: 1.5rem; /* Adjusted height */
+        width: 4rem; /* Adjusted width */
+    }
+}
+
+@media (max-width: 800px) {
+    .section-name {
+        font-size: 1.1rem; /* Smaller font for smaller screens */
+        padding-left: 0.5rem; /* Further reduced padding */
+        padding-top: 0.2rem; /* Adjusted padding */
+        padding-bottom: 0.2rem; /* Adjusted padding */
+    }
+
+    .more-btn-home {
+        font-size: 0.8rem; /* Even smaller font size */
+        height: 1.3rem; /* Further adjusted height */
+        width: 3.5rem; /* Further adjusted width */
+        margin-left: 0.2rem; /* Adjusted margin */
+    }
+}
+
+@media (max-width: 480px) {
+    .section-name {
+        font-size: 1rem; /* Base font size for mobile */
+        padding-left: 0.3rem; /* Minimal padding */
+    }
+
+    .more-btn-home {
+        font-size: 0.7rem; /* Smallest font size for buttons */
+        height: 1.2rem; /* Minimal height */
+        width: 3rem; /* Minimal width */
+        margin-left: 0.1rem; /* Minimal margin */
+    }
+}

@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Snackbar, Alert, AlertTitle } from "@mui/material";
 import spotifyLogo from "../assets/media/Spotify_logo.png";
-
 export function SectionCard({
   imgSrc = TrackLogo,
   cardName = "Loading..",
@@ -23,7 +22,6 @@ export function SectionCard({
 }) {
   const [alertVisibility, setAlertVisibility] = useState(false);
   const navigate = useNavigate();
-
   const handelOnClick = async () => {
     if (cardType === "track") {
       try {
@@ -41,7 +39,6 @@ export function SectionCard({
       navigate(`/user/${cardType}/${cardId}`);
     }
   };
-
   return (
     <div className="card">
       <div className="card-details">
@@ -82,7 +79,7 @@ export function SectionCard({
       </button>
       {alertVisibility && (
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }} // Adjusted anchorOrigin to top center
           autoHideDuration={6000}
           open={alertVisibility}
           onClose={() => setAlertVisibility(false)}
