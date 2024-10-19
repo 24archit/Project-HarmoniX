@@ -7,7 +7,6 @@ import TrackLogo from "../assets/media/Track-Logo.png";
 export default function HomePagePlaylistTrackSection(props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(5);
-  const [cardWidth, setCardWidth] = useState(0);
   const sliderRef = useRef(null);
 
   // Touch event state
@@ -25,39 +24,20 @@ export default function HomePagePlaylistTrackSection(props) {
       }
     };
 
-    const updateCardWidth = () => {
-      if (sliderRef.current) {
-        setCardWidth(sliderRef.current.offsetWidth / slidesToShow);
-      }
-    };
-
     updateSlidesToShow();
-    updateCardWidth();
     window.addEventListener("resize", updateSlidesToShow);
-    window.addEventListener("resize", updateCardWidth);
-
+    
     return () => {
       window.removeEventListener("resize", updateSlidesToShow);
-      window.removeEventListener("resize", updateCardWidth);
     };
-  }, [slidesToShow]);
+  }, []);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex + slidesToShow >= props.data.length) {
-        return 0; // Wrap to the start
-      }
-      return prevIndex + slidesToShow;
-    });
+    setCurrentIndex((prevIndex) => (prevIndex + slidesToShow) % props.data.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => {
-      if (prevIndex === 0) {
-        return Math.max(props.data.length - slidesToShow, 0); // Go to the last set of cards
-      }
-      return prevIndex - slidesToShow;
-    });
+    setCurrentIndex((prevIndex) => (prevIndex - slidesToShow + props.data.length) % props.data.length);
   };
 
   const handleTouchStart = (e) => {
@@ -78,10 +58,8 @@ export default function HomePagePlaylistTrackSection(props) {
     }
   };
 
-  const visibleTracks = props.data.slice(
-    currentIndex,
-    currentIndex + slidesToShow
-  );
+  // Calculate the transform based on the current index and card width
+  const transformValue = `translateX(-${(currentIndex * (100 / slidesToShow))}%)`;
 
   return (
     <section className="section">
@@ -99,8 +77,8 @@ export default function HomePagePlaylistTrackSection(props) {
         <button className="slider-btn prev-btn" onClick={handlePrev}>
           &#10094;
         </button>
-        <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
-          {visibleTracks.map((item) => (
+        <div className="track-cards" style={{ transform: transformValue }}>
+          {props.data.map((item) => (
             <SectionCard
               key={item.track.id}
               imgSrc={item.track.album.images.length > 0 ? item.track.album.images[0].url : TrackLogo}
