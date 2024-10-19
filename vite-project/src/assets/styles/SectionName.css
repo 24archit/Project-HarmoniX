@@ -1,4 +1,4 @@
-.section-name{
+.section-name {
     color: aliceblue;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 500;
@@ -6,49 +6,63 @@
     font-size: 1.5rem; 
     display: flex;
     align-items: center; 
-    justify-content: start;
+    justify-content: space-between; /* Changed to space-between for better alignment */
     flex-wrap: wrap;   
-    padding-left: 1.1rem; 
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
+    padding: 0.5rem 1rem; /* Adjusted padding */
     background: linear-gradient(0.25turn, #5d76c86d,#4c060600, rgba(0, 0, 0, 0.015));
-    border-top-left-radius: 2rem ;
+    border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
 }
-.section-name li{
+
+.section-name li {
     margin-bottom: 2px;
     list-style: none;
 }
-.section-name:hover{
-    cursor:default;  
+
+.section-name:hover {
+    cursor: default;  
 }
+
 .more-btn-home {
     font-size: 1rem;
-    height: 1.7rem; /* Increased height for better appearance */
-    width: 4.5rem; /* Slightly increased width */
-    border-radius: 20px; /* Softer rounded corners */
+    height: 1.7rem; 
+    width: 4.5rem; 
+    border-radius: 20px; 
     margin-left: 0.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff; /* Pure white for text */
-    background-color: rgba(96, 147, 163, 0.8); /* Light blue background */
+    color: #fff; 
+    background-color: rgba(96, 147, 163, 0.8);
     outline: none;
     border: none;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Added smooth transition for hover and active states */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .more-btn-home:hover {
-    background-color: #87ebd4; /* Brighter light blue on hover */
+    background-color: #87ebd4; 
     color: rgb(14, 24, 137);
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Increased shadow on hover for effect */
-    transform: scale(1.05); /* Subtle zoom effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+    transform: scale(1.05); 
 }
 
 .more-btn-home:active {
-    background-color: #4682B4; /* Darker blue on click */
-    transform: scale(0.95); /* Shrink slightly when clicked */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+    background-color: #4682B4; 
+    transform: scale(0.95); 
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); 
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 800px) {
+    .section-name {
+        font-size: 1.2rem; /* Smaller font on mobile */
+        padding: 0.3rem; /* Reduced padding on mobile */
+    }
+
+    .more-btn-home {
+        width: 4rem; /* Adjusted button width on mobile */
+        font-size: 0.9rem; /* Smaller font size for button */
+    }
 }
