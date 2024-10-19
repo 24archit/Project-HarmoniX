@@ -281,8 +281,9 @@ main {
 @media (max-width: 800px) {
   main {
     transform: none; /* Remove translation and scaling for mobile */
-    width: 100vw; /* Ensure it takes full width on mobile */
+    width: calc(100vw - 3rem); /* Adjust width to leave space for hamburger button */
     padding: 0.5rem 1rem; /* Optional: Add some padding for better mobile layout */
+    margin-left: 3rem; /* Leave space for the hamburger button */
   }
 }
 
