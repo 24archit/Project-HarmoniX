@@ -1,6 +1,7 @@
 .section {
   padding-top: 0.6rem;
 }
+
 .material {
   display: flex;
   margin-top: 0.4rem;
@@ -18,6 +19,7 @@
   width: fit-content;
   max-width: 100%;
 }
+
 .material-2 {
   width: fit-content;
   margin-top: 0.4rem;
@@ -29,9 +31,10 @@
   padding-left: 0.7rem;
   padding-right: 0.7rem;
   max-width: 100%;
-  height: fit-content ;
+  height: fit-content;
 }
 
+/* Scrollbar styling */
 .material::-webkit-scrollbar {
   height: 0.7rem;
 }
@@ -44,4 +47,25 @@
 }
 .material::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(#232ca9, rgb(219, 210, 210), #232ca9);
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+  .material, .material-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.7rem;
+    padding-bottom: 1rem;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .material, .material-2 {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.8rem;
+    gap: 0.5rem;
+  }
 }

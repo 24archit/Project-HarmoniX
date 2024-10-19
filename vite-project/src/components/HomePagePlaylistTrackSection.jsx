@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "../assets/styles/Section.css";
 import { SectionName } from "./SectionName.jsx";
 import { SectionCard } from "./SectionCard.jsx";
@@ -7,12 +7,31 @@ import TrackLogo from "../assets/media/Track-Logo.png";
 import Slider from "react-slick";
 
 export default function HomePagePlaylistTrackSection(props) {
-    
+  const [slidesToShow, setSlidesToShow] = useState(5);
+
+  useEffect(() => {
+    const updateSlidesToShow = () => {
+      const width = window.innerWidth;
+      if (width <= 768) {
+        setSlidesToShow(1);
+      } else if (width <= 1024) {
+        setSlidesToShow(3);
+      } else {
+        setSlidesToShow(5);
+      }
+    };
+
+    window.addEventListener("resize", updateSlidesToShow);
+    updateSlidesToShow(); // Initial call
+
+    return () => window.removeEventListener("resize", updateSlidesToShow);
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
   };
 
@@ -24,7 +43,7 @@ export default function HomePagePlaylistTrackSection(props) {
         name={props.name}
       />
       <div className="material-2">
-        <Slider {...settings} >
+        <Slider {...settings}>
           {props.data.map((item) => (
             <SectionCard
               key={item.track.id}
