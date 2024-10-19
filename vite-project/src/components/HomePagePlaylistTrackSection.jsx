@@ -36,7 +36,9 @@ export default function HomePagePlaylistTrackSection(props) {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + props.data.length) % props.data.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + props.data.length) % props.data.length
+    );
   };
 
   // Touch event handlers
@@ -76,7 +78,12 @@ export default function HomePagePlaylistTrackSection(props) {
         <button className="slider-btn prev-btn" onClick={handlePrev}>
           &#10094;
         </button>
-        <div className="track-cards" style={{ transform: `translateX(-${(currentIndex * (100 / slidesToShow))}%)` }}>
+        <div
+          className="track-cards"
+          style={{
+            transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`,
+          }}
+        >
           {/* Create the circular effect by duplicating the first few items */}
           {props.data.map((item, index) => (
             <SectionCard
@@ -96,7 +103,12 @@ export default function HomePagePlaylistTrackSection(props) {
                 <>
                   {item.track.artists.map((artist, idx) => (
                     <span key={artist.id}>
-                      {artist.name}
+                      <Link
+                        to={`/user/artist/${artist.id}`}
+                        className={"card-stat-links"}
+                      >
+                        {artist.name}
+                      </Link>
                       {idx < item.track.artists.length - 1 ? ", " : ""}
                     </span>
                   ))}
