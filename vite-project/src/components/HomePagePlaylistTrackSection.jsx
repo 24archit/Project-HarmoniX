@@ -9,7 +9,7 @@ export default function HomePagePlaylistTrackSection(props) {
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [cardWidth, setCardWidth] = useState(0);
   const sliderRef = useRef(null);
-  
+
   // Touch event state
   const [startX, setStartX] = useState(null);
 
@@ -43,16 +43,21 @@ export default function HomePagePlaylistTrackSection(props) {
   }, [slidesToShow]);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % props.data.length
-    );
+    setCurrentIndex((prevIndex) => {
+      if (prevIndex + slidesToShow >= props.data.length) {
+        return 0; // Wrap to the start
+      }
+      return prevIndex + slidesToShow;
+    });
   };
 
   const handlePrev = () => {
-    if (currentIndex === 0) return; // Prevent backward navigation at the start
-    setCurrentIndex((prevIndex) =>
-      (prevIndex - 1 + props.data.length) % props.data.length
-    );
+    setCurrentIndex((prevIndex) => {
+      if (prevIndex === 0) {
+        return Math.max(props.data.length - slidesToShow, 0); // Go to the last set of cards
+      }
+      return prevIndex - slidesToShow;
+    });
   };
 
   const handleTouchStart = (e) => {
@@ -91,11 +96,11 @@ export default function HomePagePlaylistTrackSection(props) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
-        <button className="slider-btn prev-btn" onClick={handlePrev} disabled={currentIndex === 0}>
+        <button className="slider-btn prev-btn" onClick={handlePrev}>
           &#10094;
         </button>
         <div className="track-cards" style={{ transform: `translateX(-${currentIndex * cardWidth}px)` }}>
-          {props.data.map((item) => (
+          {visibleTracks.map((item) => (
             <SectionCard
               key={item.track.id}
               imgSrc={item.track.album.images.length > 0 ? item.track.album.images[0].url : TrackLogo}
@@ -114,24 +119,6 @@ export default function HomePagePlaylistTrackSection(props) {
               spotifyUrl={item.track.external_urls.spotify}
             />
           ))}
-          {/* To create a circular effect, clone the first track */}
-          <SectionCard
-            key={props.data[0].track.id}
-            imgSrc={props.data[0].track.album.images.length > 0 ? props.data[0].track.album.images[0].url : TrackLogo}
-            iconClass={"fa-solid fa-play"}
-            iconId={"play-btn"}
-            cardName={props.data[0].track.album.name}
-            cardId={props.data[0].track.id}
-            cardType="track"
-            setNewUrl={props.setNewUrl}
-            cardStat={props.data[0].track.artists.map((artist, idx) => (
-              <span key={artist.id}>
-                {artist.name}
-                {idx < props.data[0].track.artists.length - 1 ? ", " : ""}
-              </span>
-            ))}
-            spotifyUrl={props.data[0].track.external_urls.spotify}
-          />
         </div>
         <button className="slider-btn next-btn" onClick={handleNext}>
           &#10095;
